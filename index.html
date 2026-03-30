@@ -663,8 +663,13 @@
     .cards-grid { grid-template-columns: 1fr; }
   }
 
-  /* IFRAME EMBED (Google Sites): hide inner nav + footer to avoid double navigation */
+  /* IFRAME EMBED (Google Sites): hide inner nav + footer, collapse long sections */
   html.in-iframe nav, html.in-iframe footer { display:none !important; }
+  /* Keep: hero, countdown, announcement, quick-info cards. Hide the long sections. */
+  html.in-iframe .welcome-section,
+  html.in-iframe .itinerary-section,
+  html.in-iframe .activities-section,
+  html.in-iframe .newsletters-section { display:none !important; }
 </style>
 </head>
 <body>
@@ -1016,7 +1021,15 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
+  if (window.self !== window.top) {
+    document.documentElement.classList.add('in-iframe');
+    function reportHeight() {
+      const h = document.documentElement.scrollHeight;
+      window.parent.postMessage({ type: 'iframeHeight', height: h }, '*');
+    }
+    if (window.ResizeObserver) { new ResizeObserver(reportHeight).observe(document.body); }
+    window.addEventListener('load', reportHeight);
+  }
   // Live countdown to July 12, 2026
   function updateCountdown() {
     const target = new Date('2026-07-09T00:00:00');

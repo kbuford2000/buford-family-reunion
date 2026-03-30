@@ -102,8 +102,16 @@
 
   footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:3rem 2rem; }
 
-  /* IFRAME EMBED (Google Sites): hide inner nav + footer to avoid double navigation */
+  /* IFRAME EMBED (Google Sites): hide inner nav + footer; show only the PDF viewer */
   html.in-iframe nav, html.in-iframe footer { display:none !important; }
+  html.in-iframe .archive-wrap,
+  html.in-iframe .subscribe-wrap,
+  html.in-iframe .submit-banner { display:none !important; }
+  /* PDF section: remove outer padding so it fills the frame edge-to-edge */
+  html.in-iframe .pdf-wrap { padding:0; }
+  html.in-iframe .section-inner { max-width:100%; padding:0; }
+  html.in-iframe .pdf-viewer-box { border-radius:0; box-shadow:none; }
+  html.in-iframe .pdf-iframe-wrap { height:calc(100vh - 44px) !important; }  /* fill frame below header bar */
   footer .footer-logo { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.8rem; margin-bottom:0.4rem; }
   footer .footer-links { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin:1.2rem 0; }
   footer .footer-links a { color:rgba(255,255,255,0.45); text-decoration:none; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
@@ -262,7 +270,15 @@
 </footer>
 
 <script>
-if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
+if (window.self !== window.top) {
+  document.documentElement.classList.add('in-iframe');
+  function reportHeight() {
+    const h = document.documentElement.scrollHeight;
+    window.parent.postMessage({ type: 'iframeHeight', height: h }, '*');
+  }
+  if (window.ResizeObserver) { new ResizeObserver(reportHeight).observe(document.body); }
+  window.addEventListener('load', reportHeight);
+}
 function toggleMobileMenu() {
   const menu = document.getElementById('navMobileMenu');
   const btn = document.querySelector('.nav-hamburger');
