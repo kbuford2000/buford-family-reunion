@@ -11,6 +11,7 @@
     --navy:#1a2e4a; --gold:#f0b429; --white:#fffdf8;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
+  html { overflow-x: hidden; }
   body { font-family:'Nunito',sans-serif; background:var(--white); color:var(--navy); }
 
   nav { background:var(--navy); padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
@@ -81,8 +82,16 @@
   footer .footer-contact { color:white; font-weight:700; margin-bottom:0.3rem; }
   footer a { color:rgba(240,180,41,0.8); }
 
+  /* HAMBURGER */
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; padding:0.4rem; color:var(--gold); font-size:1.6rem; line-height:1; margin-left:0.5rem; }
+  .nav-mobile-menu { display:none; width:100%; background:var(--navy); border-top:1px solid rgba(240,180,41,0.2); padding:0.5rem 0 0.8rem; }
+  .nav-mobile-menu.open { display:block; }
+  .nav-mobile-menu a { display:block; color:rgba(245,230,200,0.8); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.65rem 1.4rem; transition:color 0.2s; }
+  .nav-mobile-menu a:hover { color:var(--gold); }
   @media(max-width:640px) {
     nav ul { display:none; }
+    .nav-hamburger { display:block; }
+    nav { flex-wrap:wrap; }
     .form-row, .form-row-3 { grid-template-columns:1fr; }
     .form-card { padding:1.8rem; }
     .info-strip-inner { grid-template-columns:1fr; gap:1rem; }
@@ -101,6 +110,14 @@
     <li><a href="signup.html" class="active">Sign Up</a></li>
     <li><a href="family-history.html">Family Tree</a></li>
   </ul>
+  <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
 </nav>
 
 <div class="page-hero">
@@ -336,6 +353,20 @@ function submitForm() {
   document.getElementById('successName').textContent = `Welcome, ${name.split(' ')[0]}! ${email ? 'A confirmation will be sent to ' + email + '.' : ''}`;
   window.scrollTo({top: msg.offsetTop - 100, behavior:'smooth'});
 }
+function toggleMobileMenu() {
+  const menu = document.getElementById('navMobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  const open = menu.classList.toggle('open');
+  btn.textContent = open ? '✕' : '☰';
+  btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('navMobileMenu');
+  if (menu && menu.classList.contains('open') && !e.target.closest('nav')) {
+    menu.classList.remove('open');
+    document.querySelector('.nav-hamburger').textContent = '☰';
+  }
+});
 </script>
 
 </body>

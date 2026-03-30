@@ -21,11 +21,11 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { overflow-x: hidden; }
   body {
     font-family: 'Lato', sans-serif;
     background: var(--cream);
     color: var(--ink);
-    overflow-x: hidden;
   }
 
   /* ── GRAIN TEXTURE OVERLAY ── */
@@ -757,12 +757,20 @@
   footer .footer-contact { color: var(--parchment); font-weight: 700; margin-bottom: 0.4rem; }
   footer a { color: rgba(200,133,42,0.8); }
 
+  /* HAMBURGER */
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; padding:0.4rem; color:var(--gold); font-size:1.6rem; line-height:1; margin-left:0.5rem; }
+  .nav-mobile-menu { display:none; width:100%; background:var(--brown); border-top:1px solid rgba(212,168,67,0.2); padding:0.5rem 0 0.8rem; }
+  .nav-mobile-menu.open { display:block; }
+  .nav-mobile-menu a { display:block; color:rgba(247,240,227,0.8); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.65rem 1.4rem; transition:color 0.2s; }
+  .nav-mobile-menu a:hover { color:var(--gold); }
   @media (max-width: 700px) {
     .story-grid { grid-template-columns: 1fr; }
     .story-aside { position: static; }
     .timeline-card { grid-template-columns: 120px 1fr; }
     .form-row { grid-template-columns: 1fr; }
     nav ul { display: none; }
+    .nav-hamburger { display:block; }
+    nav { flex-wrap:wrap; }
     .submit-box { padding: 2rem 1.5rem; }
   }
   @media (max-width: 480px) {
@@ -785,6 +793,14 @@
     <li><a href="signup.html">Sign Up</a></li>
     <li><a href="family-history.html" class="active">Family Tree</a></li>
   </ul>
+  <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1187,6 +1203,20 @@
     btn.style.cursor = 'default';
     btn.disabled = true;
   }
+  function toggleMobileMenu() {
+    const menu = document.getElementById('navMobileMenu');
+    const btn = document.querySelector('.nav-hamburger');
+    const open = menu.classList.toggle('open');
+    btn.textContent = open ? '✕' : '☰';
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('navMobileMenu');
+    if (menu && menu.classList.contains('open') && !e.target.closest('nav')) {
+      menu.classList.remove('open');
+      document.querySelector('.nav-hamburger').textContent = '☰';
+    }
+  });
 </script>
 
 </body>

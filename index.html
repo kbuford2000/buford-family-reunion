@@ -18,11 +18,11 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  html { overflow-x: hidden; }
   body {
     font-family: 'Nunito', sans-serif;
     background: var(--white);
     color: var(--navy);
-    overflow-x: hidden;
   }
 
   /* ── NAV ── */
@@ -642,10 +642,25 @@
   }
   footer .footer-links a:hover { color: var(--gold); }
 
+  /* HAMBURGER */
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; padding:0.4rem; color:var(--gold); font-size:1.6rem; line-height:1; margin-left:0.5rem; }
+  .nav-mobile-menu { display:none; width:100%; background:var(--navy); border-top:1px solid rgba(240,180,41,0.2); padding:0.5rem 0 0.8rem; }
+  .nav-mobile-menu.open { display:block; }
+  .nav-mobile-menu a { display:block; color:rgba(245,230,200,0.8); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.65rem 1.4rem; transition:color 0.2s; }
+  .nav-mobile-menu a:hover { color:var(--gold); }
   @media (max-width: 600px) {
     nav ul { display: none; }
+    .nav-hamburger { display:block; }
+    nav { flex-wrap:wrap; }
     .day-card { grid-template-columns: 90px 1fr; }
     .day-label .day-date { font-size: 1.2rem; }
+    .activity-grid { grid-template-columns: 1fr 1fr; }
+    .archive-grid { grid-template-columns: 1fr; }
+    .newsletter-submit { flex-direction: column; text-align: center; }
+    .countdown-units { gap: 1.2rem; }
+    .countdown-unit .num { font-size: 2rem; }
+    .hero-sub { font-size: 1rem; }
+    .cards-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -661,6 +676,14 @@
     <li><a href="signup.html">Sign Up</a></li>
     <li><a href="family-history.html">Family Tree</a></li>
   </ul>
+  <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -1002,4 +1025,30 @@
     const d = Math.floor(diff / (1000*60*60*24));
     const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
     const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const s = Math.floor((diff % (1000*60)) / 1000
+    const s = Math.floor((diff % (1000*60)) / 1000);
+    document.getElementById('days').textContent = d;
+    document.getElementById('hours').textContent = h;
+    document.getElementById('mins').textContent = m;
+    document.getElementById('secs').textContent = s;
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  function toggleMobileMenu() {
+    const menu = document.getElementById('navMobileMenu');
+    const btn = document.querySelector('.nav-hamburger');
+    const open = menu.classList.toggle('open');
+    btn.textContent = open ? '✕' : '☰';
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('navMobileMenu');
+    if (menu && menu.classList.contains('open') && !e.target.closest('nav')) {
+      menu.classList.remove('open');
+      document.querySelector('.nav-hamburger').textContent = '☰';
+    }
+  });
+</script>
+
+</body>
+</html>
