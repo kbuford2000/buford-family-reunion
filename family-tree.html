@@ -57,7 +57,7 @@ nav ul li a:hover, nav ul li a.active { color:var(--gold); }
 .root-note { font-size:0.8rem; color:var(--muted); font-style:italic; text-align:center; width:100%; margin-top:0.5rem; }
 
 /* SEARCH */
-.search-bar { background:white; padding:1.5rem 2rem; border-bottom:1px solid rgba(61,43,31,0.08); position:sticky; top:var(--nav-h, 68px); z-index:100; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.search-bar { background:white; padding:1.5rem 2rem; border-bottom:1px solid rgba(61,43,31,0.08); position:sticky; top:calc(var(--nav-h, 68px) + var(--tab-h, 0px)); z-index:100; box-shadow:0 2px 12px rgba(0,0,0,0.06); }
 .search-inner { max-width:900px; margin:0 auto; display:flex; gap:1rem; align-items:center; }
 .search-input { flex:1; padding:0.7rem 1.2rem; border:1.5px solid rgba(61,43,31,0.15); border-radius:100px; font-family:'Lato',sans-serif; font-size:0.95rem; outline:none; background:var(--cream); transition:border-color 0.2s; }
 .search-input:focus { border-color:var(--amber); background:white; }
@@ -109,6 +109,9 @@ nav ul li a:hover, nav ul li a.active { color:var(--gold); }
 .d5 { background:#7a8c6e; }
 .d6 { background:#4a3070; }
 .d7 { background:#888; }
+
+/* MOBILE TABS */
+.tree-tabs { display:none; }
 
 /* NO RESULTS */
 .no-results { text-align:center; padding:3rem; color:var(--muted); font-style:italic; display:none; }
@@ -216,6 +219,26 @@ footer .contact { color:white; font-weight:700; margin-bottom:0.3rem; }
   .tree-list ul li::before { left:-1rem; width:0.65rem; }
   .node-name { font-size:0.82rem; }
   .node-expand { font-size:0.6rem; padding:0.1rem 0.4rem; }
+
+  /* Tab bar */
+  .tree-tabs {
+    display:flex; background:var(--brown); border-bottom:2px solid var(--amber);
+    position:sticky; top:var(--nav-h, 52px); z-index:150;
+  }
+  .tree-tab {
+    flex:1; padding:0.72rem 0.5rem; text-align:center;
+    font-family:'Lato',sans-serif; font-size:0.82rem; font-weight:700;
+    letter-spacing:0.04em; color:rgba(247,240,227,0.55); cursor:pointer;
+    border:none; background:none; border-bottom:3px solid transparent;
+    margin-bottom:-2px; transition:color 0.2s, border-color 0.2s;
+  }
+  .tree-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+
+  /* "Tree" tab active — hide the history/ancestry sections */
+  body.tab-tree .hero, body.tab-tree .root-chain { display:none; }
+
+  /* "History" tab active — hide the search + branch browsing sections */
+  body.tab-history .search-bar, body.tab-history .branches { display:none; }
 }
 </style>
 </head>
@@ -239,6 +262,12 @@ footer .contact { color:white; font-weight:700; margin-bottom:0.3rem; }
     <a href="family-history.html">Family Tree</a>
   </div>
 </nav>
+
+<!-- MOBILE TABS (hidden on desktop via CSS) -->
+<div class="tree-tabs" id="treeTabs">
+  <button class="tree-tab active" id="tabTree" onclick="switchTab('tree')">🌳 Browse Tree</button>
+  <button class="tree-tab" id="tabHistory" onclick="switchTab('history')">📜 Family History</button>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -747,13 +776,33 @@ document.addEventListener('click', e => {
   }
 });
 
-// --- Dynamic nav height for sticky search bar ---
+// --- Dynamic nav + tab bar height for sticky search bar ---
 function setNavHeight() {
-  const h = document.querySelector('nav').getBoundingClientRect().height;
-  document.documentElement.style.setProperty('--nav-h', Math.round(h) + 'px');
+  const nav = document.querySelector('nav');
+  const tabs = document.getElementById('treeTabs');
+  const navH = Math.round(nav.getBoundingClientRect().height);
+  const tabH = (tabs && getComputedStyle(tabs).display !== 'none')
+               ? Math.round(tabs.getBoundingClientRect().height) : 0;
+  document.documentElement.style.setProperty('--nav-h', navH + 'px');
+  document.documentElement.style.setProperty('--tab-h', tabH + 'px');
 }
 setNavHeight();
 window.addEventListener('resize', setNavHeight);
+
+// --- Mobile tab switching ---
+function switchTab(tab) {
+  document.body.classList.remove('tab-tree', 'tab-history');
+  document.body.classList.add('tab-' + tab);
+  document.getElementById('tabTree').classList.toggle('active', tab === 'tree');
+  document.getElementById('tabHistory').classList.toggle('active', tab === 'history');
+  setNavHeight();   // recalc in case tab bar height changed
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// On mobile, default to the "tree" browse tab so the search + branches show immediately
+if (window.innerWidth <= 600) {
+  document.body.classList.add('tab-tree');
+}
 
 // Init
 fetchTree();
