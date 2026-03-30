@@ -662,6 +662,9 @@
     .hero-sub { font-size: 1rem; }
     .cards-grid { grid-template-columns: 1fr; }
   }
+
+  /* IFRAME EMBED (Google Sites): hide inner nav + footer to avoid double navigation */
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
 </style>
 </head>
 <body>
@@ -1013,6 +1016,7 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
   // Live countdown to July 12, 2026
   function updateCountdown() {
     const target = new Date('2026-07-09T00:00:00');

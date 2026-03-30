@@ -69,6 +69,7 @@
     nav { flex-wrap:wrap; }
     .past-grid { grid-template-columns: 1fr 1fr; }
   }
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
 </style>
 </head>
 <body>
@@ -186,6 +187,7 @@
   <p style="margin-top:2rem;font-size:0.8rem;opacity:0.3;">© 2026 Buford Family Reunion.</p>
 </footer>
 <script>
+if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
 function toggleMobileMenu() {
   const menu = document.getElementById('navMobileMenu');
   const btn = document.querySelector('.nav-hamburger');

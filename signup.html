@@ -97,6 +97,7 @@
     .info-strip-inner { grid-template-columns:1fr; gap:1rem; }
     .checkbox-grid { grid-template-columns:1fr; }
   }
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
 </style>
 </head>
 <body>
@@ -343,6 +344,7 @@
 </footer>
 
 <script>
+if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
 function submitForm() {
   const name = document.getElementById('fullName').value.trim();
   const email = document.getElementById('email').value.trim();

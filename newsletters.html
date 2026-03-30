@@ -101,6 +101,9 @@
   .submit-banner a { color:var(--gold); text-decoration:underline; }
 
   footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:3rem 2rem; }
+
+  /* IFRAME EMBED (Google Sites): hide inner nav + footer to avoid double navigation */
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
   footer .footer-logo { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.8rem; margin-bottom:0.4rem; }
   footer .footer-links { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin:1.2rem 0; }
   footer .footer-links a { color:rgba(255,255,255,0.45); text-decoration:none; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
@@ -259,6 +262,7 @@
 </footer>
 
 <script>
+if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
 function toggleMobileMenu() {
   const menu = document.getElementById('navMobileMenu');
   const btn = document.querySelector('.nav-hamburger');

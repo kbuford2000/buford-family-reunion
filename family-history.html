@@ -779,6 +779,7 @@
     .timeline-photo { min-height: 80px; padding: 1rem; }
     .timeline-year { font-size: 2rem; }
   }
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
 </style>
 </head>
 <body>
@@ -1174,6 +1175,7 @@
 </footer>
 
 <script>
+  if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
   // Scroll-triggered timeline animation
   const items = document.querySelectorAll('.timeline-item');
   const observer = new IntersectionObserver((entries) => {
