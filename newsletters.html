@@ -80,6 +80,17 @@
   .btn-subscribe { background:var(--gold); color:var(--navy); border:none; padding:0.8rem 1.5rem; border-radius:100px; font-family:'Nunito',sans-serif; font-weight:800; font-size:0.9rem; cursor:pointer; transition:all 0.25s; }
   .btn-subscribe:hover { transform:translateY(-2px); box-shadow:0 6px 18px rgba(240,180,41,0.4); }
 
+  /* PDF VIEWER */
+  .pdf-wrap { background:var(--white); }
+  .pdf-viewer-box { background:white; border-radius:24px; overflow:hidden; box-shadow:0 8px 32px rgba(26,46,74,0.12); }
+  .pdf-viewer-header { background:var(--navy); padding:1rem 1.5rem; display:flex; align-items:center; gap:0.75rem; }
+  .pdf-viewer-header span { color:white; font-weight:800; font-size:0.9rem; }
+  .pdf-viewer-header .pdf-badge { background:var(--gold); color:var(--navy); font-size:0.65rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:100px; }
+  .pdf-iframe-wrap { position:relative; width:100%; padding-bottom:129%; /* approx 8.5x11 ratio */ height:0; }
+  .pdf-iframe-wrap iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
+  @media(min-width:768px) { .pdf-iframe-wrap { padding-bottom:80%; } }
+  @media(min-width:1024px) { .pdf-iframe-wrap { padding-bottom:65%; } }
+
   /* SUBMIT */
   .submit-banner { background:var(--coral); padding:2rem; text-align:center; }
   .submit-banner p { color:white; font-size:1rem; font-weight:700; }
@@ -120,28 +131,17 @@
   <p>Your home for family news, reunion updates, birthdays, and everything in between.</p>
 </div>
 
-<!-- FEATURED -->
-<section class="section featured-wrap">
+
+<!-- PDF VIEWER -->
+<section class="section pdf-wrap">
   <div class="section-inner">
-    <div class="newsletter-featured">
-      <div class="newsletter-cover">
-        <span class="bulletin-emoji">🌸</span>
-        <div class="bulletin-title">The Buford Bulletin</div>
-        <div class="bulletin-date">April 2026</div>
+    <div class="pdf-viewer-box">
+      <div class="pdf-viewer-header">
+        <span>📄 The Buford Bulletin — April 2026</span>
+        <span class="pdf-badge">Latest Issue</span>
       </div>
-      <div class="newsletter-body">
-        <span class="newsletter-badge">⭐ Latest Issue</span>
-        <h3>We Are Back — April 2026</h3>
-        <p>The Buford family has been up to a lot since late last year! This issue covers full 2026 reunion details, Virginia Beach hotel options, the complete itinerary, birthdays, anniversaries, Candrice's new job, and a Reflecting Back section with photos from 2010–2018 reunions.</p>
-        <div class="content-tags">
-          <span class="content-tag">🏖️ 2026 Reunion Details</span>
-          <span class="content-tag">🎂 Birthdays</span>
-          <span class="content-tag">💍 Anniversaries</span>
-          <span class="content-tag">🎉 Family Announcements</span>
-          <span class="content-tag">📸 Reflecting Back</span>
-          <span class="content-tag">🔭 Looking Forward</span>
-        </div>
-        <a href="#" class="btn-read">Read the Bulletin →</a>
+      <div class="pdf-iframe-wrap">
+        <iframe src="https://drive.google.com/file/d/1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD/preview" allow="autoplay"></iframe>
       </div>
     </div>
   </div>

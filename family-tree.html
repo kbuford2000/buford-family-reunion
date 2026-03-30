@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buford Family Tree</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <style>
 :root {
   --parchment: #f7f0e3;
@@ -103,6 +105,38 @@ nav ul li a:hover, nav ul li a.active { color:var(--gold); }
 /* NO RESULTS */
 .no-results { text-align:center; padding:3rem; color:var(--muted); font-style:italic; display:none; }
 
+/* LOADING */
+.tree-loading { text-align:center; padding:3rem 2rem; color:var(--muted); }
+.loading-spinner { width:36px; height:36px; border:3px solid rgba(200,133,42,0.2); border-top-color:var(--amber); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 1rem; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.tree-error { background:#fdf0ec; color:var(--mahogany); padding:0.9rem 1.2rem; border-radius:12px; font-size:0.85rem; margin-bottom:1rem; border:1px solid rgba(107,58,42,0.15); }
+
+/* BRANCH ACTIONS */
+.branches-header-row { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:0.4rem; }
+.btn-add-branch { background:var(--amber); color:white; border:none; padding:0.55rem 1.2rem; border-radius:100px; font-family:'Lato',sans-serif; font-weight:700; font-size:0.82rem; cursor:pointer; transition:background 0.2s; }
+.btn-add-branch:hover { background:var(--mahogany); }
+.branch-actions { display:flex; gap:0.4rem; margin-left:auto; }
+.btn-branch-act { background:transparent; border:1px solid rgba(61,43,31,0.18); color:var(--muted); padding:0.25rem 0.65rem; border-radius:100px; font-size:0.7rem; font-family:'Lato',sans-serif; font-weight:700; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+.btn-branch-act:hover { border-color:var(--amber); color:var(--amber); background:rgba(200,133,42,0.06); }
+
+/* MODALS */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:500; display:flex; align-items:center; justify-content:center; padding:1rem; }
+.modal-overlay.hidden { display:none; }
+.modal-box { background:white; border-radius:20px; padding:2rem; max-width:460px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,0.25); }
+.modal-title { font-family:'Cormorant Garamond',serif; font-size:1.5rem; color:var(--brown); margin-bottom:1.2rem; }
+.modal-field { margin-bottom:1rem; }
+.modal-field label { display:block; font-size:0.75rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.4rem; }
+.modal-field input { width:100%; padding:0.7rem 1rem; border:1.5px solid rgba(61,43,31,0.15); border-radius:10px; font-family:'Lato',sans-serif; font-size:0.95rem; outline:none; box-sizing:border-box; }
+.modal-field input:focus { border-color:var(--amber); }
+.modal-hint { font-size:0.76rem; color:var(--muted); margin-top:0.3rem; }
+.modal-actions { display:flex; gap:0.75rem; justify-content:flex-end; margin-top:1.5rem; }
+.btn-modal-cancel { background:var(--parchment); color:var(--brown); border:none; padding:0.65rem 1.3rem; border-radius:100px; font-family:'Lato',sans-serif; font-weight:700; font-size:0.85rem; cursor:pointer; }
+.btn-modal-save { background:var(--amber); color:white; border:none; padding:0.65rem 1.4rem; border-radius:100px; font-family:'Lato',sans-serif; font-weight:700; font-size:0.85rem; cursor:pointer; }
+.btn-modal-save:hover { background:var(--mahogany); }
+.modal-feedback { font-size:0.82rem; margin-top:0.5rem; display:none; }
+.modal-feedback.success { color:#2d5a3d; }
+.modal-feedback.error { color:#8a2a2a; }
+
 /* FOOTER */
 footer { background:var(--brown); border-top:3px solid var(--amber); text-align:center; padding:2.5rem 2rem; color:rgba(247,240,227,0.5); }
 footer .logo { font-family:'Cormorant Garamond',serif; color:var(--gold); font-size:1.8rem; margin-bottom:0.3rem; }
@@ -112,10 +146,57 @@ footer .links a:hover { color:var(--gold); }
 footer a { color:rgba(200,133,42,0.8); }
 footer .contact { color:white; font-weight:700; margin-bottom:0.3rem; }
 
+/* TABLET (≤768px) */
+@media(max-width:768px) {
+  nav { padding:1rem 1.5rem; }
+  .hero { padding:3rem 1.5rem 4rem; }
+  .hero-stats { gap:1.5rem; }
+  .hero-stat .num { font-size:2rem; }
+  .root-chain { padding:2rem 1.5rem; }
+  .root-node { font-size:0.95rem; padding:0.55rem 1.1rem; }
+  .search-bar { top:60px; padding:1rem 1.5rem; }
+  .branches { padding:2rem 1.2rem; }
+  .branch-header { padding:1rem 1.2rem; gap:0.75rem; }
+  .branch-name { font-size:1.15rem; }
+  .branch-meta { gap:0.6rem; font-size:0.72rem; }
+  .branch-body { padding:0 1.2rem 1.2rem; }
+  .gen-legend { gap:1rem; padding:0.75rem 1rem; }
+  .gen-badge { font-size:0.7rem; }
+}
+
+/* MOBILE (≤600px) */
 @media(max-width:600px) {
   nav ul { display:none; }
-  .hero-stats { gap:1.5rem; }
-  .root-inner { gap:0.5rem; }
+  nav { padding:0.9rem 1.2rem; }
+  .hero { padding:2.5rem 1rem 3rem; }
+  .hero-ornament { font-size:0.8rem; letter-spacing:0.25em; }
+  .hero h1 { font-size:2.2rem; }
+  .hero-script { font-size:1.2rem; }
+  .hero-stats { gap:1rem; }
+  .hero-stat .num { font-size:1.8rem; }
+  .hero-stat .label { font-size:0.65rem; }
+  .root-chain { padding:1.5rem 1rem; }
+  .root-inner { gap:0.4rem; }
+  .root-node { font-size:0.85rem; padding:0.45rem 0.9rem; }
+  .root-arrow { font-size:1rem; }
+  .root-note { font-size:0.75rem; }
+  .search-bar { top:52px; padding:0.75rem 1rem; }
+  .search-inner { gap:0.5rem; }
+  .search-input { font-size:0.85rem; padding:0.6rem 1rem; }
+  .branches { padding:1.5rem 0.75rem; }
+  .branches-title { font-size:1.4rem; }
+  .branches-sub { font-size:0.8rem; }
+  .gen-legend { gap:0.6rem; padding:0.6rem 0.8rem; flex-wrap:wrap; }
+  .gen-badge { font-size:0.68rem; }
+  .branch-header { padding:0.9rem 1rem; gap:0.6rem; flex-wrap:wrap; }
+  .branch-name { font-size:1.05rem; flex:1 1 auto; }
+  .branch-meta { width:100%; justify-content:flex-start; }
+  .branch-toggle { margin-left:auto; }
+  .branch-body { padding:0 1rem 1rem; }
+  .tree-list ul { padding-left:1rem; }
+  .tree-list ul li::before { left:-1rem; width:0.65rem; }
+  .node-name { font-size:0.82rem; }
+  .node-expand { font-size:0.6rem; padding:0.1rem 0.4rem; }
 }
 </style>
 </head>
@@ -167,7 +248,10 @@ footer .contact { color:white; font-weight:700; margin-bottom:0.3rem; }
 
 <!-- BRANCHES -->
 <div class="branches">
-  <h2 class="branches-title">The 9 Branches of English</h2>
+  <div class="branches-header-row">
+    <h2 class="branches-title" id="branchesTitle">The 9 Branches of English</h2>
+    <button class="btn-add-branch" onclick="openAddBranch()">+ Add Branch</button>
+  </div>
   <p class="branches-sub">Click any branch to explore that family line. Use the search above to find any family member across all branches.</p>
 
   <div class="gen-legend">
@@ -178,6 +262,11 @@ footer .contact { color:white; font-weight:700; margin-bottom:0.3rem; }
     <div class="gen-badge"><div class="gen-dot d7"></div> Gen 7–8</div>
   </div>
 
+  <div id="connectionStatus" class="tree-error" style="display:none;"></div>
+  <div id="treeLoading" class="tree-loading">
+    <div class="loading-spinner"></div>
+    <p>Loading family tree from Google Sheets…</p>
+  </div>
   <div id="branchContainer"></div>
   <div class="no-results" id="noResults">No family members found matching your search.</div>
 </div>
@@ -193,10 +282,86 @@ footer .contact { color:white; font-weight:700; margin-bottom:0.3rem; }
   <p style="margin-top:1.5rem;font-size:0.75rem;opacity:0.3;">© 2026 Buford Family. Tree last updated 2019.</p>
 </footer>
 
-<script>
-const TREE_DATA = {"name": "Giles Buford(Isabella)", "children": [{"name": "English", "children": [{"name": "James", "children": [{"name": "Gray", "children": []}, {"name": "Yuri", "children": []}, {"name": "Lutorria(Peaches)", "children": [{"name": "Ravon(Tinker Bell)", "children": []}]}, {"name": "James Jr", "children": [{"name": "Jamia", "children": [{"name": "Tylen", "children": []}]}, {"name": "Kenesha", "children": []}, {"name": "Lana", "children": []}, {"name": "Lyric", "children": []}, {"name": "Jatkally", "children": []}, {"name": "Jordan", "children": []}, {"name": "Jakai", "children": []}, {"name": "Jaden", "children": []}]}, {"name": "Jantel", "children": [{"name": "Jada", "children": []}]}, {"name": "Shantel", "children": [{"name": "Justin Jr", "children": []}]}]}, {"name": "Ruby(Woman)", "children": [{"name": "Ernestine(Punk) Blackman", "children": [{"name": "Brenda", "children": [{"name": "Keisha", "children": [{"name": "Yamir(Yaya)", "children": []}]}, {"name": "Dewayne", "children": []}]}, {"name": "Ruby", "children": [{"name": "Zyla", "children": []}]}, {"name": "Walter Jr", "children": []}]}, {"name": "Annie Marie Pugh(SqueakY)", "children": [{"name": "Frankie Pugh", "children": [{"name": "Keona Spears", "children": [{"name": "DeAndre Carter", "children": []}, {"name": "Kendrius", "children": []}, {"name": "Ebonie", "children": []}]}, {"name": "Antonio(Mook)", "children": []}, {"name": "Hal", "children": []}]}, {"name": "Tommy", "children": [{"name": "Sherita", "children": []}, {"name": "Meka", "children": []}]}, {"name": "Tracy", "children": []}]}]}, {"name": "Lula(Nana) Beatrice", "children": [{"name": "Yvonne(Nene)", "children": [{"name": "Harriet", "children": [{"name": "4 boys", "children": []}]}, {"name": "John", "children": [{"name": "Girl", "children": []}]}]}, {"name": "Phyllis", "children": []}]}, {"name": "Helen + Martin Sr", "children": [{"name": "Kwabena(Martin Jr)", "children": [{"name": "Taharga", "children": [{"name": "Miki", "children": []}, {"name": "Layla", "children": []}]}, {"name": "Alex", "children": []}, {"name": "Doreen", "children": [{"name": "Lauren", "children": [{"name": "Chloe", "children": []}]}, {"name": "Brittney", "children": []}, {"name": "Tiffany", "children": []}]}]}, {"name": "Phyllis + Matthew", "children": [{"name": "Tyisha Aly??", "children": [{"name": "Marquis", "children": []}]}, {"name": "Ariana", "children": []}, {"name": "Mariah", "children": []}, {"name": "Kaylah", "children": []}, {"name": "Helena", "children": []}, {"name": "Elijah", "children": [{"name": "Alysiah", "children": [{"name": "??", "children": []}]}, {"name": "Jacob", "children": [{"name": "??", "children": []}]}, {"name": "Hannah", "children": [{"name": "??", "children": []}]}, {"name": "Alyeska", "children": [{"name": "??", "children": []}]}, {"name": "JoMartin", "children": [{"name": "??", "children": []}]}, {"name": "Elliana", "children": [{"name": "??", "children": []}]}, {"name": "Imani", "children": [{"name": "??", "children": []}]}, {"name": "Leyla", "children": [{"name": "??", "children": []}]}, {"name": "Kayson", "children": [{"name": "??", "children": []}]}, {"name": "Zoya", "children": [{"name": "??", "children": []}]}]}]}, {"name": "Margie", "children": [{"name": "Monique(Nikki)", "children": [{"name": "Jaden", "children": []}, {"name": "Chayse", "children": []}]}, {"name": "Angie", "children": [{"name": "KK", "children": [{"name": "Sanai", "children": []}, {"name": "Anya Marie", "children": []}, {"name": "Zariah", "children": []}, {"name": "Kaleah", "children": []}, {"name": "Lovia", "children": []}]}, {"name": "Cre", "children": [{"name": "Charlie", "children": []}, {"name": "Kayden", "children": []}, {"name": "Keli??", "children": []}, {"name": "Camron", "children": []}]}, {"name": "Jaz", "children": []}, {"name": "Justus", "children": []}, {"name": "Brooklyn", "children": []}]}]}, {"name": "Pat", "children": [{"name": "Terrance", "children": [{"name": "Girl", "children": []}]}, {"name": "Ronald", "children": []}, {"name": "Quinten", "children": [{"name": "Girl", "children": []}]}, {"name": "Jaden", "children": []}]}, {"name": "Belinda", "children": [{"name": "John", "children": [{"name": "Girl", "children": []}]}, {"name": "James", "children": [{"name": "Gray", "children": []}, {"name": "Yuri", "children": []}, {"name": "Lutorria(Peaches)", "children": [{"name": "Ravon(Tinker Bell)", "children": []}]}, {"name": "James Jr", "children": [{"name": "Jamia", "children": [{"name": "Tylen", "children": []}]}, {"name": "Kenesha", "children": []}, {"name": "Lana", "children": []}, {"name": "Lyric", "children": []}, {"name": "Jatkally", "children": []}, {"name": "Jordan", "children": []}, {"name": "Jakai", "children": []}, {"name": "Jaden", "children": []}]}, {"name": "Jantel", "children": [{"name": "Jada", "children": []}]}, {"name": "Shantel", "children": [{"name": "Justin Jr", "children": []}]}]}]}, {"name": "Melanie", "children": []}, {"name": "Ghislane(Collette) Gillespie", "children": [{"name": "Rickey", "children": []}, {"name": "Germaine Jerrard", "children": []}, {"name": "Rico Quintez", "children": [{"name": "Rico", "children": []}, {"name": "Germaine", "children": []}, {"name": "Promie", "children": []}, {"name": "Noah", "children": []}, {"name": "Kya", "children": []}, {"name": "Loya", "children": []}, {"name": "Jayoni", "children": []}]}]}]}, {"name": "Louis(Bay) + Geraldine", "children": [{"name": "Patricia Buford", "children": [{"name": "Karen Buford(Raine)", "children": [{"name": "Javoris", "children": []}, {"name": "Tre", "children": []}]}, {"name": "Kenny Buford", "children": [{"name": "3 kids", "children": []}]}]}, {"name": "Frank Buford(Woodie Man)", "children": []}, {"name": "Louis Buford Jr(Bubble Man)", "children": [{"name": "Louis Buford III?", "children": []}]}, {"name": "Gerald Buford(Jerry Man)", "children": []}, {"name": "Betty Francis Buford", "children": []}, {"name": "Carolyn Ann White", "children": []}, {"name": "Sherry Buford", "children": []}, {"name": "Larry Buford", "children": []}, {"name": "Sharon Buford?", "children": []}]}, {"name": "Willie(Dank) Baby Ray", "children": [{"name": "Almeda", "children": []}, {"name": "Carolyn Ann??", "children": []}, {"name": "Helene", "children": []}, {"name": "Faye", "children": []}, {"name": "Nancy", "children": []}, {"name": "Son", "children": []}]}, {"name": "Ora Dell(Salome) + Aaron Sr", "children": [{"name": "Vivian", "children": [{"name": "Lacrystal", "children": [{"name": "Mark", "children": []}, {"name": "Jaylen", "children": []}, {"name": "Jayda", "children": []}, {"name": "Jacob", "children": [{"name": "??", "children": []}]}]}]}, {"name": "Aaron Jr", "children": [{"name": "(Dominique)", "children": [{"name": "Arial", "children": []}]}, {"name": "Ray", "children": [{"name": "??", "children": []}]}, {"name": "Damon", "children": []}, {"name": "Deon", "children": []}]}, {"name": "Michael", "children": [{"name": "Michael Jr", "children": []}, {"name": "Adrian", "children": []}]}, {"name": "Alberta", "children": [{"name": "Moji", "children": [{"name": "Syndey", "children": []}]}]}, {"name": "Adrian", "children": []}, {"name": "Doreen", "children": [{"name": "Lauren", "children": [{"name": "Chloe", "children": []}]}, {"name": "Brittney", "children": []}, {"name": "Tiffany", "children": []}]}, {"name": "Eric", "children": [{"name": "Ericka", "children": []}, {"name": "Eric", "children": []}, {"name": "Princess", "children": []}, {"name": "Alana", "children": []}, {"name": "Elaysia", "children": []}, {"name": "Ariana", "children": []}]}]}, {"name": "Rosa Mary", "children": [{"name": "Virginia", "children": [{"name": "Timothy", "children": [{"name": "Josh", "children": [{"name": "Joseline", "children": []}]}]}, {"name": "Tyronda", "children": [{"name": "Andrew", "children": []}, {"name": "Elijah", "children": [{"name": "Alysiah", "children": [{"name": "??", "children": []}]}, {"name": "Jacob", "children": [{"name": "??", "children": []}]}, {"name": "Hannah", "children": [{"name": "??", "children": []}]}, {"name": "Alyeska", "children": [{"name": "??", "children": []}]}, {"name": "JoMartin", "children": [{"name": "??", "children": []}]}, {"name": "Elliana", "children": [{"name": "??", "children": []}]}, {"name": "Imani", "children": [{"name": "??", "children": []}]}, {"name": "Leyla", "children": [{"name": "??", "children": []}]}, {"name": "Kayson", "children": [{"name": "??", "children": []}]}, {"name": "Zoya", "children": [{"name": "??", "children": []}]}]}, {"name": "Emannuel", "children": []}, {"name": "Timothy", "children": [{"name": "Josh", "children": [{"name": "Joseline", "children": []}]}]}]}, {"name": "Starea", "children": [{"name": "Destiny", "children": []}, {"name": "Demetrius", "children": []}]}, {"name": "Alondra", "children": [{"name": "Alaidra", "children": []}, {"name": "Alyssa", "children": []}, {"name": "Alex", "children": []}, {"name": "Alonzo", "children": []}]}, {"name": "Cedric", "children": [{"name": "Brianna", "children": [{"name": "Aubreigh", "children": []}]}, {"name": "Le'Asia", "children": []}, {"name": "Javia", "children": []}, {"name": "Ryan", "children": []}, {"name": "Jeremiah", "children": []}, {"name": "Nariah", "children": []}, {"name": "Eliyah", "children": []}, {"name": "Jaden", "children": []}, {"name": "Jerodica", "children": []}, {"name": "Andris", "children": []}, {"name": "Jalaya", "children": []}]}, {"name": "Jennifer", "children": [{"name": "Jy'oni", "children": []}]}]}, {"name": "Deborah + Dalton", "children": [{"name": "Erica", "children": [{"name": "Kendrick", "children": []}, {"name": "Demarrion", "children": []}, {"name": "Jay", "children": []}]}, {"name": "Keithfrin", "children": [{"name": "Madison", "children": []}, {"name": "Koby", "children": []}, {"name": "Gabriella", "children": []}]}, {"name": "Saderria", "children": [{"name": "Keilan", "children": [{"name": "Keilan Jr.", "children": []}]}, {"name": "Tierrany", "children": []}]}, {"name": "Dalton Jr", "children": []}]}, {"name": "Cynthia", "children": [{"name": "Kennieth", "children": []}, {"name": "Sheretha(Rosie)", "children": [{"name": "Tiana", "children": []}]}, {"name": "Miko", "children": [{"name": "Miko Jr", "children": []}, {"name": "Maddox", "children": []}]}, {"name": "Devaney", "children": []}]}, {"name": "Laura", "children": [{"name": "Michelle", "children": [{"name": "DreShun", "children": []}, {"name": "Christian", "children": []}]}, {"name": "Nashira", "children": []}]}, {"name": "Lois", "children": [{"name": "Tavoris", "children": [{"name": "Micah", "children": []}]}]}, {"name": "Candrice + Gregory", "children": [{"name": "Quenties", "children": [{"name": "Alia", "children": []}, {"name": "Jamon", "children": []}, {"name": "Aubry", "children": []}, {"name": "Aiden", "children": []}, {"name": "Brayden", "children": []}]}, {"name": "Brandon Gregory", "children": []}, {"name": "Kayla Nichole", "children": []}, {"name": "Mckenzie Elizabeth", "children": []}]}]}, {"name": "English + Florence", "children": [{"name": "Gloria", "children": [{"name": "Tonya", "children": []}, {"name": "Andrea(Cone)", "children": [{"name": "Alexandrea", "children": []}]}, {"name": "Felicia", "children": [{"name": "Charles", "children": []}, {"name": "Delonte", "children": []}]}]}, {"name": "English Jr(sang+ Ella", "children": [{"name": "Derek", "children": [{"name": "Derek Jr", "children": []}]}, {"name": "Melissa", "children": []}, {"name": "Shainta", "children": []}, {"name": "MaQuan", "children": []}, {"name": "Ashley", "children": []}]}, {"name": "Chris Johnson + Ronald Sr(Mero)", "children": [{"name": "Ronald(Jay ) +Aminah", "children": [{"name": "Jada", "children": []}, {"name": "Trey", "children": []}, {"name": "Joshua", "children": []}, {"name": "Anjah Aniyah", "children": []}]}]}, {"name": "Florence + Bobby", "children": [{"name": "Stacey", "children": [{"name": "Taylor", "children": []}, {"name": "Rendley", "children": []}]}, {"name": "Lenorris", "children": [{"name": "Fernanda", "children": []}, {"name": "Laura", "children": [{"name": "Michelle", "children": [{"name": "DreShun", "children": []}, {"name": "Christian", "children": []}]}, {"name": "Nashira", "children": []}]}, {"name": "Haley", "children": []}, {"name": "Yvette", "children": []}, {"name": "Takeya", "children": []}, {"name": "LeToya", "children": []}, {"name": "Lenorris Jr", "children": []}, {"name": "Alexandra", "children": []}]}, {"name": "Bridgette + Alfred", "children": [{"name": "Brandon", "children": []}, {"name": "Brittany", "children": []}, {"name": "Braxton", "children": []}, {"name": "Alfred Jr", "children": []}]}, {"name": "Marcus + Vanessa", "children": [{"name": "Jasmin", "children": []}, {"name": "Lemarcus", "children": []}, {"name": "Layla", "children": []}, {"name": "King", "children": []}, {"name": "Lulu", "children": []}]}, {"name": "Bobby Jr", "children": [{"name": "Summer", "children": []}, {"name": "Jan", "children": []}, {"name": "John", "children": [{"name": "Girl", "children": []}]}, {"name": "Gracie", "children": []}, {"name": "C", "children": []}]}]}, {"name": "James", "children": [{"name": "Gray", "children": []}, {"name": "Yuri", "children": []}, {"name": "Lutorria(Peaches)", "children": [{"name": "Ravon(Tinker Bell)", "children": []}]}, {"name": "James Jr", "children": [{"name": "Jamia", "children": [{"name": "Tylen", "children": []}]}, {"name": "Kenesha", "children": []}, {"name": "Lana", "children": []}, {"name": "Lyric", "children": []}, {"name": "Jatkally", "children": []}, {"name": "Jordan", "children": []}, {"name": "Jakai", "children": []}, {"name": "Jaden", "children": []}]}, {"name": "Jantel", "children": [{"name": "Jada", "children": []}]}, {"name": "Shantel", "children": [{"name": "Justin Jr", "children": []}]}]}, {"name": "Reginald + Olimpia", "children": [{"name": "Eric+ Shiela", "children": [{"name": "Bailey", "children": []}, {"name": "Eric Jr", "children": []}]}, {"name": "Robert+ Kalinah", "children": [{"name": "Robert Jr", "children": []}]}, {"name": "Reginald + April", "children": [{"name": "Ariona", "children": []}, {"name": "Reginald III", "children": []}, {"name": "Nina Roase", "children": []}]}]}, {"name": "Della + Morris Parsons", "children": [{"name": "Denise", "children": [{"name": "Joseph", "children": []}, {"name": "Christian", "children": []}]}]}, {"name": "Yvette + Virgil Madion", "children": [{"name": "Brian(BJ)", "children": []}, {"name": "Breana", "children": []}]}, {"name": "Robert + Phoebe", "children": [{"name": "Cornelius", "children": []}, {"name": "Breana", "children": []}, {"name": "Keona", "children": []}]}, {"name": "Pauline", "children": [{"name": "Kemp", "children": []}]}]}]}]};
+<!-- ADD BRANCH MODAL -->
+<div class="modal-overlay hidden" id="modalAddBranch">
+  <div class="modal-box">
+    <h3 class="modal-title">+ Add a New Branch</h3>
+    <div class="modal-field">
+      <label>Branch Name</label>
+      <input type="text" id="addBranchName" placeholder="e.g. John + Mary" onkeydown="if(event.key==='Enter')submitAddBranch()">
+      <div class="modal-hint">This is the Gen 3 ancestor — a direct child of English</div>
+    </div>
+    <div class="modal-feedback" id="addBranchFeedback"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal('modalAddBranch')">Cancel</button>
+      <button class="btn-modal-save" onclick="submitAddBranch()">Add Branch</button>
+    </div>
+  </div>
+</div>
 
-const BRANCH_COLORS = ["#c8852a", "#6b3a2a", "#2d5a3d", "#4a3070", "#1a5f7a", "#8a2a2a", "#1a3a6a", "#7a4a2a", "#3a6a2a"];
+<!-- RENAME BRANCH MODAL -->
+<div class="modal-overlay hidden" id="modalEditBranch">
+  <div class="modal-box">
+    <h3 class="modal-title">✏️ Rename Branch</h3>
+    <div class="modal-field">
+      <label>Branch Name</label>
+      <input type="text" id="editBranchName" placeholder="Branch name" onkeydown="if(event.key==='Enter')submitEditBranch()">
+    </div>
+    <input type="hidden" id="editBranchIndex">
+    <div class="modal-feedback" id="editBranchFeedback"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal('modalEditBranch')">Cancel</button>
+      <button class="btn-modal-save" onclick="submitEditBranch()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD MEMBER MODAL -->
+<div class="modal-overlay hidden" id="modalAddMember">
+  <div class="modal-box">
+    <h3 class="modal-title">👤 Add Family Member</h3>
+    <div class="modal-field">
+      <label>Member Name</label>
+      <input type="text" id="addMemberName" placeholder="e.g. Keisha" onkeydown="if(event.key==='Enter')submitAddMember()">
+    </div>
+    <div class="modal-field">
+      <label>Parent's Name</label>
+      <input type="text" id="addMemberParent" placeholder="e.g. Brenda" onkeydown="if(event.key==='Enter')submitAddMember()">
+      <div class="modal-hint">Must already exist in this branch. Leave blank to add directly under the branch root.</div>
+    </div>
+    <input type="hidden" id="addMemberBranchIndex">
+    <div class="modal-feedback" id="addMemberFeedback"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="closeModal('modalAddMember')">Cancel</button>
+      <button class="btn-modal-save" onclick="submitAddMember()">Add Member</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const FALLBACK_DATA = {"name": "Giles Buford(Isabella)", "children": [{"name": "English", "children": [{"name": "James", "children": [{"name": "Gray", "children": []}, {"name": "Yuri", "children": []}, {"name": "Lutorria(Peaches)", "children": [{"name": "Ravon(Tinker Bell)", "children": []}]}, {"name": "James Jr", "children": [{"name": "Jamia", "children": [{"name": "Tylen", "children": []}]}, {"name": "Kenesha", "children": []}, {"name": "Lana", "children": []}, {"name": "Lyric", "children": []}, {"name": "Jatkally", "children": []}, {"name": "Jordan", "children": []}, {"name": "Jakai", "children": []}, {"name": "Jaden", "children": []}]}, {"name": "Jantel", "children": [{"name": "Jada", "children": []}]}, {"name": "Shantel", "children": [{"name": "Justin Jr", "children": []}]}]}, {"name": "Ruby(Woman)", "children": [{"name": "Ernestine(Punk) Blackman", "children": [{"name": "Brenda", "children": [{"name": "Keisha", "children": [{"name": "Yamir(Yaya)", "children": []}]}, {"name": "Dewayne", "children": []}]}, {"name": "Ruby", "children": [{"name": "Zyla", "children": []}]}, {"name": "Walter Jr", "children": []}]}, {"name": "Annie Marie Pugh(SqueakY)", "children": [{"name": "Frankie Pugh", "children": [{"name": "Keona Spears", "children": [{"name": "DeAndre Carter", "children": []}, {"name": "Kendrius", "children": []}, {"name": "Ebonie", "children": []}]}, {"name": "Antonio(Mook)", "children": []}, {"name": "Hal", "children": []}]}, {"name": "Tommy", "children": [{"name": "Sherita", "children": []}, {"name": "Meka", "children": []}]}, {"name": "Tracy", "children": []}]}]}, {"name": "Lula(Nana) Beatrice", "children": [{"name": "Yvonne(Nene)", "children": [{"name": "Harriet", "children": [{"name": "4 boys", "children": []}]}, {"name": "John", "children": [{"name": "Girl", "children": []}]}]}, {"name": "Phyllis", "children": []}]}, {"name": "Helen + Martin Sr", "children": [{"name": "Kwabena(Martin Jr)", "children": [{"name": "Taharga", "children": [{"name": "Miki", "children": []}, {"name": "Layla", "children": []}]}, {"name": "Alex", "children": []}, {"name": "Doreen", "children": [{"name": "Lauren", "children": [{"name": "Chloe", "children": []}]}, {"name": "Brittney", "children": []}, {"name": "Tiffany", "children": []}]}]}, {"name": "Phyllis + Matthew", "children": [{"name": "Tyisha Aly??", "children": [{"name": "Marquis", "children": []}]}, {"name": "Ariana", "children": []}, {"name": "Mariah", "children": []}, {"name": "Kaylah", "children": []}, {"name": "Helena", "children": []}, {"name": "Elijah", "children": [{"name": "Alysiah", "children": [{"name": "??", "children": []}]}, {"name": "Jacob", "children": [{"name": "??", "children": []}]}, {"name": "Hannah", "children": [{"name": "??", "children": []}]}, {"name": "Alyeska", "children": [{"name": "??", "children": []}]}, {"name": "JoMartin", "children": [{"name": "??", "children": []}]}, {"name": "Elliana", "children": [{"name": "??", "children": []}]}, {"name": "Imani", "children": [{"name": "??", "children": []}]}, {"name": "Leyla", "children": [{"name": "??", "children": []}]}, {"name": "Kayson", "children": [{"name": "??", "children": []}]}, {"name": "Zoya", "children": [{"name": "??", "children": []}]}]}]}, {"name": "Margie", "children": [{"name": "Monique(Nikki)", "children": [{"name": "Jaden", "children": []}, {"name": "Chayse", "children": []}]}, {"name": "Angie", "children": [{"name": "KK", "children": [{"name": "Sanai", "children": []}, {"name": "Anya Marie", "children": []}, {"name": "Zariah", "children": []}, {"name": "Kaleah", "children": []}, {"name": "Lovia", "children": []}]}, {"name": "Cre", "children": [{"name": "Charlie", "children": []}, {"name": "Kayden", "children": []}, {"name": "Keli??", "children": []}, {"name": "Camron", "children": []}]}, {"name": "Jaz", "children": []}, {"name": "Justus", "children": []}, {"name": "Brooklyn", "children": []}]}]}, {"name": "Pat", "children": [{"name": "Terrance", "children": [{"name": "Girl", "children": []}]}, {"name": "Ronald", "children": []}, {"name": "Quinten", "children": [{"name": "Girl", "children": []}]}, {"name": "Jaden", "children": []}]}, {"name": "Belinda", "children": [{"name": "John", "children": [{"name": "Girl", "children": []}]}, {"name": "James", "children": [{"name": "Gray", "children": []}, {"name": "Yuri", "children": []}, {"name": "Lutorria(Peaches)", "children": [{"name": "Ravon(Tinker Bell)", "children": []}]}, {"name": "James Jr", "children": [{"name": "Jamia", "children": [{"name": "Tylen", "children": []}]}, {"name": "Kenesha", "children": []}, {"name": "Lana", "children": []}, {"name": "Lyric", "children": []}, {"name": "Jatkally", "children": []}, {"name": "Jordan", "children": []}, {"name": "Jakai", "children": []}, {"name": "Jaden", "children": []}]}, {"name": "Jantel", "children": [{"name": "Jada", "children": []}]}, {"name": "Shantel", "children": [{"name": "Justin Jr", "children": []}]}]}]}, {"name": "Melanie", "children": []}, {"name": "Ghislane(Collette) Gillespie", "children": [{"name": "Rickey", "children": []}, {"name": "Germaine Jerrard", "children": []}, {"name": "Rico Quintez", "children": [{"name": "Rico", "children": []}, {"name": "Germaine", "children": []}, {"name": "Promie", "children": []}, {"name": "Noah", "children": []}, {"name": "Kya", "children": []}, {"name": "Loya", "children": []}, {"name": "Jayoni", "children": []}]}]}]}, {"name": "Louis(Bay) + Geraldine", "children": [{"name": "Patricia Buford", "children": [{"name": "Karen Buford(Raine)", "children": [{"name": "Javoris", "children": []}, {"name": "Tre", "children": []}]}, {"name": "Kenny Buford", "children": [{"name": "3 kids", "children": []}]}]}, {"name": "Frank Buford(Woodie Man)", "children": []}, {"name": "Louis Buford Jr(Bubble Man)", "children": [{"name": "Louis Buford III?", "children": []}]}, {"name": "Gerald Buford(Jerry Man)", "children": []}, {"name": "Betty Francis Buford", "children": []}, {"name": "Carolyn Ann White", "children": []}, {"name": "Sherry Buford", "children": []}, {"name": "Larry Buford", "children": []}, {"name": "Sharon Buford?", "children": []}]}, {"name": "Willie(Dank) Baby Ray", "children": [{"name": "Almeda", "children": []}, {"name": "Carolyn Ann??", "children": []}, {"name": "Helene", "children": []}, {"name": "Faye", "children": []}, {"name": "Nancy", "children": []}, {"name": "Son", "children": []}]}, {"name": "Ora Dell(Salome) + Aaron Sr", "children": [{"name": "Vivian", "children": [{"name": "Lacrystal", "children": [{"name": "Mark", "children": []}, {"name": "Jaylen", "children": []}, {"name": "Jayda", "children": []}, {"name": "Jacob", "children": [{"name": "??", "children": []}]}]}]}, {"name": "Aaron Jr", "children": [{"name": "(Dominique)", "children": [{"name": "Arial", "children": []}]}, {"name": "Ray", "children": [{"name": "??", "children": []}]}, {"name": "Damon", "children": []}, {"name": "Deon", "children": []}]}, {"name": "Michael", "children": [{"name": "Michael Jr", "children": []}, {"name": "Adrian", "children": []}]}, {"name": "Alberta", "children": [{"name": "Moji", "children": [{"name": "Syndey", "children": []}]}]}, {"name": "Adrian", "children": []}, {"name": "Doreen", "children": [{"name": "Lauren", "children": [{"name": "Chloe", "children": []}]}, {"name": "Brittney", "children": []}, {"name": "Tiffany", "children": []}]}, {"name": "Eric", "children": [{"name": "Ericka", "children": []}, {"name": "Eric", "children": []}, {"name": "Princess", "children": []}, {"name": "Alana", "children": []}, {"name": "Elaysia", "children": []}, {"name": "Ariana", "children": []}]}]}, {"name": "Rosa Mary", "children": [{"name": "Virginia", "children": [{"name": "Timothy", "children": [{"name": "Josh", "children": [{"name": "Joseline", "children": []}]}]}, {"name": "Tyronda", "children": [{"name": "Andrew", "children": []}, {"name": "Elijah", "children": [{"name": "Alysiah", "children": [{"name": "??", "children": []}]}, {"name": "Jacob", "children": [{"name": "??", "children": []}]}, {"name": "Hannah", "children": [{"name": "??", "children": []}]}, {"name": "Alyeska", "children": [{"name": "??", "children": []}]}, {"name": "JoMartin", "children": [{"name": "??", "children": []}]}, {"name": "Elliana", "children": [{"name": "??", "children": []}]}, {"name": "Imani", "children": [{"name": "??", "children": []}]}, {"name": "Leyla", "children": [{"name": "??", "children": []}]}, {"name": "Kayson", "children": [{"name": "??", "children": []}]}, {"name": "Zoya", "children": [{"name": "??", "children": []}]}]}, {"name": "Emannuel", "children": []}, {"name": "Timothy", "children": [{"name": "Josh", "children": [{"name": "Joseline", "children": []}]}]}]}, {"name": "Starea", "children": [{"name": "Destiny", "children": []}, {"name": "Demetrius", "children": []}]}, {"name": "Alondra", "children": [{"name": "Alaidra", "children": []}, {"name": "Alyssa", "children": []}, {"name": "Alex", "children": []}, {"name": "Alonzo", "children": []}]}, {"name": "Cedric", "children": [{"name": "Brianna", "children": [{"name": "Aubreigh", "children": []}]}, {"name": "Le'Asia", "children": []}, {"name": "Javia", "children": []}, {"name": "Ryan", "children": []}, {"name": "Jeremiah", "children": []}, {"name": "Nariah", "children": []}, {"name": "Eliyah", "children": []}, {"name": "Jaden", "children": []}, {"name": "Jerodica", "children": []}, {"name": "Andris", "children": []}, {"name": "Jalaya", "children": []}]}, {"name": "Jennifer", "children": [{"name": "Jy'oni", "children": []}]}]}, {"name": "Deborah + Dalton", "children": [{"name": "Erica", "children": [{"name": "Kendrick", "children": []}, {"name": "Demarrion", "children": []}, {"name": "Jay", "children": []}]}, {"name": "Keithfrin", "children": [{"name": "Madison", "children": []}, {"name": "Koby", "children": []}, {"name": "Gabriella", "children": []}]}, {"name": "Saderria", "children": [{"name": "Keilan", "children": [{"name": "Keilan Jr.", "children": []}]}, {"name": "Tierrany", "children": []}]}, {"name": "Dalton Jr", "children": []}]}, {"name": "Cynthia", "children": [{"name": "Kennieth", "children": []}, {"name": "Sheretha(Rosie)", "children": [{"name": "Tiana", "children": []}]}, {"name": "Miko", "children": [{"name": "Miko Jr", "children": []}, {"name": "Maddox", "children": []}]}, {"name": "Devaney", "children": []}]}, {"name": "Laura", "children": [{"name": "Michelle", "children": [{"name": "DreShun", "children": []}, {"name": "Christian", "children": []}]}, {"name": "Nashira", "children": []}]}, {"name": "Lois", "children": [{"name": "Tavoris", "children": [{"name": "Micah", "children": []}]}]}, {"name": "Candrice + Gregory", "children": [{"name": "Quenties", "children": [{"name": "Alia", "children": []}, {"name": "Jamon", "children": []}, {"name": "Aubry", "children": []}, {"name": "Aiden", "children": []}, {"name": "Brayden", "children": []}]}, {"name": "Brandon Gregory", "children": []}, {"name": "Kayla Nichole", "children": []}, {"name": "Mckenzie Elizabeth", "children": []}]}]}, {"name": "English + Florence", "children": [{"name": "Gloria", "children": [{"name": "Tonya", "children": []}, {"name": "Andrea(Cone)", "children": [{"name": "Alexandrea", "children": []}]}, {"name": "Felicia", "children": [{"name": "Charles", "children": []}, {"name": "Delonte", "children": []}]}]}, {"name": "English Jr(sang+ Ella", "children": [{"name": "Derek", "children": [{"name": "Derek Jr", "children": []}]}, {"name": "Melissa", "children": []}, {"name": "Shainta", "children": []}, {"name": "MaQuan", "children": []}, {"name": "Ashley", "children": []}]}, {"name": "Chris Johnson + Ronald Sr(Mero)", "children": [{"name": "Ronald(Jay ) +Aminah", "children": [{"name": "Jada", "children": []}, {"name": "Trey", "children": []}, {"name": "Joshua", "children": []}, {"name": "Anjah Aniyah", "children": []}]}]}, {"name": "Florence + Bobby", "children": [{"name": "Stacey", "children": [{"name": "Taylor", "children": []}, {"name": "Rendley", "children": []}]}, {"name": "Lenorris", "children": [{"name": "Fernanda", "children": []}, {"name": "Laura", "children": [{"name": "Michelle", "children": [{"name": "DreShun", "children": []}, {"name": "Christian", "children": []}]}, {"name": "Nashira", "children": []}]}, {"name": "Haley", "children": []}, {"name": "Yvette", "children": []}, {"name": "Takeya", "children": []}, {"name": "LeToya", "children": []}, {"name": "Lenorris Jr", "children": []}, {"name": "Alexandra", "children": []}]}, {"name": "Bridgette + Alfred", "children": [{"name": "Brandon", "children": []}, {"name": "Brittany", "children": []}, {"name": "Braxton", "children": []}, {"name": "Alfred Jr", "children": []}]}, {"name": "Marcus + Vanessa", "children": [{"name": "Jasmin", "children": []}, {"name": "Lemarcus", "children": []}, {"name": "Layla", "children": []}, {"name": "King", "children": []}, {"name": "Lulu", "children": []}]}, {"name": "Bobby Jr", "children": [{"name": "Summer", "children": []}, {"name": "Jan", "children": []}, {"name": "John", "children": [{"name": "Girl", "children": []}]}, {"name": "Gracie", "children": []}, {"name": "C", "children": []}]}]}, {"name": "James", "children": [{"name": "Gray", "children": []}, {"name": "Yuri", "children": []}, {"name": "Lutorria(Peaches)", "children": [{"name": "Ravon(Tinker Bell)", "children": []}]}, {"name": "James Jr", "children": [{"name": "Jamia", "children": [{"name": "Tylen", "children": []}]}, {"name": "Kenesha", "children": []}, {"name": "Lana", "children": []}, {"name": "Lyric", "children": []}, {"name": "Jatkally", "children": []}, {"name": "Jordan", "children": []}, {"name": "Jakai", "children": []}, {"name": "Jaden", "children": []}]}, {"name": "Jantel", "children": [{"name": "Jada", "children": []}]}, {"name": "Shantel", "children": [{"name": "Justin Jr", "children": []}]}]}, {"name": "Reginald + Olimpia", "children": [{"name": "Eric+ Shiela", "children": [{"name": "Bailey", "children": []}, {"name": "Eric Jr", "children": []}]}, {"name": "Robert+ Kalinah", "children": [{"name": "Robert Jr", "children": []}]}, {"name": "Reginald + April", "children": [{"name": "Ariona", "children": []}, {"name": "Reginald III", "children": []}, {"name": "Nina Roase", "children": []}]}]}, {"name": "Della + Morris Parsons", "children": [{"name": "Denise", "children": [{"name": "Joseph", "children": []}, {"name": "Christian", "children": []}]}]}, {"name": "Yvette + Virgil Madion", "children": [{"name": "Brian(BJ)", "children": []}, {"name": "Breana", "children": []}]}, {"name": "Robert + Phoebe", "children": [{"name": "Cornelius", "children": []}, {"name": "Breana", "children": []}, {"name": "Keona", "children": []}]}, {"name": "Pauline", "children": [{"name": "Kemp", "children": []}]}]}]}]};
+
+// ── FIREBASE CONFIG ───────────────────────────────────────────────────────────
+const FIREBASE_CONFIG = {
+  apiKey:            "AIzaSyAOdz77EbUblsOWCUYrmWiTw6vtg4Mv5aQ",
+  authDomain:        "buford-family-tree.firebaseapp.com",
+  databaseURL:       "https://buford-family-tree-default-rtdb.firebaseio.com",
+  projectId:         "buford-family-tree",
+  storageBucket:     "buford-family-tree.firebasestorage.app",
+  messagingSenderId: "585457700020",
+  appId:             "1:585457700020:web:313bf2b2f3ed3b0c909be1"
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
+let TREE_DATA = null;
+let db = null;
+
+try {
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.database();
+} catch(e) { /* config not yet filled in */ }
+
+const BRANCH_COLORS =["#c8852a", "#6b3a2a", "#2d5a3d", "#4a3070", "#1a5f7a", "#8a2a2a", "#1a3a6a", "#7a4a2a", "#3a6a2a"];
 const BRANCH_EMOJIS = ["\ud83c\udf3f", "\ud83c\udf3a", "\ud83c\udf43", "\ud83c\udf38", "\ud83c\udf0a", "\ud83c\udf3b", "\u2b50", "\ud83c\udf39", "\ud83c\udf40"];
 const BRANCH_NAMES  = ["James", "Ruby(Woman)", "Lula(Nana) Beatrice", "Helen + Martin Sr", "Louis(Bay) + Geraldine", "Willie(Dank) Baby Ray", "Ora Dell(Salome) + Aaron Sr", "Rosa Mary", "English + Florence"];
 
@@ -248,6 +413,7 @@ function toggleNode(btn) {
 
 // --- Render all branches ---
 function renderBranches() {
+  if (!TREE_DATA) return;
   const english = TREE_DATA.children[0];
   const container = document.getElementById('branchContainer');
   container.innerHTML = '';
@@ -258,6 +424,9 @@ function renderBranches() {
     card.className = 'branch-card';
     card.dataset.branch = i;
 
+    const color = BRANCH_COLORS[i % BRANCH_COLORS.length];
+    const emoji = BRANCH_EMOJIS[i % BRANCH_EMOJIS.length];
+
     let childrenHtml = '';
     for (const child of (branch.children || [])) {
       childrenHtml += buildNodeHtml(child, 1);
@@ -265,12 +434,16 @@ function renderBranches() {
 
     card.innerHTML = `
       <div class="branch-header" onclick="toggleBranch(${i})">
-        <div class="branch-color" style="background:${BRANCH_COLORS[i]}"></div>
-        <span class="branch-emoji">${BRANCH_EMOJIS[i]}</span>
+        <div class="branch-color" style="background:${color}"></div>
+        <span class="branch-emoji">${emoji}</span>
         <span class="branch-name">${esc(branch.name)}</span>
         <div class="branch-meta">
           <span class="branch-count">${total + 1} people</span>
           <span style="font-size:0.75rem;color:var(--muted)">${branch.children.length} children</span>
+        </div>
+        <div class="branch-actions">
+          <button class="btn-branch-act" onclick="event.stopPropagation(); openEditBranch(${i})">✏️ Rename</button>
+          <button class="btn-branch-act" onclick="event.stopPropagation(); openAddMember(${i})">+ Member</button>
         </div>
         <span class="branch-toggle">▼</span>
       </div>
@@ -282,6 +455,8 @@ function renderBranches() {
     `;
     container.appendChild(card);
   });
+
+  updateBranchCount();
 }
 
 function toggleBranch(idx) {
@@ -360,8 +535,174 @@ function searchTree(query) {
   noResults.style.display = matchCount === 0 ? 'block' : 'none';
 }
 
+// --- Firebase ---
+async function saveTree() {
+  if (!db) throw new Error('Firebase not connected.');
+  await db.ref('familyTree').set(TREE_DATA);
+}
+
+function showLoading(on) {
+  document.getElementById('treeLoading').style.display = on ? 'block' : 'none';
+  document.getElementById('branchContainer').style.display = on ? 'none' : 'block';
+}
+
+function showConnectionStatus(msg) {
+  const el = document.getElementById('connectionStatus');
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+async function fetchTree() {
+  const configured = FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== 'YOUR_API_KEY';
+  if (!configured || !db) {
+    TREE_DATA = JSON.parse(JSON.stringify(FALLBACK_DATA));
+    showLoading(false);
+    renderBranches();
+    showConnectionStatus('⚠️ Firebase not connected yet. Using built-in data — changes will not be saved for other visitors.');
+    return;
+  }
+  showLoading(true);
+  try {
+    const snapshot = await db.ref('familyTree').get();
+    if (snapshot.exists()) {
+      TREE_DATA = snapshot.val();
+    } else {
+      // First run — seed Firebase with the built-in tree
+      TREE_DATA = JSON.parse(JSON.stringify(FALLBACK_DATA));
+      await db.ref('familyTree').set(TREE_DATA);
+    }
+    showConnectionStatus('');
+  } catch(e) {
+    TREE_DATA = JSON.parse(JSON.stringify(FALLBACK_DATA));
+    showConnectionStatus('⚠️ Could not reach Firebase. Showing built-in data — changes will not be saved.');
+  }
+  showLoading(false);
+  renderBranches();
+}
+
+// --- Branch count title ---
+function updateBranchCount() {
+  if (!TREE_DATA) return;
+  const count = TREE_DATA.children[0].children.length;
+  const el = document.getElementById('branchesTitle');
+  if (el) el.textContent = `The ${count} Branch${count === 1 ? '' : 'es'} of English`;
+}
+
+// --- Modal helpers ---
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) {
+  document.getElementById(id).classList.add('hidden');
+  document.getElementById(id).querySelectorAll('.modal-feedback').forEach(el => el.style.display = 'none');
+}
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-overlay')) closeModal(e.target.id);
+});
+function setFeedback(id, msg, type) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'modal-feedback ' + type;
+  el.style.display = 'block';
+}
+function setBtnState(selector, disabled, label) {
+  const btn = document.querySelector(selector);
+  if (btn) { btn.disabled = disabled; btn.textContent = label; }
+}
+
+// --- Find node by name (local tree traversal) ---
+function findNodeByName(node, name) {
+  if (node.name.toLowerCase() === name.toLowerCase()) return node;
+  for (const child of (node.children || [])) {
+    const found = findNodeByName(child, name);
+    if (found) return found;
+  }
+  return null;
+}
+
+// --- Add Branch ---
+function openAddBranch() {
+  document.getElementById('addBranchName').value = '';
+  openModal('modalAddBranch');
+  setTimeout(() => document.getElementById('addBranchName').focus(), 50);
+}
+async function submitAddBranch() {
+  const name = document.getElementById('addBranchName').value.trim();
+  if (!name) { document.getElementById('addBranchName').focus(); return; }
+  setBtnState('#modalAddBranch .btn-modal-save', true, 'Saving…');
+  try {
+    TREE_DATA.children[0].children.push({ name, children: [] });
+    await saveTree();
+    renderBranches();
+    setFeedback('addBranchFeedback', `"${name}" branch added!`, 'success');
+    setTimeout(() => closeModal('modalAddBranch'), 1200);
+  } catch(e) {
+    TREE_DATA.children[0].children.pop();
+    setFeedback('addBranchFeedback', 'Could not save: ' + e.message, 'error');
+  }
+  setBtnState('#modalAddBranch .btn-modal-save', false, 'Add Branch');
+}
+
+// --- Rename Branch ---
+function openEditBranch(idx) {
+  const branch = TREE_DATA.children[0].children[idx];
+  document.getElementById('editBranchName').value = branch.name;
+  document.getElementById('editBranchIndex').value = idx;
+  openModal('modalEditBranch');
+  setTimeout(() => document.getElementById('editBranchName').focus(), 50);
+}
+async function submitEditBranch() {
+  const name = document.getElementById('editBranchName').value.trim();
+  const idx = parseInt(document.getElementById('editBranchIndex').value);
+  if (!name) { document.getElementById('editBranchName').focus(); return; }
+  const oldName = TREE_DATA.children[0].children[idx].name;
+  setBtnState('#modalEditBranch .btn-modal-save', true, 'Saving…');
+  try {
+    TREE_DATA.children[0].children[idx].name = name;
+    await saveTree();
+    renderBranches();
+    setFeedback('editBranchFeedback', 'Branch renamed!', 'success');
+    setTimeout(() => closeModal('modalEditBranch'), 1000);
+  } catch(e) {
+    TREE_DATA.children[0].children[idx].name = oldName;
+    setFeedback('editBranchFeedback', 'Could not save: ' + e.message, 'error');
+  }
+  setBtnState('#modalEditBranch .btn-modal-save', false, 'Save');
+}
+
+// --- Add Member ---
+function openAddMember(idx) {
+  document.getElementById('addMemberName').value = '';
+  document.getElementById('addMemberParent').value = '';
+  document.getElementById('addMemberBranchIndex').value = idx;
+  openModal('modalAddMember');
+  setTimeout(() => document.getElementById('addMemberName').focus(), 50);
+}
+async function submitAddMember() {
+  const name = document.getElementById('addMemberName').value.trim();
+  const parent = document.getElementById('addMemberParent').value.trim();
+  const idx = parseInt(document.getElementById('addMemberBranchIndex').value);
+  if (!name) { document.getElementById('addMemberName').focus(); return; }
+  const branch = TREE_DATA.children[0].children[idx];
+  const target = parent ? findNodeByName(branch, parent) : branch;
+  if (parent && !target) {
+    setFeedback('addMemberFeedback', `"${parent}" not found in this branch — check the spelling.`, 'error');
+    return;
+  }
+  setBtnState('#modalAddMember .btn-modal-save', true, 'Saving…');
+  try {
+    target.children.push({ name, children: [] });
+    await saveTree();
+    renderBranches();
+    setFeedback('addMemberFeedback', `${name} added!`, 'success');
+    setTimeout(() => closeModal('modalAddMember'), 1000);
+  } catch(e) {
+    target.children.pop();
+    setFeedback('addMemberFeedback', 'Could not save: ' + e.message, 'error');
+  }
+  setBtnState('#modalAddMember .btn-modal-save', false, 'Add Member');
+}
+
 // Init
-renderBranches();
+fetchTree();
 </script>
 </body>
 </html>
