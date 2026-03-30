@@ -255,6 +255,20 @@ html.in-iframe .tree-tabs {
 html.in-iframe .search-bar {
   top:var(--tab-h, 44px) !important;
 }
+
+/* Tab hide/show rules work at ANY width when in iframe (not just ≤600px) */
+html.in-iframe .tree-tab {
+  flex:1; padding:0.72rem 0.5rem; text-align:center;
+  font-family:'Lato',sans-serif; font-size:0.82rem; font-weight:700;
+  letter-spacing:0.04em; color:rgba(247,240,227,0.55); cursor:pointer;
+  border:none; background:none; border-bottom:3px solid transparent;
+  margin-bottom:-2px; transition:color 0.2s, border-color 0.2s;
+}
+html.in-iframe .tree-tab.active { color:var(--gold); border-bottom-color:var(--gold); }
+html.in-iframe body.tab-tree .hero,
+html.in-iframe body.tab-tree .root-chain  { display:none !important; }
+html.in-iframe body.tab-history .search-bar,
+html.in-iframe body.tab-history .branches { display:none !important; }
 </style>
 </head>
 <body>
@@ -830,8 +844,8 @@ function switchTab(tab) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// On mobile, default to the "tree" browse tab so the search + branches show immediately
-if (window.innerWidth <= 600) {
+// Default to Browse Tree tab: always when in-iframe (any width), or on mobile standalone
+if (document.documentElement.classList.contains('in-iframe') || window.innerWidth <= 600) {
   document.body.classList.add('tab-tree');
 }
 
