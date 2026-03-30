@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buford Family Reunion 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5e6c8;
+    --coral: #e8614a;
+    --teal: #1a9e8f;
+    --navy: #1a2e4a;
+    --gold: #f0b429;
+    --blush: #f9d5c8;
+    --white: #fffdf8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--navy);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav .logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.3rem;
+    letter-spacing: 0.03em;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+  nav ul li a {
+    color: var(--sand);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul li a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 92vh;
+    background: linear-gradient(160deg, #0b2e4a 0%, #1a5f7a 40%, #1a9e8f 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4rem 2rem;
+  }
+
+  /* Wave decoration */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: var(--white);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+
+  /* Floating circles */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.08;
+    background: white;
+    animation: float 6s ease-in-out infinite;
+  }
+  .bubble:nth-child(1) { width: 400px; height: 400px; top: -100px; right: -100px; animation-delay: 0s; }
+  .bubble:nth-child(2) { width: 250px; height: 250px; bottom: 80px; left: -60px; animation-delay: 2s; }
+  .bubble:nth-child(3) { width: 150px; height: 150px; top: 30%; right: 15%; animation-delay: 4s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    animation: fadeUp 1s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    color: white;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+  }
+  .hero h1 span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.8);
+    margin: 1.2rem 0 2.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 0.9rem 2.2rem;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--coral);
+    color: white;
+    box-shadow: 0 8px 24px rgba(232,97,74,0.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(232,97,74,0.5);
+  }
+  .btn-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.5);
+  }
+  .btn-outline:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: white;
+  }
+
+  /* ── COUNTDOWN ── */
+  .countdown-bar {
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 1.4rem 2rem;
+  }
+  .countdown-bar p {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+  }
+  .countdown-units {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .countdown-unit { text-align: center; }
+  .countdown-unit .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: white;
+  }
+  .countdown-unit .label {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── QUICK INFO CARDS ── */
+  .cards-section {
+    padding: 5rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--navy);
+    margin-bottom: 3rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .card:hover { transform: translateY(-4px); }
+
+  .card-location {
+    background: linear-gradient(135deg, #e8f8f6, #c8f0ea);
+    border: 1px solid rgba(26,158,143,0.2);
+  }
+  .card-schedule {
+    background: linear-gradient(135deg, #fff5e6, #fde8cc);
+    border: 1px solid rgba(240,180,41,0.3);
+  }
+  .card-signup {
+    background: linear-gradient(135deg, var(--navy), #2a4e7a);
+    color: white;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+  }
+  .card-signup h3 { color: var(--gold); }
+  .card p, .card li {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+  .card-signup p { opacity: 0.8; color: white; }
+  .card ul { list-style: none; padding: 0; }
+  .card ul li { padding: 0.25rem 0; }
+  .card ul li::before { content: '→ '; color: var(--teal); font-weight: 700; }
+  .card-schedule ul li::before { color: var(--coral); }
+
+  .hotel-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(26,158,143,0.15);
+    font-size: 0.85rem;
+  }
+  .hotel-option:last-child { border: none; }
+  .hotel-option .price {
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .hotel-badge {
+    font-size: 0.65rem;
+    background: var(--teal);
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    font-weight: 700;
+    margin-left: 0.4rem;
+  }
+
+  /* ── WELCOME MESSAGE ── */
+  .welcome-section {
+    background: var(--sand);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-section::before {
+    content: '"';
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: 30rem;
+    color: rgba(26,46,74,0.04);
+    top: -6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1;
+  }
+  .welcome-section .inner {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .welcome-section p {
+    font-size: 1.15rem;
+    line-height: 1.9;
+    color: #3a4a5a;
+    margin-bottom: 1rem;
+  }
+
+  /* ── ITINERARY ── */
+  .itinerary-section {
+    padding: 5rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .day-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .day-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    transition: transform 0.25s;
+  }
+  .day-card:hover { transform: translateX(4px); }
+  .day-label {
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 800;
+  }
+  .day-label .day-name { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; }
+  .day-label .day-date { font-family: 'Playfair Display', serif; font-size: 1.6rem; line-height: 1; }
+  .day-label .day-month { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; }
+
+  .d1 .day-label { background: var(--teal); color: white; }
+  .d2 .day-label { background: var(--coral); color: white; }
+  .d3 .day-label { background: var(--gold); color: var(--navy); }
+  .d4 .day-label { background: #7c5cbf; color: white; }
+  .d5 .day-label { background: var(--navy); color: white; }
+
+  .day-content {
+    padding: 1.5rem;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .day-content h4 {
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .day-content p {
+    font-size: 0.875rem;
+    color: #5a6a7a;
+    line-height: 1.6;
+  }
+  .day-tag {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: var(--blush);
+    color: var(--coral);
+    padding: 0.2rem 0.7rem;
+    border-radius: 100px;
+  }
+
+  /* ── ACTIVITIES ── */
+  .activities-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a5f7a 100%);
+    padding: 5rem 2rem;
+    color: white;
+  }
+  .activities-section .section-label { color: var(--gold); }
+  .activities-section .section-title { color: white; }
+  .activities-inner { max-width: 1100px; margin: 0 auto; }
+
+  .activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .activity-tile {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 1.4rem;
+    transition: background 0.25s, transform 0.25s;
+    backdrop-filter: blur(4px);
+  }
+  .activity-tile:hover {
+    background: rgba(255,255,255,0.14);
+    transform: translateY(-3px);
+  }
+  .activity-tile .act-icon { font-size: 1.8rem; margin-bottom: 0.6rem; display: block; }
+  .activity-tile h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 0.3rem; }
+  .activity-tile p { font-size: 0.8rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+
+  /* ── ANNOUNCEMENT ── */
+  .announcement {
+    background: var(--coral);
+    color: white;
+    text-align: center;
+    padding: 2rem;
+  }
+  .announcement p {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+  .announcement a { color: var(--gold); text-decoration: underline; }
+
+  /* ── NEWSLETTERS ── */
+  .newsletters-section {
+    padding: 5rem 2rem;
+    background: var(--sand);
+  }
+  .newsletters-inner { max-width: 1000px; margin: 0 auto; }
+
+  .newsletter-featured {
+    background: white;
+    border-radius: 24px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(26,46,74,0.1);
+    margin-bottom: 3rem;
+    transition: transform 0.3s;
+  }
+  .newsletter-featured:hover { transform: translateY(-4px); }
+
+  .newsletter-cover {
+    background: linear-gradient(135deg, #ff9ec4, #ffd6e8, #ffe8a0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+  }
+  .newsletter-cover .bulletin-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+  .newsletter-cover .bulletin-date {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: white;
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+    margin-top: 0.6rem;
+  }
+  .newsletter-cover .bulletin-emoji { font-size: 2.5rem; margin-bottom: 0.5rem; }
+
+  .newsletter-body {
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .newsletter-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    align-self: flex-start;
+  }
+  .newsletter-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--navy);
+    margin-bottom: 0.8rem;
+  }
+  .newsletter-body p { font-size: 0.9rem; color: #5a6a7a; line-height: 1.7; margin-bottom: 1.2rem; }
+  .newsletter-contents { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .content-tag {
+    font-size: 0.75rem; font-weight: 700;
+    background: #f0f4f8; color: #4a6a7a;
+    padding: 0.25rem 0.7rem; border-radius: 100px;
+  }
+  .btn-read {
+    background: var(--teal); color: white;
+    padding: 0.75rem 1.8rem; border-radius: 100px;
+    font-weight: 800; font-size: 0.9rem;
+    text-decoration: none; display: inline-block;
+    transition: all 0.25s; align-self: flex-start;
+  }
+  .btn-read:hover { background: #158075; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(26,158,143,0.35); }
+
+  .archive-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--navy);
+    margin-bottom: 1.2rem; padding-bottom: 0.8rem;
+    border-bottom: 2px solid rgba(26,46,74,0.1);
+  }
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .archive-card {
+    background: white; border-radius: 16px;
+    padding: 1.5rem; display: flex; gap: 1rem;
+    align-items: flex-start;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: transform 0.25s, box-shadow 0.25s;
+    text-decoration: none; color: inherit;
+  }
+  .archive-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+  .archive-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .a1 .archive-icon { background: #fde8d0; }
+  .a2 .archive-icon { background: #d0f0ec; }
+  .a3 .archive-icon { background: #fde8ec; }
+  .a4 .archive-icon { background: #e8e0f8; }
+  .a5 .archive-icon { background: #fef8d0; }
+
+  .archive-info h4 { font-size: 0.95rem; font-weight: 800; margin-bottom: 0.2rem; color: var(--navy); }
+  .archive-info .archive-date { font-size: 0.78rem; color: #8a9aaa; font-weight: 600; margin-bottom: 0.4rem; }
+  .archive-info .archive-desc { font-size: 0.8rem; color: #6a7a8a; line-height: 1.5; }
+  .archive-coming-soon { opacity: 0.45; pointer-events: none; }
+  .coming-tag {
+    font-size: 0.65rem; font-weight: 700;
+    background: #e8eef4; color: #8a9aaa;
+    padding: 0.2rem 0.6rem; border-radius: 100px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  .newsletter-submit {
+    margin-top: 2.5rem;
+    background: linear-gradient(135deg, var(--navy), #2a4e7a);
+    border-radius: 20px; padding: 2rem 2.5rem;
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 1.5rem; flex-wrap: wrap;
+  }
+  .newsletter-submit h4 { font-family: 'Playfair Display', serif; color: white; font-size: 1.2rem; margin-bottom: 0.3rem; }
+  .newsletter-submit p { color: rgba(255,255,255,0.65); font-size: 0.875rem; }
+  .btn-submit-news {
+    background: var(--gold); color: var(--navy);
+    padding: 0.75rem 1.8rem; border-radius: 100px;
+    font-weight: 800; font-size: 0.9rem;
+    text-decoration: none; white-space: nowrap; transition: all 0.25s;
+  }
+  .btn-submit-news:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(240,180,41,0.4); }
+
+  @media (max-width: 640px) {
+    .newsletter-featured { grid-template-columns: 1fr; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 3rem 2rem;
+  }
+  footer .footer-logo {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  footer .footer-contact {
+    color: white;
+    font-weight: 700;
+    margin: 1rem 0 0.25rem;
+  }
+  footer a { color: var(--teal); }
+  footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+  }
+  footer .footer-links a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  footer .footer-links a:hover { color: var(--gold); }
+
+  @media (max-width: 600px) {
+    nav ul { display: none; }
+    .day-card { grid-template-columns: 90px 1fr; }
+    .day-label .day-date { font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">The Buford Family</div>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="newsletters.html">Newsletters</a></li>
+    <li><a href="signup.html">Sign Up</a></li>
+    <li><a href="family-history.html">Family Tree</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="bubble"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🌊 2026 Family Reunion</div>
+    <h1>Buford Family<span>Together Again</span></h1>
+    <p class="hero-sub">Virginia Beach, VA &nbsp;•&nbsp; July 9–13, 2026</p>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-primary">Register Now 📋</a>
+      <a href="#" class="btn btn-outline">View Itinerary</a>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<div class="countdown-bar">
+  <p>⏳ Days Until Virginia Beach</p>
+  <div class="countdown-units" id="countdown">
+    <div class="countdown-unit"><div class="num" id="days">105</div><div class="label">Days</div></div>
+    <div class="countdown-unit"><div class="num" id="hours">--</div><div class="label">Hours</div></div>
+    <div class="countdown-unit"><div class="num" id="mins">--</div><div class="label">Minutes</div></div>
+    <div class="countdown-unit"><div class="num" id="secs">--</div><div class="label">Seconds</div></div>
+  </div>
+</div>
+
+<!-- ANNOUNCEMENT BANNER -->
+<div class="announcement">
+  <p>📣 <strong>Registration is open!</strong> Sign up early to lock in your t-shirt size & meal preference. Questions? Contact <strong>Shira</strong> at <a href="tel:2514726777">(251) 472-6777</a> or <a href="/cdn-cgi/l/email-protection#86e8e7f5eeeff4e7efe4c6e1ebe7efeaa8e5e9eb"><span class="__cf_email__" data-cfemail="9bf5fae8f3f2e9faf2f9dbfcf6faf2f7b5f8f4f6">[email&#160;protected]</span></a></p>
+</div>
+
+<!-- WELCOME -->
+<section class="welcome-section">
+  <div class="inner">
+    <p class="section-label" style="text-align:center;">Welcome, Family</p>
+    <h2 class="section-title" style="text-align:center; margin-bottom:2rem;">We've Been Everywhere Together</h2>
+    <p>From the shores of Panama City Beach to the mountains of Gatlinburg, the Gulf Coast of Orange Beach to the seawall in Galveston — the Buford family has done it all. Virginia Beach 2026 is next, and it's going to be one for the books.</p>
+    <p>This is your family hub for everything: registration, the full schedule, hotel options, newsletters, photos from reunions past, and our family history — all in one place. Bookmark it, share it, and check back as we add updates.</p>
+    <p style="font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--teal); margin-top: 1.5rem;">We can't wait to see you on the sand. 🌊</p>
+  </div>
+</section>
+
+<!-- QUICK INFO CARDS -->
+<section class="cards-section">
+  <p class="section-label">Plan Your Trip</p>
+  <h2 class="section-title">Everything You Need to Know</h2>
+  <div class="cards-grid">
+
+    <!-- Hotel Card -->
+    <div class="card card-location">
+      <span class="card-icon">🏨</span>
+      <h3>Where We're Staying</h3>
+      <p style="margin-bottom:1rem;">Virginia Beach, VA — Oceanfront! Book early — July fills up fast.</p>
+      <div class="hotel-option">
+        <span>Moxy VB Oceanfront <span class="hotel-badge">Best Value</span></span>
+        <span class="price">$249+/night</span>
+      </div>
+      <div class="hotel-option">
+        <span>Hilton VB Oceanfront</span>
+        <span class="price">$398+/night</span>
+      </div>
+      <div class="hotel-option">
+        <span>Marriott VB Oceanfront</span>
+        <span class="price">$426+/night</span>
+      </div>
+    </div>
+
+    <!-- Schedule Card -->
+    <div class="card card-schedule">
+      <span class="card-icon">📅</span>
+      <h3>The Schedule</h3>
+      <ul>
+        <li><strong>Thu Jul 9</strong> — Check-in + Welcome Night 🎲</li>
+        <li><strong>Fri Jul 10</strong> — Day Activity + Family Dinner</li>
+        <li><strong>Sat Jul 11</strong> — Cookout + T-Shirt Day 🍖</li>
+        <li><strong>Sun Jul 12</strong> — Breakfast & Bible Study 🙏</li>
+        <li><strong>Mon Jul 13</strong> — Checkout & Safe Travels</li>
+      </ul>
+    </div>
+
+    <!-- Sign Up Card -->
+    <div class="card card-signup">
+      <span class="card-icon">✍🏾</span>
+      <h3>Don't Wait — Sign Up Now</h3>
+      <p>Secure your spot and let us know you're coming. Early registration helps us plan meals, t-shirts, and activities for everyone.</p>
+      <br>
+      <a href="#" class="btn btn-primary" style="display:inline-block; margin-top: 0.5rem;">Register My Family →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="itinerary-section">
+  <p class="section-label">Day by Day</p>
+  <h2 class="section-title">Tentative Itinerary</h2>
+  <div class="day-cards">
+
+    <div class="day-card d1">
+      <div class="day-label">
+        <span class="day-name">Thursday</span>
+        <span class="day-date">9</span>
+        <span class="day-month">July</span>
+      </div>
+      <div class="day-content">
+        <h4>🎲 Check-In & Get Acquainted Night</h4>
+        <p>Arrive, settle in, and reconnect with family. Board games, finger foods, and prizes await!</p>
+        <span class="day-tag">Evening Event</span>
+      </div>
+    </div>
+
+    <div class="day-card d2">
+      <div class="day-label">
+        <span class="day-name">Friday</span>
+        <span class="day-date">10</span>
+        <span class="day-month">July</span>
+      </div>
+      <div class="day-content">
+        <h4>🎳 Day Activity + Family Dinner</h4>
+        <p>Choose from bowling, dolphin tours, the boardwalk, and more — then gather for a family dinner.</p>
+        <span class="day-tag">Full Day</span>
+      </div>
+    </div>
+
+    <div class="day-card d3">
+      <div class="day-label">
+        <span class="day-name">Saturday</span>
+        <span class="day-date">11</span>
+        <span class="day-month">July</span>
+      </div>
+      <div class="day-content">
+        <h4>🍖 Picnic / Cookout + 2027 Planning</h4>
+        <p>Wear your reunion t-shirt! We'll eat, celebrate, and start dreaming about where 2027 takes us.</p>
+        <span class="day-tag">👕 T-Shirt Day!</span>
+      </div>
+    </div>
+
+    <div class="day-card d4">
+      <div class="day-label">
+        <span class="day-name">Sunday</span>
+        <span class="day-date">12</span>
+        <span class="day-month">July</span>
+      </div>
+      <div class="day-content">
+        <h4>🙏 Breakfast & Bible Study + Day Activity</h4>
+        <p>Start the morning grounded together, then enjoy one last adventure before the farewell.</p>
+        <span class="day-tag">Morning + Afternoon</span>
+      </div>
+    </div>
+
+    <div class="day-card d5">
+      <div class="day-label">
+        <span class="day-name">Monday</span>
+        <span class="day-date">13</span>
+        <span class="day-month">July</span>
+      </div>
+      <div class="day-content">
+        <h4>🚗 Check Out & Safe Travels</h4>
+        <p>Pack up, exchange hugs, and hit the road. See you at the 2027 reunion!</p>
+        <span class="day-tag">Departure Day</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section class="activities-section">
+  <div class="activities-inner">
+    <p class="section-label">Things to Do</p>
+    <h2 class="section-title">Virginia Beach Has It All</h2>
+    <div class="activity-grid">
+      <div class="activity-tile">
+        <span class="act-icon">🎯</span>
+        <h4>Apex Entertainment</h4>
+        <p>Mini golf, bowling, go-karts, laser tag, axe throwing & arcade</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🐬</span>
+        <h4>Rudee Rocket Dolphin Tour</h4>
+        <p>Speed boat dolphin tour along the Virginia Beach coastline</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🛥️</span>
+        <h4>Party Boat Cruise</h4>
+        <p>Private 3-hour cruise with music, water mats & more</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🎡</span>
+        <h4>Virginia Beach Boardwalk</h4>
+        <p>Fishing pier, beach playground, live music & oceanfront dining</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🦈</span>
+        <h4>Virginia Aquarium</h4>
+        <p>World-class marine life exhibits for the whole family</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🌊</span>
+        <h4>Atlantic Park</h4>
+        <p>Surf lagoon, restaurants, shopping & live entertainment</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🎨</span>
+        <h4>ViBe Creative District</h4>
+        <p>Restaurants, breweries, coffee shops & art murals</p>
+      </div>
+      <div class="activity-tile">
+        <span class="act-icon">🕹️</span>
+        <h4>Draftcade + Lost Planet</h4>
+        <p>Pinball, arcade games, selfie museum & mirror maze</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- NEWSLETTERS -->
+<section class="newsletters-section">
+  <div class="newsletters-inner">
+    <p class="section-label">Stay Connected</p>
+    <h2 class="section-title">The Buford Bulletin</h2>
+
+    <!-- Featured / Latest -->
+    <div class="newsletter-featured">
+      <div class="newsletter-cover">
+        <span class="bulletin-emoji">🌸</span>
+        <div class="bulletin-title">The Buford<br>Bulletin</div>
+        <div class="bulletin-date">April 2026</div>
+      </div>
+      <div class="newsletter-body">
+        <span class="newsletter-badge">⭐ Latest Issue</span>
+        <h3>We Are Back — April 2026</h3>
+        <p>The Buford family has been up to a lot since late last year! This issue covers full 2026 reunion details, hotel options, birthdays, anniversaries, family announcements, and a look back at reunions past.</p>
+        <div class="newsletter-contents">
+          <span class="content-tag">🏖️ 2026 Reunion Details</span>
+          <span class="content-tag">🎂 Birthdays</span>
+          <span class="content-tag">💍 Anniversaries</span>
+          <span class="content-tag">🎉 Family Announcements</span>
+          <span class="content-tag">📸 Reflecting Back</span>
+          <span class="content-tag">🔭 Looking Forward</span>
+        </div>
+        <a href="#" class="btn-read">Read the Bulletin →</a>
+      </div>
+    </div>
+
+    <!-- Archive -->
+    <h3 class="archive-title">📁 Newsletter Archive</h3>
+    <div class="archive-grid">
+
+      <a href="#" class="archive-card a1">
+        <div class="archive-icon">🌸</div>
+        <div class="archive-info">
+          <h4>The Buford Bulletin</h4>
+          <div class="archive-date">April 2026</div>
+          <div class="archive-desc">Reunion details, hotel options, birthdays &amp; family news</div>
+        </div>
+      </a>
+
+      <div class="archive-card a2 archive-coming-soon">
+        <div class="archive-icon">☀️</div>
+        <div class="archive-info">
+          <h4>Summer 2025 Issue</h4>
+          <div class="archive-date">Coming Soon <span class="coming-tag">Upload PDF</span></div>
+          <div class="archive-desc">Add a past newsletter to unlock this card</div>
+        </div>
+      </div>
+
+      <div class="archive-card a3 archive-coming-soon">
+        <div class="archive-icon">🍂</div>
+        <div class="archive-info">
+          <h4>Fall 2024 Issue</h4>
+          <div class="archive-date">Coming Soon <span class="coming-tag">Upload PDF</span></div>
+          <div class="archive-desc">Add a past newsletter to unlock this card</div>
+        </div>
+      </div>
+
+      <div class="archive-card a4 archive-coming-soon">
+        <div class="archive-icon">❄️</div>
+        <div class="archive-info">
+          <h4>Holiday 2023 Issue</h4>
+          <div class="archive-date">Coming Soon <span class="coming-tag">Upload PDF</span></div>
+          <div class="archive-desc">Add a past newsletter to unlock this card</div>
+        </div>
+      </div>
+
+      <div class="archive-card a5 archive-coming-soon">
+        <div class="archive-icon">🌺</div>
+        <div class="archive-info">
+          <h4>Older Issues</h4>
+          <div class="archive-date">Coming Soon <span class="coming-tag">Upload PDF</span></div>
+          <div class="archive-desc">Drop older Bulletins here as you find them</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Submit banner -->
+    <div class="newsletter-submit">
+      <div>
+        <h4>📬 Have a Story for the Next Issue?</h4>
+        <p>New job, new baby, milestone birthday, or family update — send it to Shira and we'll include it in the next Buford Bulletin!</p>
+      </div>
+      <a href="mailto:nashiraib@gmail.com" class="btn-submit-news">Submit an Update →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">The Buford Family</div>
+  <p>Virginia Beach, VA &nbsp;•&nbsp; July 9–13, 2026</p>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">Photo Gallery</a>
+    <a href="#">Newsletters</a>
+    <a href="#">Sign Up</a>
+    <a href="#">Family Tree</a>
+  </div>
+  <p class="footer-contact">Questions? Contact Shira</p>
+  <p><a href="tel:2514726777">(251) 472-6777</a> &nbsp;•&nbsp; <a href="/cdn-cgi/l/email-protection#9ef0ffedf6f7ecfff7fcdef9f3fff7f2b0fdf1f3"><span class="__cf_email__" data-cfemail="86e8e7f5eeeff4e7efe4c6e1ebe7efeaa8e5e9eb">[email&#160;protected]</span></a></p>
+  <p style="margin-top:2rem; font-size:0.8rem; opacity:0.4;">© 2026 Buford Family Reunion. Made with ❤️ for the family.</p>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Live countdown to July 12, 2026
+  function updateCountdown() {
+    const target = new Date('2026-07-09T00:00:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML = '<div style="font-size:1.5rem;color:var(--gold);">🎉 We\'re in Virginia Beach!</div>';
+      return;
+    }
+    const d = Math.floor(diff / (1000*60*60*24));
+    const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const s = Math.floor((diff % (1000*60)) / 1000

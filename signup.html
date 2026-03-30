@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buford Family Reunion 2026 — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand:#f5e6c8; --coral:#e8614a; --teal:#1a9e8f;
+    --navy:#1a2e4a; --gold:#f0b429; --white:#fffdf8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:var(--white); color:var(--navy); }
+
+  nav { background:var(--navy); padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
+  nav .logo { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.3rem; }
+  nav ul { list-style:none; display:flex; gap:2rem; }
+  nav ul li a { color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; transition:color 0.2s; }
+  nav ul li a:hover, nav ul li a.active { color:var(--gold); }
+
+  .page-hero { background:linear-gradient(135deg,#0b2e4a 0%,#1a5f7a 50%,#1a9e8f 100%); padding:4rem 2rem; text-align:center; }
+  .page-hero .eyebrow { font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); font-weight:800; margin-bottom:0.8rem; }
+  .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.5rem); color:white; margin-bottom:0.8rem; }
+  .page-hero p { color:rgba(255,255,255,0.7); font-size:1rem; max-width:520px; margin:0 auto 1.5rem; line-height:1.7; }
+  .deadline-badge { display:inline-block; background:var(--coral); color:white; font-size:0.8rem; font-weight:800; padding:0.5rem 1.2rem; border-radius:100px; }
+
+  .form-section { padding:4rem 2rem; }
+  .form-inner { max-width:780px; margin:0 auto; }
+
+  .form-card { background:white; border-radius:24px; padding:3rem; box-shadow:0 8px 40px rgba(26,46,74,0.1); border:1px solid rgba(26,46,74,0.06); margin-bottom:1.5rem; }
+  .form-card-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); margin-bottom:0.3rem; display:flex; align-items:center; gap:0.6rem; }
+  .form-card-sub { font-size:0.85rem; color:#6a7a8a; margin-bottom:1.8rem; }
+
+  .form-group { margin-bottom:1.3rem; }
+  .form-group label { display:block; font-size:0.7rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:0.45rem; }
+  .form-group label .req { color:var(--coral); margin-left:2px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width:100%; padding:0.85rem 1.1rem; border:1.5px solid rgba(26,46,74,0.12);
+    border-radius:12px; font-family:'Nunito',sans-serif; font-size:0.95rem;
+    color:var(--navy); background:var(--white); transition:border-color 0.2s,box-shadow 0.2s; outline:none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color:var(--teal); box-shadow:0 0 0 3px rgba(26,158,143,0.1); background:white;
+  }
+  .form-group textarea { resize:vertical; min-height:80px; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .form-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+
+  .checkbox-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:0.6rem; margin-top:0.3rem; }
+  .checkbox-item { display:flex; align-items:flex-start; gap:0.6rem; }
+  .checkbox-item input[type=checkbox] { width:16px; height:16px; margin-top:3px; accent-color:var(--teal); flex-shrink:0; }
+  .checkbox-item label { font-size:0.875rem; color:var(--navy); font-weight:600; cursor:pointer; line-height:1.4; }
+
+  .section-divider { height:1px; background:rgba(26,46,74,0.08); margin:2rem 0; }
+
+  .payment-option { display:flex; align-items:center; gap:0.8rem; padding:0.8rem 1rem; border:1.5px solid rgba(26,46,74,0.1); border-radius:12px; margin-bottom:0.6rem; cursor:pointer; transition:all 0.2s; }
+  .payment-option:hover { border-color:var(--teal); background:#f0faf9; }
+  .payment-option input[type=radio] { accent-color:var(--teal); width:16px; height:16px; }
+  .payment-option label { font-size:0.9rem; font-weight:700; cursor:pointer; }
+
+  .submit-area { text-align:center; margin-top:2rem; }
+  .btn-submit { background:linear-gradient(135deg,var(--teal),#158075); color:white; border:none; padding:1.1rem 3rem; border-radius:100px; font-family:'Nunito',sans-serif; font-size:1.1rem; font-weight:800; cursor:pointer; transition:all 0.25s; box-shadow:0 8px 24px rgba(26,158,143,0.3); }
+  .btn-submit:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(26,158,143,0.4); }
+  .submit-note { font-size:0.8rem; color:#8a9aaa; margin-top:1rem; line-height:1.6; }
+
+  .success-msg { display:none; background:#e8f8f4; border:2px solid var(--teal); border-radius:16px; padding:2rem; text-align:center; }
+  .success-msg h3 { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--teal); margin-bottom:0.5rem; }
+  .success-msg p { color:#4a7a6a; }
+
+  .info-strip { background:var(--sand); padding:2rem; border-top:3px solid var(--gold); }
+  .info-strip-inner { max-width:780px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; }
+  .info-item h4 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--navy); margin-bottom:0.3rem; }
+  .info-item p { font-size:0.82rem; color:#6a7a8a; line-height:1.6; }
+
+  footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:3rem 2rem; }
+  footer .footer-logo { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.8rem; margin-bottom:0.4rem; }
+  footer .footer-links { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin:1.2rem 0; }
+  footer .footer-links a { color:rgba(255,255,255,0.45); text-decoration:none; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  footer .footer-links a:hover { color:var(--gold); }
+  footer .footer-contact { color:white; font-weight:700; margin-bottom:0.3rem; }
+  footer a { color:rgba(240,180,41,0.8); }
+
+  @media(max-width:640px) {
+    nav ul { display:none; }
+    .form-row, .form-row-3 { grid-template-columns:1fr; }
+    .form-card { padding:1.8rem; }
+    .info-strip-inner { grid-template-columns:1fr; gap:1rem; }
+    .checkbox-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">The Buford Family</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="newsletters.html">Newsletters</a></li>
+    <li><a href="signup.html" class="active">Sign Up</a></li>
+    <li><a href="family-history.html">Family Tree</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <p class="eyebrow">Virginia Beach 2026</p>
+  <h1>Register Your Family</h1>
+  <p>Fill out one form per household. Early registration helps us plan meals, t-shirts, and activities for everyone. Don't wait!</p>
+  <span class="deadline-badge">📅 Registration Deadline: June 1, 2026</span>
+</div>
+
+<div class="info-strip">
+  <div class="info-strip-inner">
+    <div class="info-item">
+      <h4>📍 Where</h4>
+      <p>Virginia Beach, VA — Oceanfront<br>Moxy ($249+), Hilton ($398+), Marriott ($426+)</p>
+    </div>
+    <div class="info-item">
+      <h4>📅 When</h4>
+      <p>July 9–13, 2026<br>Check-in Thu evening · Checkout Mon</p>
+    </div>
+    <div class="info-item">
+      <h4>❓ Questions</h4>
+      <p>Contact Shira<br>(251) 472-6777 · nashiraib@gmail.com</p>
+    </div>
+  </div>
+</div>
+
+<div class="form-section">
+  <div class="form-inner">
+
+    <div id="theForm">
+      <!-- SECTION 1: YOUR INFO -->
+      <div class="form-card">
+        <div class="form-card-title">👤 Your Information</div>
+        <div class="form-card-sub">One form per household is fine. We'll follow up by email with confirmation.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" placeholder="e.g. James Buford" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="for your confirmation">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="optional">
+          </div>
+          <div class="form-group">
+            <label>City &amp; State You're Traveling From</label>
+            <input type="text" placeholder="e.g. Mobile, AL">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: YOUR GROUP -->
+      <div class="form-card">
+        <div class="form-card-title">👨‍👩‍👧‍👦 Your Group</div>
+        <div class="form-card-sub">Tell us who's coming so we can plan accordingly.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Total Adults <span class="req">*</span></label>
+            <select>
+              <option value="">Select...</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Total Children</label>
+            <select>
+              <option value="">Select...</option>
+              <option>0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Children's Ages (if applicable)</label>
+          <input type="text" placeholder="e.g. 4, 7, 12 — helps us plan kids' activities">
+        </div>
+        <div class="form-group">
+          <label>Which branch of the Buford family are you from?</label>
+          <input type="text" placeholder="e.g. Rosa Mary's line, English + Florence side...">
+        </div>
+      </div>
+
+      <!-- SECTION 3: T-SHIRTS -->
+      <div class="form-card">
+        <div class="form-card-title">👕 Reunion T-Shirts</div>
+        <div class="form-card-sub">Wear your shirt on Saturday July 11th! Tell us what you need.</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>How many t-shirts do you need?</label>
+            <select>
+              <option value="">Select...</option>
+              <option>0</option><option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>T-shirt design idea or input</label>
+            <input type="text" placeholder="Optional — Shira wants to hear it!">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sizes needed (check all that apply)</label>
+          <div class="checkbox-grid">
+            <div class="checkbox-item"><input type="checkbox" id="ys"><label for="ys">Youth S</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="ym"><label for="ym">Youth M</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="yl"><label for="yl">Youth L</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="as"><label for="as">Adult S</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="am"><label for="am">Adult M</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="al"><label for="al">Adult L</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="axl"><label for="axl">Adult XL</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="a2xl"><label for="a2xl">Adult 2XL</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="a3xl"><label for="a3xl">Adult 3XL</label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4: MEALS & DIETARY -->
+      <div class="form-card">
+        <div class="form-card-title">🍽️ Meals &amp; Dietary Needs</div>
+        <div class="form-card-sub">Helps us plan the cookout and family dinners.</div>
+        <div class="form-group">
+          <label>Dietary restrictions or food allergies</label>
+          <div class="checkbox-grid">
+            <div class="checkbox-item"><input type="checkbox" id="none"><label for="none">None</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="veg"><label for="veg">Vegetarian</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="vegan"><label for="vegan">Vegan</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="gf"><label for="gf">Gluten-Free</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="nut"><label for="nut">Nut Allergy</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="other-diet"><label for="other-diet">Other</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>If other, please describe</label>
+          <input type="text" placeholder="Any other dietary needs...">
+        </div>
+      </div>
+
+      <!-- SECTION 5: EVENTS -->
+      <div class="form-card">
+        <div class="form-card-title">📅 Events &amp; Activities</div>
+        <div class="form-card-sub">Which days are you planning to attend?</div>
+        <div class="form-group">
+          <label>Events you plan to attend (check all that apply)</label>
+          <div class="checkbox-grid">
+            <div class="checkbox-item"><input type="checkbox" id="thu"><label for="thu">🎲 Thu Jul 9 — Welcome Night</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="fri"><label for="fri">🎳 Fri Jul 10 — Day Activity + Dinner</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="sat"><label for="sat">🍖 Sat Jul 11 — Cookout + T-Shirt Day</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="sun"><label for="sun">🙏 Sun Jul 12 — Breakfast &amp; Bible Study</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="mon"><label for="mon">👋 Mon Jul 13 — Checkout Day</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Activities you're most interested in</label>
+          <div class="checkbox-grid">
+            <div class="checkbox-item"><input type="checkbox" id="apex"><label for="apex">🎯 Apex Entertainment</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="dolphin"><label for="dolphin">🐬 Rudee Rocket Dolphin Tour</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="boat"><label for="boat">🛥️ Party Boat Cruise</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="bwalk"><label for="bwalk">🎡 Virginia Beach Boardwalk</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="aqua"><label for="aqua">🦈 Virginia Aquarium</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="atlantic"><label for="atlantic">🌊 Atlantic Park</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="vibe"><label for="vibe">🎨 ViBe Creative District</label></div>
+            <div class="checkbox-item"><input type="checkbox" id="arcade"><label for="arcade">🕹️ Draftcade / Lost Planet</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Any activities you'd love to see added?</label>
+          <textarea placeholder="Optional suggestions..."></textarea>
+        </div>
+      </div>
+
+      <!-- SECTION 6: PAYMENT -->
+      <div class="form-card">
+        <div class="form-card-title">💳 Payment</div>
+        <div class="form-card-sub">Have you submitted your reunion fee?</div>
+        <div class="payment-option"><input type="radio" name="payment" id="zelle"><label for="zelle">✅ Yes — via Zelle</label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="cashapp"><label for="cashapp">✅ Yes — via Cash App</label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="check"><label for="check">✅ Yes — via Check</label></div>
+        <div class="payment-option"><input type="radio" name="payment" id="later"><label for="later">⏳ Not yet — I'll pay at the reunion</label></div>
+
+        <div class="section-divider"></div>
+        <div class="form-group">
+          <label>Additional notes or questions for the planning committee</label>
+          <textarea placeholder="Anything else Shira should know..."></textarea>
+        </div>
+      </div>
+
+      <div class="submit-area">
+        <button class="btn-submit" onclick="submitForm()">Register My Family 🌊</button>
+        <p class="submit-note">You'll receive a confirmation once your registration is received.<br>Questions? Contact Shira at (251) 472-6777 or nashiraib@gmail.com</p>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-msg" id="successMsg">
+      <div style="font-size:3rem;margin-bottom:1rem;">🌊</div>
+      <h3>You're registered!</h3>
+      <p id="successName" style="font-size:1.1rem;margin:0.5rem 0;"></p>
+      <p>We'll be in touch as July 9th gets closer. See you in Virginia Beach!</p>
+      <p style="margin-top:1.5rem;font-size:0.85rem;color:#8a9aaa;">Questions? nashiraib@gmail.com · (251) 472-6777</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">The Buford Family</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
+  <p class="footer-contact">Questions? Contact Shira</p>
+  <p><a href="tel:2514726777">(251) 472-6777</a> &nbsp;•&nbsp; <a href="mailto:nashiraib@gmail.com">nashiraib@gmail.com</a></p>
+  <p style="margin-top:2rem;font-size:0.8rem;opacity:0.3;">© 2026 Buford Family Reunion.</p>
+</footer>
+
+<script>
+function submitForm() {
+  const name = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  if (!name) { document.getElementById('fullName').focus(); document.getElementById('fullName').style.borderColor='#e8614a'; return; }
+  document.getElementById('theForm').style.display = 'none';
+  const msg = document.getElementById('successMsg');
+  msg.style.display = 'block';
+  document.getElementById('successName').textContent = `Welcome, ${name.split(' ')[0]}! ${email ? 'A confirmation will be sent to ' + email + '.' : ''}`;
+  window.scrollTo({top: msg.offsetTop - 100, behavior:'smooth'});
+}
+</script>
+
+</body>
+</html>

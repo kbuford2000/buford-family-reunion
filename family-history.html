@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buford Family — Our History</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment: #f7f0e3;
+    --cream: #fdf8f0;
+    --brown: #3d2b1f;
+    --mahogany: #6b3a2a;
+    --amber: #c8852a;
+    --gold: #d4a843;
+    --sage: #7a8c6e;
+    --blush: #c98b78;
+    --ink: #1e1410;
+    --muted: #8a7060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── GRAIN TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--brown);
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--amber);
+  }
+  nav .logo {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul li a {
+    color: rgba(247,240,227,0.7);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav ul li a:hover, nav ul li a.active { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--brown);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 5rem 2rem;
+  }
+
+  /* Decorative tree rings in background */
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,168,67,0.08);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      0 0 0 60px rgba(212,168,67,0.04),
+      0 0 0 120px rgba(212,168,67,0.03),
+      0 0 0 180px rgba(212,168,67,0.02),
+      0 0 0 240px rgba(212,168,67,0.015);
+  }
+
+  /* Leaf decorations */
+  .leaf {
+    position: absolute;
+    font-size: 4rem;
+    opacity: 0.06;
+    animation: sway 8s ease-in-out infinite;
+  }
+  .leaf:nth-child(1) { top: 10%; left: 8%; animation-delay: 0s; }
+  .leaf:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; transform: scaleX(-1); }
+  .leaf:nth-child(3) { bottom: 15%; left: 5%; animation-delay: 4s; }
+  .leaf:nth-child(4) { bottom: 10%; right: 8%; animation-delay: 1s; transform: scaleX(-1); }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .leaf:nth-child(2), .leaf:nth-child(4) {
+    animation-name: swayR;
+  }
+  @keyframes swayR {
+    0%, 100% { transform: scaleX(-1) rotate(-5deg); }
+    50% { transform: scaleX(-1) rotate(5deg); }
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 750px; }
+
+  .hero-ornament {
+    color: var(--gold);
+    font-size: 1.2rem;
+    letter-spacing: 0.4em;
+    display: block;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+    animation: fadeIn 1s ease both;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 9vw, 6.5rem);
+    color: var(--parchment);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    animation: fadeIn 1s ease 0.2s both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    color: var(--blush);
+    margin: 1rem 0;
+    animation: fadeIn 1s ease 0.4s both;
+  }
+  .hero-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+    animation: fadeIn 1s ease 0.6s both;
+  }
+  .hero-rule span { width: 60px; height: 1px; background: var(--gold); opacity: 0.5; }
+  .hero-rule .diamond {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    opacity: 0.7;
+  }
+  .hero-sub {
+    color: rgba(247,240,227,0.6);
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    animation: fadeIn 1s ease 0.8s both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION SHARED ── */
+  .section { padding: 5rem 2rem; position: relative; z-index: 1; }
+  .section-inner { max-width: 1000px; margin: 0 auto; }
+
+  .section-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-eyebrow::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--amber);
+    opacity: 0.5;
+  }
+
+  .section-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    color: var(--brown);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .section-lead {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.9;
+    max-width: 620px;
+    margin-bottom: 3rem;
+  }
+
+  /* ── OUR STORY ── */
+  .story-section { background: var(--parchment); }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .story-text p {
+    font-size: 1rem;
+    line-height: 2;
+    color: #4a3525;
+    margin-bottom: 1.4rem;
+  }
+  .story-text p:first-of-type::first-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--mahogany);
+    float: left;
+    line-height: 0.75;
+    margin: 0.1rem 0.2rem 0 0;
+  }
+
+  .story-aside {
+    position: sticky;
+    top: 100px;
+  }
+
+  .pull-quote {
+    border-left: 4px solid var(--amber);
+    padding: 1.5rem 0 1.5rem 2rem;
+    margin-bottom: 2rem;
+  }
+  .pull-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-style: italic;
+    color: var(--mahogany);
+    line-height: 1.4;
+  }
+  .pull-quote cite {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    font-style: normal;
+  }
+
+  .fact-box {
+    background: var(--brown);
+    border-radius: 12px;
+    padding: 1.8rem;
+    color: var(--parchment);
+  }
+  .fact-box h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    letter-spacing: 0.04em;
+  }
+  .fact-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(212,168,67,0.15);
+    font-size: 0.875rem;
+  }
+  .fact-item:last-child { border: none; }
+  .fact-item .label { color: rgba(247,240,227,0.6); }
+  .fact-item .value { font-weight: 700; color: var(--gold); }
+
+  /* ── REUNION TIMELINE ── */
+  .timeline-section { background: var(--cream); }
+
+  .timeline {
+    position: relative;
+    padding-left: 3rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--amber), var(--sage), var(--amber));
+    opacity: 0.3;
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease;
+  }
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.4rem;
+    top: 0.4rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--amber);
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 3px var(--amber);
+  }
+  .timeline-item.current .timeline-dot {
+    background: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold), 0 0 12px rgba(212,168,67,0.5);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 3px var(--gold), 0 0 12px rgba(212,168,67,0.4); }
+    50% { box-shadow: 0 0 0 5px var(--gold), 0 0 24px rgba(212,168,67,0.7); }
+  }
+
+  .timeline-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(61,43,31,0.08);
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(61,43,31,0.06);
+  }
+  .timeline-card:hover {
+    transform: translateX(6px);
+    box-shadow: 0 8px 32px rgba(61,43,31,0.14);
+  }
+
+  .timeline-photo {
+    background: var(--brown);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+  }
+  .t2026 { background: linear-gradient(135deg, #1a5f7a, #1a9e8f); }
+  .t2018 { background: linear-gradient(135deg, #6b3a2a, #c8852a); }
+  .t2016 { background: linear-gradient(135deg, #2d5a3d, #7a8c6e); }
+  .t2013 { background: linear-gradient(135deg, #4a3070, #7a5a9e); }
+  .t2010 { background: linear-gradient(135deg, #1a3a6a, #3a6aaa); }
+
+  .timeline-year {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    line-height: 1;
+  }
+  .timeline-location-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-top: 0.3rem;
+  }
+
+  .timeline-info { padding: 1.8rem; }
+  .timeline-city {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 0.3rem;
+  }
+  .timeline-state {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+  }
+  .timeline-desc {
+    font-size: 0.875rem;
+    color: #6a5040;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .timeline-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.8rem;
+    border-radius: 100px;
+  }
+  .tag-current { background: #d4f0ec; color: #1a7a6e; }
+  .tag-past { background: #f5ece4; color: #8a5a3a; }
+  .tag-photo { background: #f0f4ea; color: #5a7a4a; }
+
+  .photo-placeholder {
+    background: rgba(255,255,255,0.1);
+    border: 1px dashed rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* ── FAMILY MEMBERS ── */
+  .members-section { background: var(--brown); }
+  .members-section .section-eyebrow { color: var(--gold); }
+  .members-section .section-heading { color: var(--parchment); }
+  .members-section .section-lead { color: rgba(247,240,227,0.6); }
+
+  .members-intro {
+    font-size: 0.875rem;
+    color: rgba(247,240,227,0.5);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-style: italic;
+  }
+
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .member-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(212,168,67,0.15);
+    border-radius: 14px;
+    padding: 1.4rem 1rem;
+    text-align: center;
+    transition: all 0.25s;
+    cursor: default;
+  }
+  .member-card:hover {
+    background: rgba(212,168,67,0.1);
+    border-color: rgba(212,168,67,0.4);
+    transform: translateY(-3px);
+  }
+
+  .member-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin: 0 auto 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .av1 { background: linear-gradient(135deg, #c8852a, #d4a843); }
+  .av2 { background: linear-gradient(135deg, #6b3a2a, #8a5a3a); }
+  .av3 { background: linear-gradient(135deg, #2d5a3d, #4a8a5a); }
+  .av4 { background: linear-gradient(135deg, #4a3070, #7a5a9e); }
+  .av5 { background: linear-gradient(135deg, #1a5f7a, #1a9e8f); }
+  .av6 { background: linear-gradient(135deg, #8a2a2a, #c85a4a); }
+
+  .member-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--parchment);
+    margin-bottom: 0.2rem;
+  }
+  .member-bday {
+    font-size: 0.7rem;
+    color: rgba(247,240,227,0.4);
+    letter-spacing: 0.05em;
+  }
+
+  .member-add-card {
+    background: rgba(212,168,67,0.06);
+    border: 2px dashed rgba(212,168,67,0.25);
+    border-radius: 14px;
+    padding: 1.4rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .member-add-card:hover {
+    background: rgba(212,168,67,0.12);
+    border-color: rgba(212,168,67,0.5);
+  }
+  .member-add-card .plus {
+    font-size: 1.8rem;
+    color: var(--gold);
+    opacity: 0.5;
+    margin-bottom: 0.5rem;
+  }
+  .member-add-card p {
+    font-size: 0.7rem;
+    color: rgba(212,168,67,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── IN MEMORIAM ── */
+  .memoriam-section { background: var(--parchment); }
+
+  .memoriam-intro {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 580px;
+    margin-bottom: 3rem;
+    font-style: italic;
+  }
+
+  .memoriam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .memoriam-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 16px rgba(61,43,31,0.07);
+    border: 1px solid rgba(61,43,31,0.06);
+  }
+
+  .memoriam-banner {
+    height: 6px;
+    background: linear-gradient(90deg, var(--amber), var(--gold));
+  }
+
+  .memoriam-body {
+    padding: 1.8rem;
+    text-align: center;
+  }
+  .memoriam-initial {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--parchment);
+    border: 2px solid var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--mahogany);
+    margin: 0 auto 1rem;
+  }
+  .memoriam-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--brown);
+    margin-bottom: 0.2rem;
+  }
+  .memoriam-years {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+  }
+  .memoriam-quote {
+    font-size: 0.82rem;
+    color: #7a6555;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .memoriam-add {
+    background: white;
+    border: 2px dashed rgba(61,43,31,0.15);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .memoriam-add:hover { border-color: var(--amber); background: #fdf7ec; }
+  .memoriam-add .plus { font-size: 2rem; color: var(--amber); opacity: 0.5; }
+  .memoriam-add p { font-size: 0.8rem; color: var(--muted); margin-top: 0.5rem; font-style: italic; }
+
+  /* ── SUBMIT YOUR BRANCH ── */
+  .submit-section { background: var(--cream); }
+
+  .submit-box {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: 0 8px 40px rgba(61,43,31,0.08);
+    border: 1px solid rgba(61,43,31,0.06);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .submit-box h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--brown);
+    margin-bottom: 0.5rem;
+  }
+  .submit-box .sub {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.7;
+  }
+
+  .form-group { margin-bottom: 1.4rem; }
+  .form-group label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mahogany);
+    margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    border: 1.5px solid rgba(61,43,31,0.15);
+    border-radius: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 3px rgba(200,133,42,0.12);
+    background: white;
+  }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--brown);
+    color: var(--parchment);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover {
+    background: var(--mahogany);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(61,43,31,0.25);
+  }
+
+  .form-note {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--brown);
+    border-top: 3px solid var(--amber);
+    text-align: center;
+    padding: 3rem 2rem;
+    color: rgba(247,240,227,0.5);
+  }
+  footer .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  footer .footer-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: rgba(247,240,227,0.35);
+  }
+  footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+  footer .footer-links a {
+    color: rgba(247,240,227,0.45);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  footer .footer-links a:hover { color: var(--gold); }
+  footer .footer-contact { color: var(--parchment); font-weight: 700; margin-bottom: 0.4rem; }
+  footer a { color: rgba(200,133,42,0.8); }
+
+  @media (max-width: 700px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .story-aside { position: static; }
+    .timeline-card { grid-template-columns: 120px 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    nav ul { display: none; }
+    .submit-box { padding: 2rem 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .timeline { padding-left: 2rem; }
+    .timeline-card { grid-template-columns: 1fr; }
+    .timeline-photo { min-height: 80px; padding: 1rem; }
+    .timeline-year { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">The Buford Family</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="newsletters.html">Newsletters</a></li>
+    <li><a href="signup.html">Sign Up</a></li>
+    <li><a href="family-history.html" class="active">Family Tree</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="leaf">🍃</div>
+  <div class="leaf">🍃</div>
+  <div class="leaf">🍃</div>
+  <div class="leaf">🍃</div>
+  <div class="hero-content">
+    <span class="hero-ornament">✦ &nbsp; ✦ &nbsp; ✦</span>
+    <h1>The <em>Buford</em><br>Family</h1>
+    <p class="hero-script">Rooted in love. Growing together.</p>
+    <div class="hero-rule">
+      <span></span>
+      <div class="diamond"></div>
+      <span></span>
+    </div>
+    <p class="hero-sub">Our history &nbsp;•&nbsp; Our reunions &nbsp;•&nbsp; Our people</p>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section class="section story-section">
+  <div class="section-inner">
+    <div class="story-grid">
+      <div class="story-text">
+        <p class="section-eyebrow">Our Story</p>
+        <h2 class="section-heading">Where It All Began</h2>
+        <p>
+          The Buford family is a family bound not just by blood, but by a deep and enduring commitment to one another. Through the years, through moves and marriages, through joy and loss, through cities and states — the Buford name has carried with it something irreplaceable: a sense of home wherever family gathers.
+        </p>
+        <p>
+          What began as a small family tradition has grown into something that spans generations. Children who came to early reunions in their parents' arms now bring their own little ones. The family that once fit around a single table now fills entire hotel floors and beaches. Yet something essential has never changed — that feeling of belonging, of being known, of being loved without condition.
+        </p>
+        <p>
+          From Panama City to Gatlinburg, from Orange Beach to Galveston, and now Virginia Beach — every reunion adds a new chapter to our shared story. This page is where we preserve it.
+        </p>
+        <p style="font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: var(--mahogany); margin-top: 2rem;">
+          Help us fill in the branches. Submit your family info below so we can keep this history growing together.
+        </p>
+      </div>
+      <div class="story-aside">
+        <div class="pull-quote">
+          <p>"A family that keeps coming back to each other is a family that gets it right."</p>
+          <cite>— The Buford Family Tradition</cite>
+        </div>
+        <div class="fact-box">
+          <h4>✦ &nbsp; Family by the Numbers</h4>
+          <div class="fact-item">
+            <span class="label">Reunions Held</span>
+            <span class="value">5+</span>
+          </div>
+          <div class="fact-item">
+            <span class="label">States Visited</span>
+            <span class="value">FL, TN, AL, TX, VA</span>
+          </div>
+          <div class="fact-item">
+            <span class="label">Years of Reunions</span>
+            <span class="value">2010 – 2026</span>
+          </div>
+          <div class="fact-item">
+            <span class="label">Next Reunion</span>
+            <span class="value">July 9–13, 2026</span>
+          </div>
+          <div class="fact-item">
+            <span class="label">Next Location</span>
+            <span class="value">Virginia Beach, VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REUNION TIMELINE -->
+<section class="section timeline-section">
+  <div class="section-inner">
+    <p class="section-eyebrow">Reunion History</p>
+    <h2 class="section-heading">Where We've Been Together</h2>
+    <p class="section-lead">From the Gulf Coast to the Smoky Mountains — every reunion is a chapter. Here's the story so far.</p>
+
+    <div class="timeline">
+
+      <!-- 2026 -->
+      <div class="timeline-item current" id="tl1">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-photo t2026">
+            <div class="timeline-year">2026</div>
+            <div class="timeline-location-label">Virginia Beach, VA</div>
+            <div class="photo-placeholder">📸 Add Photo</div>
+          </div>
+          <div class="timeline-info">
+            <div class="timeline-city">Virginia Beach</div>
+            <div class="timeline-state">Virginia &nbsp;•&nbsp; July 9–13, 2026</div>
+            <div class="timeline-desc">Our upcoming reunion on the Atlantic Coast! Board games and finger foods on Thursday, day activities and family dinner on Friday, the cookout and t-shirt day on Saturday, and Bible study Sunday morning before we say our goodbyes.</div>
+            <span class="timeline-tag tag-current">⭐ Coming Up</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2018 -->
+      <div class="timeline-item" id="tl2">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-photo t2018">
+            <div class="timeline-year">2018</div>
+            <div class="timeline-location-label">Galveston, TX</div>
+            <div class="photo-placeholder">📸 Add Photo</div>
+          </div>
+          <div class="timeline-info">
+            <div class="timeline-city">Galveston</div>
+            <div class="timeline-state">Texas &nbsp;•&nbsp; 2018</div>
+            <div class="timeline-desc">The Buford family hit the Texas Gulf Coast — Galveston's historic Strand district, the seawall, and the warm Gulf waters made for an unforgettable reunion weekend.</div>
+            <span class="timeline-tag tag-past">📸 Photos Available</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2016 -->
+      <div class="timeline-item" id="tl3">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-photo t2016">
+            <div class="timeline-year">2016</div>
+            <div class="timeline-location-label">Orange Beach, AL</div>
+            <div class="photo-placeholder">📸 Add Photo</div>
+          </div>
+          <div class="timeline-info">
+            <div class="timeline-city">Orange Beach</div>
+            <div class="timeline-state">Alabama &nbsp;•&nbsp; 2016</div>
+            <div class="timeline-desc">The Alabama Gulf Coast welcomed the Buford family for a sun-soaked reunion. The white sand beaches and emerald waters of Orange Beach set the perfect stage for laughter, cookouts, and family bonding.</div>
+            <span class="timeline-tag tag-past">📸 Photos Available</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2013 -->
+      <div class="timeline-item" id="tl4">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-photo t2013">
+            <div class="timeline-year">2013</div>
+            <div class="timeline-location-label">Gatlinburg, TN</div>
+            <div class="photo-placeholder">📸 Add Photo</div>
+          </div>
+          <div class="timeline-info">
+            <div class="timeline-city">Gatlinburg</div>
+            <div class="timeline-state">Tennessee &nbsp;•&nbsp; 2013</div>
+            <div class="timeline-desc">The Smoky Mountains provided the backdrop for one of our most memorable reunions. Gatlinburg's mountain air, cabin views, and downtown charm made this one the family still talks about.</div>
+            <span class="timeline-tag tag-past">📸 Photos Available</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2010 -->
+      <div class="timeline-item" id="tl5">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-photo t2010">
+            <div class="timeline-year">2010</div>
+            <div class="timeline-location-label">Panama City Beach, FL</div>
+            <div class="photo-placeholder">📸 Add Photo</div>
+          </div>
+          <div class="timeline-info">
+            <div class="timeline-city">Panama City Beach</div>
+            <div class="timeline-state">Florida &nbsp;•&nbsp; 2010</div>
+            <div class="timeline-desc">Where it all began — or at least where our recorded history starts. Panama City Beach marked a reunion that planted the seed for everything that came after. The yellow t-shirts. The big family photos. The tradition.</div>
+            <span class="timeline-tag tag-photo">🌟 The Beginning</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY MEMBERS -->
+<section class="section members-section">
+  <div class="section-inner">
+    <p class="section-eyebrow">The Family</p>
+    <h2 class="section-heading" style="color: var(--parchment);">Faces of the Buford Family</h2>
+    <p class="section-lead">Names and birthdays from the Buford Bulletin. Submit yours below to be added!</p>
+
+    <p class="members-intro">* Seeded from the April 2026 Buford Bulletin — add your branch using the form below</p>
+
+    <div class="members-grid">
+
+      <div class="member-card">
+        <div class="member-avatar av1">M</div>
+        <div class="member-name">Michelle</div>
+        <div class="member-bday">🎂 January 17</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av2">R</div>
+        <div class="member-name">Rosie</div>
+        <div class="member-bday">🎂 January 24</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av3">L</div>
+        <div class="member-name">Lois</div>
+        <div class="member-bday">🎂 February 22</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av4">K</div>
+        <div class="member-name">Keithfrin</div>
+        <div class="member-bday">🎂 February 12</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av5">V</div>
+        <div class="member-name">Veleda</div>
+        <div class="member-bday">🎂 February 20</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av6">R</div>
+        <div class="member-name">RoseMary</div>
+        <div class="member-bday">🎂 March 1</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av1">D</div>
+        <div class="member-name">Deborah</div>
+        <div class="member-bday">🎂 April 2</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av2">L</div>
+        <div class="member-name">Laura</div>
+        <div class="member-bday">🎂 April 13</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av3">M</div>
+        <div class="member-name">Maurice</div>
+        <div class="member-bday">🎂 April 26</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av4">C</div>
+        <div class="member-name">Candrice</div>
+        <div class="member-bday">🍳 Sous Chef</div>
+      </div>
+
+      <div class="member-card">
+        <div class="member-avatar av5">S</div>
+        <div class="member-name">Shira</div>
+        <div class="member-bday">📋 Organizer</div>
+      </div>
+
+      <div class="member-add-card">
+        <div class="plus">＋</div>
+        <p>Add Your<br>Family</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- IN MEMORIAM -->
+<section class="section memoriam-section">
+  <div class="section-inner">
+    <p class="section-eyebrow">In Memoriam</p>
+    <h2 class="section-heading">Remembered Always</h2>
+    <p class="memoriam-intro">We carry our loved ones with us everywhere we go — to every beach, every mountain, every reunion table. This space is for honoring those who shaped this family and live on in all of us.</p>
+
+    <div class="memoriam-grid">
+
+      <div class="memoriam-card">
+        <div class="memoriam-banner"></div>
+        <div class="memoriam-body">
+          <div class="memoriam-initial">?</div>
+          <div class="memoriam-name">Your Loved One</div>
+          <div class="memoriam-years">Add their name & years</div>
+          <div class="memoriam-quote">Submit a name using the form below to honor a beloved family member here.</div>
+        </div>
+      </div>
+
+      <div class="memoriam-add">
+        <div class="plus">✦</div>
+        <p>Honor a family member<br>Submit their name below</p>
+      </div>
+
+    </div>
+
+    <p style="font-size:0.85rem; color:var(--muted); font-style:italic;">
+      To add someone to the In Memoriam section, include their name in the "Additional notes" field of the form below and Shira will add them to the site.
+    </p>
+  </div>
+</section>
+
+<!-- SUBMIT YOUR BRANCH -->
+<section class="section submit-section">
+  <div class="section-inner">
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <p class="section-eyebrow" style="justify-content:center;">Grow the Tree</p>
+      <h2 class="section-heading">Submit Your Family Branch</h2>
+      <p class="section-lead" style="margin:0 auto;">Help us keep the Buford family tree complete. Share your info and we'll add you to the page.</p>
+    </div>
+
+    <div class="submit-box">
+      <h3>Your Branch</h3>
+      <p class="sub">Fill this out and Shira will add your family to the tree. One form per household is fine — list everyone in the notes.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Full Name *</label>
+          <input type="text" placeholder="e.g. James Buford">
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="email" placeholder="for confirmation">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>City & State</label>
+          <input type="text" placeholder="e.g. Mobile, AL">
+        </div>
+        <div class="form-group">
+          <label>Your Branch / Line</label>
+          <input type="text" placeholder="e.g. Lois's side, RoseMary's line">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Parents' Names</label>
+        <input type="text" placeholder="e.g. Joseph & Mary Buford">
+      </div>
+
+      <div class="form-group">
+        <label>Children / Grandchildren (names & ages)</label>
+        <textarea placeholder="e.g. James Jr. (14), Alicia (10), baby Jonah (2)..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Birthday (Month & Day)</label>
+        <input type="text" placeholder="e.g. March 15">
+      </div>
+
+      <div class="form-group">
+        <label>Additional Notes (In Memoriam requests, fun facts, milestones)</label>
+        <textarea placeholder="e.g. Please add my grandmother Ida Mae Buford (1932–2019) to In Memoriam. She started the reunion tradition..."></textarea>
+      </div>
+
+      <button class="btn-submit" onclick="handleSubmit(this)">Submit My Family Branch →</button>
+      <p class="form-note">Your info will be reviewed by Shira before being added to the site. Questions? nashiraib@gmail.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">The Buford Family</div>
+  <p class="footer-sub">Rooted in love &nbsp;✦&nbsp; Growing together</p>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">Photo Gallery</a>
+    <a href="#">Newsletters</a>
+    <a href="#">Sign Up</a>
+    <a href="#">Family Tree</a>
+  </div>
+  <p class="footer-contact">Questions? Contact Shira</p>
+  <p><a href="tel:2514726777">(251) 472-6777</a> &nbsp;•&nbsp; <a href="mailto:nashiraib@gmail.com">nashiraib@gmail.com</a></p>
+  <p style="margin-top:2rem; font-size:0.75rem; opacity:0.3;">© 2026 Buford Family. Made with love for the family.</p>
+</footer>
+
+<script>
+  // Scroll-triggered timeline animation
+  const items = document.querySelectorAll('.timeline-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  items.forEach(item => observer.observe(item));
+
+  // Form submit feedback
+  function handleSubmit(btn) {
+    const inputs = document.querySelectorAll('.submit-box input, .submit-box textarea');
+    const name = inputs[0].value.trim();
+    if (!name) {
+      inputs[0].style.borderColor = '#c85a4a';
+      inputs[0].focus();
+      return;
+    }
+    btn.textContent = '✓ Submitted — Thank you, ' + name.split(' ')[0] + '!';
+    btn.style.background = '#2d5a3d';
+    btn.style.cursor = 'default';
+    btn.disabled = true;
+  }
+</script>
+
+</body>
+</html>
