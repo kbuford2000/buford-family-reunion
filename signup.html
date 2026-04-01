@@ -166,11 +166,11 @@
         <div class="form-row">
           <div class="form-group">
             <label>Phone Number</label>
-            <input type="tel" placeholder="optional">
+            <input type="tel" id="phone" placeholder="optional">
           </div>
           <div class="form-group">
             <label>City &amp; State You're Traveling From</label>
-            <input type="text" placeholder="e.g. Mobile, AL">
+            <input type="text" id="city" placeholder="e.g. Mobile, AL">
           </div>
         </div>
       </div>
@@ -182,7 +182,7 @@
         <div class="form-row">
           <div class="form-group">
             <label>Total Adults <span class="req">*</span></label>
-            <select>
+            <select id="totalAdults">
               <option value="">Select...</option>
               <option>1</option><option>2</option><option>3</option><option>4</option>
               <option>5</option><option>6</option><option>7</option><option>8+</option>
@@ -190,7 +190,7 @@
           </div>
           <div class="form-group">
             <label>Total Children</label>
-            <select>
+            <select id="totalChildren">
               <option value="">Select...</option>
               <option>0</option><option>1</option><option>2</option><option>3</option>
               <option>4</option><option>5</option><option>6+</option>
@@ -199,11 +199,11 @@
         </div>
         <div class="form-group">
           <label>Children's Ages (if applicable)</label>
-          <input type="text" placeholder="e.g. 4, 7, 12 — helps us plan kids' activities">
+          <input type="text" id="childrenAges" placeholder="e.g. 4, 7, 12 — helps us plan kids' activities">
         </div>
         <div class="form-group">
           <label>Which branch of the Buford family are you from?</label>
-          <input type="text" placeholder="e.g. Rosa Mary's line, English + Florence side...">
+          <input type="text" id="familyBranch" placeholder="e.g. Rosemary's line, English + Florence side...">
         </div>
       </div>
 
@@ -214,7 +214,7 @@
         <div class="form-row">
           <div class="form-group">
             <label>How many t-shirts do you need?</label>
-            <select>
+            <select id="tshirtCount">
               <option value="">Select...</option>
               <option>0</option><option>1</option><option>2</option><option>3</option>
               <option>4</option><option>5</option><option>6+</option>
@@ -222,7 +222,7 @@
           </div>
           <div class="form-group">
             <label>T-shirt design idea or input</label>
-            <input type="text" placeholder="Optional — Shira wants to hear it!">
+            <input type="text" id="tshirtDesign" placeholder="Optional — Shira wants to hear it!">
           </div>
         </div>
         <div class="form-group">
@@ -258,7 +258,7 @@
         </div>
         <div class="form-group">
           <label>If other, please describe</label>
-          <input type="text" placeholder="Any other dietary needs...">
+          <input type="text" id="otherDietText" placeholder="Any other dietary needs...">
         </div>
       </div>
 
@@ -291,7 +291,7 @@
         </div>
         <div class="form-group">
           <label>Any activities you'd love to see added?</label>
-          <textarea placeholder="Optional suggestions..."></textarea>
+          <textarea id="activitySuggestions" placeholder="Optional suggestions..."></textarea>
         </div>
       </div>
 
@@ -307,7 +307,7 @@
         <div class="section-divider"></div>
         <div class="form-group">
           <label>Additional notes or questions for the planning committee</label>
-          <textarea placeholder="Anything else Shira should know..."></textarea>
+          <textarea id="additionalNotes" placeholder="Anything else Shira should know..."></textarea>
         </div>
       </div>
 
@@ -345,15 +345,75 @@
 
 <script>
 if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
+const SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+
 function submitForm() {
   const name = document.getElementById('fullName').value.trim();
   const email = document.getElementById('email').value.trim();
   if (!name) { document.getElementById('fullName').focus(); document.getElementById('fullName').style.borderColor='#e8614a'; return; }
-  document.getElementById('theForm').style.display = 'none';
-  const msg = document.getElementById('successMsg');
-  msg.style.display = 'block';
-  document.getElementById('successName').textContent = `Welcome, ${name.split(' ')[0]}! ${email ? 'A confirmation will be sent to ' + email + '.' : ''}`;
-  window.scrollTo({top: msg.offsetTop - 100, behavior:'smooth'});
+  if (!document.getElementById('totalAdults').value) { alert('Please select the number of adults.'); return; }
+
+  const btn = document.querySelector('.btn-submit');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  const sizes = ['ys','ym','yl','as','am','al','axl','a2xl','a3xl']
+    .filter(id => { const el = document.getElementById(id); return el && el.checked; })
+    .map(id => document.querySelector('label[for="' + id + '"]').textContent.trim())
+    .join(', ');
+
+  const diets = ['none','veg','vegan','gf','nut','other-diet']
+    .filter(id => { const el = document.getElementById(id); return el && el.checked; })
+    .map(id => document.querySelector('label[for="' + id + '"]').textContent.trim())
+    .join(', ');
+
+  const events = ['thu','fri','sat','sun','mon']
+    .filter(id => { const el = document.getElementById(id); return el && el.checked; })
+    .map(id => document.querySelector('label[for="' + id + '"]').textContent.trim())
+    .join(', ');
+
+  const activities = ['apex','dolphin','boat','bwalk','aqua','atlantic','vibe','arcade']
+    .filter(id => { const el = document.getElementById(id); return el && el.checked; })
+    .map(id => document.querySelector('label[for="' + id + '"]').textContent.trim())
+    .join(', ');
+
+  const payment = document.querySelector('input[name=payment]:checked');
+
+  const data = {
+    fullName: name,
+    email: email,
+    phone: document.getElementById('phone').value.trim(),
+    city: document.getElementById('city').value.trim(),
+    totalAdults: document.getElementById('totalAdults').value,
+    totalChildren: document.getElementById('totalChildren').value,
+    childrenAges: document.getElementById('childrenAges').value.trim(),
+    familyBranch: document.getElementById('familyBranch').value.trim(),
+    tshirtCount: document.getElementById('tshirtCount').value,
+    tshirtSizes: sizes,
+    tshirtDesign: document.getElementById('tshirtDesign').value.trim(),
+    dietaryRestrictions: diets,
+    otherDiet: document.getElementById('otherDietText').value.trim(),
+    eventsAttending: events,
+    activities: activities,
+    activitySuggestions: document.getElementById('activitySuggestions').value.trim(),
+    payment: payment ? payment.nextElementSibling.textContent.trim() : '',
+    additionalNotes: document.getElementById('additionalNotes').value.trim(),
+    submittedAt: new Date().toLocaleString()
+  };
+
+  fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) })
+    .then(() => {
+      document.getElementById('theForm').style.display = 'none';
+      const msg = document.getElementById('successMsg');
+      msg.style.display = 'block';
+      document.getElementById('successName').textContent = 'Welcome, ' + name.split(' ')[0] + '! ' + (email ? 'A confirmation will be sent to ' + email + '.' : '');
+      window.scrollTo({top: msg.offsetTop - 100, behavior:'smooth'});
+    })
+    .catch(() => {
+      btn.textContent = 'Register My Family 🌊';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again or contact Shira at (251) 472-6777.');
+    });
 }
 function toggleMobileMenu() {
   const menu = document.getElementById('navMobileMenu');
