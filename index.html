@@ -18,11 +18,11 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { overflow-x: hidden; }
   body {
     font-family: 'Nunito', sans-serif;
     background: var(--white);
     color: var(--navy);
+    overflow-x: hidden;
   }
 
   /* ── NAV ── */
@@ -642,34 +642,11 @@
   }
   footer .footer-links a:hover { color: var(--gold); }
 
-  /* HAMBURGER */
-  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; padding:0.4rem; color:var(--gold); font-size:1.6rem; line-height:1; margin-left:0.5rem; }
-  .nav-mobile-menu { display:none; width:100%; background:var(--navy); border-top:1px solid rgba(240,180,41,0.2); padding:0.5rem 0 0.8rem; }
-  .nav-mobile-menu.open { display:block; }
-  .nav-mobile-menu a { display:block; color:rgba(245,230,200,0.8); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.65rem 1.4rem; transition:color 0.2s; }
-  .nav-mobile-menu a:hover { color:var(--gold); }
   @media (max-width: 600px) {
     nav ul { display: none; }
-    .nav-hamburger { display:block; }
-    nav { flex-wrap:wrap; }
     .day-card { grid-template-columns: 90px 1fr; }
     .day-label .day-date { font-size: 1.2rem; }
-    .activity-grid { grid-template-columns: 1fr 1fr; }
-    .archive-grid { grid-template-columns: 1fr; }
-    .newsletter-submit { flex-direction: column; text-align: center; }
-    .countdown-units { gap: 1.2rem; }
-    .countdown-unit .num { font-size: 2rem; }
-    .hero-sub { font-size: 1rem; }
-    .cards-grid { grid-template-columns: 1fr; }
   }
-
-  /* IFRAME EMBED (Google Sites): hide inner nav + footer, collapse long sections */
-  html.in-iframe nav, html.in-iframe footer { display:none !important; }
-  /* Keep: hero, countdown, announcement, quick-info cards. Hide the long sections. */
-  html.in-iframe .welcome-section,
-  html.in-iframe .itinerary-section,
-  html.in-iframe .activities-section,
-  html.in-iframe .newsletters-section { display:none !important; }
 </style>
 </head>
 <body>
@@ -681,17 +658,9 @@
     <li><a href="index.html" class="active">Home</a></li>
     <li><a href="gallery.html">Gallery</a></li>
     <li><a href="newsletters.html">Newsletters</a></li>
-    <li><a href="signup.html">Sign Up</a></li>
+    <li><a href="https://sites.google.com/view/bufordfamily/sign-up">Sign Up</a></li>
     <li><a href="family-history.html">Family Tree</a></li>
   </ul>
-  <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
-  <div class="nav-mobile-menu" id="navMobileMenu">
-    <a href="index.html">Home</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="newsletters.html">Newsletters</a>
-    <a href="signup.html">Sign Up</a>
-    <a href="family-history.html">Family Tree</a>
-  </div>
 </nav>
 
 <!-- HERO -->
@@ -704,7 +673,7 @@
     <h1>Buford Family<span>Together Again</span></h1>
     <p class="hero-sub">Virginia Beach, VA &nbsp;•&nbsp; July 9–13, 2026</p>
     <div class="hero-cta">
-      <a href="#" class="btn btn-primary">Register Now 📋</a>
+      <a href="https://sites.google.com/view/bufordfamily/sign-up" class="btn btn-primary">Register Now 📋</a>
       <a href="#" class="btn btn-outline">View Itinerary</a>
     </div>
   </div>
@@ -781,7 +750,7 @@
       <h3>Don't Wait — Sign Up Now</h3>
       <p>Secure your spot and let us know you're coming. Early registration helps us plan meals, t-shirts, and activities for everyone.</p>
       <br>
-      <a href="#" class="btn btn-primary" style="display:inline-block; margin-top: 0.5rem;">Register My Family →</a>
+      <a href="https://sites.google.com/view/bufordfamily/sign-up" class="btn btn-primary" style="display:inline-block; margin-top: 0.5rem;">Register My Family →</a>
     </div>
 
   </div>
@@ -1009,11 +978,11 @@
   <div class="footer-logo">The Buford Family</div>
   <p>Virginia Beach, VA &nbsp;•&nbsp; July 9–13, 2026</p>
   <div class="footer-links">
-    <a href="#">Home</a>
-    <a href="#">Photo Gallery</a>
-    <a href="#">Newsletters</a>
-    <a href="#">Sign Up</a>
-    <a href="#">Family Tree</a>
+    <a href="https://sites.google.com/view/bufordfamily/home">Home</a>
+    <a href="https://sites.google.com/view/bufordfamily/photo-gallery">Photo Gallery</a>
+    <a href="https://sites.google.com/view/bufordfamily/newsletters">Newsletters</a>
+    <a href="https://sites.google.com/view/bufordfamily/sign-up">Sign Up</a>
+    <a href="https://sites.google.com/view/bufordfamily/family-tree-history">Family Tree</a>
   </div>
   <p class="footer-contact">Questions? Contact Shira</p>
   <p><a href="tel:2514726777">(251) 472-6777</a> &nbsp;•&nbsp; <a href="/cdn-cgi/l/email-protection#9ef0ffedf6f7ecfff7fcdef9f3fff7f2b0fdf1f3"><span class="__cf_email__" data-cfemail="86e8e7f5eeeff4e7efe4c6e1ebe7efeaa8e5e9eb">[email&#160;protected]</span></a></p>
@@ -1021,15 +990,6 @@
 </footer>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  if (window.self !== window.top) {
-    document.documentElement.classList.add('in-iframe');
-    function reportHeight() {
-      const h = document.documentElement.scrollHeight;
-      window.parent.postMessage({ type: 'iframeHeight', height: h }, '*');
-    }
-    if (window.ResizeObserver) { new ResizeObserver(reportHeight).observe(document.body); }
-    window.addEventListener('load', reportHeight);
-  }
   // Live countdown to July 12, 2026
   function updateCountdown() {
     const target = new Date('2026-07-09T00:00:00');
@@ -1042,30 +1002,4 @@
     const d = Math.floor(diff / (1000*60*60*24));
     const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
     const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const s = Math.floor((diff % (1000*60)) / 1000);
-    document.getElementById('days').textContent = d;
-    document.getElementById('hours').textContent = h;
-    document.getElementById('mins').textContent = m;
-    document.getElementById('secs').textContent = s;
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  function toggleMobileMenu() {
-    const menu = document.getElementById('navMobileMenu');
-    const btn = document.querySelector('.nav-hamburger');
-    const open = menu.classList.toggle('open');
-    btn.textContent = open ? '✕' : '☰';
-    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  }
-  document.addEventListener('click', function(e) {
-    const menu = document.getElementById('navMobileMenu');
-    if (menu && menu.classList.contains('open') && !e.target.closest('nav')) {
-      menu.classList.remove('open');
-      document.querySelector('.nav-hamburger').textContent = '☰';
-    }
-  });
-</script>
-
-</body>
-</html>
+    const s = Math.floor((diff % (1000*60)) / 1000
