@@ -39,10 +39,14 @@
   .past-card { border-radius:16px; overflow:hidden; box-shadow:0 3px 16px rgba(0,0,0,0.08); background:white; border:1px solid rgba(26,46,74,0.06); }
   .past-photo { height:140px; display:flex; align-items:center; justify-content:center; font-size:2.5rem; }
   .p2026 { background:linear-gradient(135deg,#1a5f7a,#1a9e8f); }
+  .p2019 { background:linear-gradient(135deg,#7a3a6a,#c85a8a); }
   .p2018 { background:linear-gradient(135deg,#6b3a2a,#c8852a); }
   .p2016 { background:linear-gradient(135deg,#2d5a3d,#7a8c6e); }
   .p2013 { background:linear-gradient(135deg,#4a3070,#7a5a9e); }
   .p2010 { background:linear-gradient(135deg,#1a3a6a,#3a6aaa); }
+  a.past-card { text-decoration:none; color:inherit; display:block; cursor:pointer; }
+  a.past-card:hover { box-shadow:0 6px 24px rgba(0,0,0,0.14); transform:translateY(-2px); transition:all 0.2s; }
+  .tag-album { background:#d4f0ec; color:#1a7a6e; }
   .past-info { padding:1rem 1.2rem; }
   .past-info h4 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--navy); margin-bottom:0.2rem; }
   .past-info p { font-size:0.78rem; color:#8a9aaa; }
@@ -118,7 +122,7 @@
 
   <!-- PAST REUNIONS -->
   <h2 class="year-heading">📸 Past Reunions</h2>
-  <p class="year-sub">Add Google Photos album links for each year to bring these to life</p>
+  <p class="year-sub">Tap any album card to view the full photo collection</p>
 
   <div class="past-grid">
     <div class="past-card">
@@ -130,13 +134,21 @@
       </div>
     </div>
     <div class="past-card">
+      <div class="past-photo p2019">🎉</div>
+      <div class="past-info">
+        <h4>2019 Reunion</h4>
+        <p>Album coming soon</p>
+        <span class="past-tag tag-upload">📷 Add Album</span>
+      </div>
+    </div>
+    <a href="https://photos.app.goo.gl/SLJuKWru4vqoVgKZ6" class="past-card" target="_blank" rel="noopener">
       <div class="past-photo p2018">🌊</div>
       <div class="past-info">
         <h4>Galveston, TX</h4>
         <p>2018 Reunion</p>
-        <span class="past-tag tag-upload">📷 Add Album</span>
+        <span class="past-tag tag-album">📷 View Album →</span>
       </div>
-    </div>
+    </a>
     <div class="past-card">
       <div class="past-photo p2016">🌴</div>
       <div class="past-info">
