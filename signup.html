@@ -51,6 +51,11 @@
   .checkbox-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:0.6rem; margin-top:0.3rem; }
   .checkbox-item { display:flex; align-items:flex-start; gap:0.6rem; }
   .checkbox-item input[type=checkbox] { width:16px; height:16px; margin-top:3px; accent-color:var(--teal); flex-shrink:0; }
+  .size-qty-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:0.75rem; margin-top:0.3rem; }
+  .size-qty-item { display:flex; flex-direction:column; gap:0.3rem; }
+  .size-qty-item label { font-size:0.75rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--navy); }
+  .qty-input { width:100%; padding:0.55rem 0.75rem; border:1.5px solid rgba(26,46,74,0.15); border-radius:10px; font-family:'Nunito',sans-serif; font-size:1rem; font-weight:700; color:var(--navy); text-align:center; background:#fafcff; transition:border-color 0.2s; }
+  .qty-input:focus { outline:none; border-color:var(--teal); background:#fff; }
   .checkbox-item label { font-size:0.875rem; color:var(--navy); font-weight:600; cursor:pointer; line-height:1.4; }
 
   .section-divider { height:1px; background:rgba(26,46,74,0.08); margin:2rem 0; }
@@ -210,34 +215,24 @@
       <!-- SECTION 3: T-SHIRTS -->
       <div class="form-card">
         <div class="form-card-title">👕 Reunion T-Shirts</div>
-        <div class="form-card-sub">Wear your shirt on Saturday July 11th! Tell us what you need.</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>How many t-shirts do you need?</label>
-            <select id="tshirtCount">
-              <option value="">Select...</option>
-              <option>0</option><option>1</option><option>2</option><option>3</option>
-              <option>4</option><option>5</option><option>6+</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>T-shirt design idea or input</label>
-            <input type="text" id="tshirtDesign" placeholder="Optional — Shira wants to hear it!">
+        <div class="form-card-sub">Wear your shirt on Saturday July 11th! Enter the quantity needed for each size (leave 0 if none).</div>
+        <div class="form-group">
+          <label>Sizes &amp; Quantities</label>
+          <div class="size-qty-grid">
+            <div class="size-qty-item"><label>Youth S</label><input type="number" id="ys" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Youth M</label><input type="number" id="ym" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Youth L</label><input type="number" id="yl" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Adult S</label><input type="number" id="as" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Adult M</label><input type="number" id="am" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Adult L</label><input type="number" id="al" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Adult XL</label><input type="number" id="axl" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Adult 2XL</label><input type="number" id="a2xl" class="qty-input" min="0" value="0"></div>
+            <div class="size-qty-item"><label>Adult 3XL</label><input type="number" id="a3xl" class="qty-input" min="0" value="0"></div>
           </div>
         </div>
         <div class="form-group">
-          <label>Sizes needed (check all that apply)</label>
-          <div class="checkbox-grid">
-            <div class="checkbox-item"><input type="checkbox" id="ys"><label for="ys">Youth S</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="ym"><label for="ym">Youth M</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="yl"><label for="yl">Youth L</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="as"><label for="as">Adult S</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="am"><label for="am">Adult M</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="al"><label for="al">Adult L</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="axl"><label for="axl">Adult XL</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="a2xl"><label for="a2xl">Adult 2XL</label></div>
-            <div class="checkbox-item"><input type="checkbox" id="a3xl"><label for="a3xl">Adult 3XL</label></div>
-          </div>
+          <label>T-shirt design idea or input</label>
+          <input type="text" id="tshirtDesign" placeholder="Optional — Shira wants to hear it!">
         </div>
       </div>
 
@@ -295,19 +290,12 @@
         </div>
       </div>
 
-      <!-- SECTION 6: PAYMENT -->
+      <!-- SECTION 6: NOTES -->
       <div class="form-card">
-        <div class="form-card-title">💳 Payment</div>
-        <div class="form-card-sub">Have you submitted your reunion fee?</div>
-        <div class="payment-option"><input type="radio" name="payment" id="zelle"><label for="zelle">✅ Yes — via Zelle</label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="cashapp"><label for="cashapp">✅ Yes — via Cash App</label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="check"><label for="check">✅ Yes — via Check</label></div>
-        <div class="payment-option"><input type="radio" name="payment" id="later"><label for="later">⏳ Not yet — I'll pay at the reunion</label></div>
-
-        <div class="section-divider"></div>
+        <div class="form-card-title">📝 Additional Notes</div>
+        <div class="form-card-sub">Anything else the planning committee should know?</div>
         <div class="form-group">
-          <label>Additional notes or questions for the planning committee</label>
-          <textarea id="additionalNotes" placeholder="Anything else Shira should know..."></textarea>
+          <textarea id="additionalNotes" placeholder="Questions, special requests, anything else for Shira..."></textarea>
         </div>
       </div>
 
@@ -357,9 +345,14 @@ function submitForm() {
   btn.textContent = 'Submitting…';
   btn.disabled = true;
 
-  const sizes = ['ys','ym','yl','as','am','al','axl','a2xl','a3xl']
-    .filter(id => { const el = document.getElementById(id); return el && el.checked; })
-    .map(id => document.querySelector('label[for="' + id + '"]').textContent.trim())
+  const sizeMap = [
+    ['ys','Youth S'],['ym','Youth M'],['yl','Youth L'],
+    ['as','Adult S'],['am','Adult M'],['al','Adult L'],
+    ['axl','Adult XL'],['a2xl','Adult 2XL'],['a3xl','Adult 3XL']
+  ];
+  const sizes = sizeMap
+    .map(([id, label]) => { const qty = parseInt(document.getElementById(id)?.value) || 0; return qty > 0 ? label + ': ' + qty : null; })
+    .filter(Boolean)
     .join(', ');
 
   const diets = ['none','veg','vegan','gf','nut','other-diet']
@@ -377,7 +370,6 @@ function submitForm() {
     .map(id => document.querySelector('label[for="' + id + '"]').textContent.trim())
     .join(', ');
 
-  const payment = document.querySelector('input[name=payment]:checked');
 
   const data = {
     fullName: name,
@@ -388,7 +380,6 @@ function submitForm() {
     totalChildren: document.getElementById('totalChildren').value,
     childrenAges: document.getElementById('childrenAges').value.trim(),
     familyBranch: document.getElementById('familyBranch').value.trim(),
-    tshirtCount: document.getElementById('tshirtCount').value,
     tshirtSizes: sizes,
     tshirtDesign: document.getElementById('tshirtDesign').value.trim(),
     dietaryRestrictions: diets,
@@ -396,7 +387,6 @@ function submitForm() {
     eventsAttending: events,
     activities: activities,
     activitySuggestions: document.getElementById('activitySuggestions').value.trim(),
-    payment: payment ? payment.nextElementSibling.textContent.trim() : '',
     additionalNotes: document.getElementById('additionalNotes').value.trim(),
     submittedAt: new Date().toLocaleString()
   };
