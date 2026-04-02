@@ -136,6 +136,32 @@
     .archive-grid { grid-template-columns: 1fr; }
     .subscribe-box p { font-size:0.85rem; }
   }
+
+  /* Mobile PDF: hide iframe, show open-in-tab button instead */
+  .pdf-mobile-alt { display:none; }
+  @media(max-width:767px) {
+    .pdf-iframe-wrap { display:none; }
+    .pdf-mobile-alt {
+      display:flex; flex-direction:column; align-items:center;
+      padding:2.5rem 1.5rem; text-align:center;
+      background:linear-gradient(135deg,#f0f8ff,#e8f4f0);
+      gap:1rem;
+    }
+    .pdf-mobile-alt .pdf-mob-icon { font-size:3.5rem; }
+    .pdf-mobile-alt p { font-size:0.9rem; color:#5a6a7a; line-height:1.6; max-width:300px; }
+    .pdf-mob-btn {
+      display:inline-block; background:var(--teal); color:white;
+      padding:0.9rem 2.2rem; border-radius:100px; font-weight:800;
+      font-size:1rem; text-decoration:none; letter-spacing:0.02em;
+    }
+    .pdf-mob-btn-dl {
+      display:inline-block; background:transparent; color:var(--teal);
+      border:2px solid var(--teal); padding:0.6rem 1.6rem;
+      border-radius:100px; font-weight:800; font-size:0.85rem;
+      text-decoration:none;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -177,6 +203,12 @@
       </div>
       <div class="pdf-iframe-wrap">
         <iframe src="https://drive.google.com/file/d/1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD/preview" allow="autoplay"></iframe>
+      </div>
+      <div class="pdf-mobile-alt">
+        <div class="pdf-mob-icon">📄</div>
+        <p>The Buford Bulletin — April 2026. Tap to open and read the full newsletter.</p>
+        <a href="https://drive.google.com/file/d/1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD/view" target="_blank" rel="noopener" class="pdf-mob-btn">Read Newsletter →</a>
+        <a href="https://drive.google.com/uc?export=download&id=1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD" target="_blank" rel="noopener" class="pdf-mob-btn-dl">⬇ Download PDF</a>
       </div>
     </div>
   </div>
