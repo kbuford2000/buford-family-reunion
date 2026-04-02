@@ -84,16 +84,17 @@
   /* PDF VIEWER */
   .pdf-wrap { background:var(--white); }
   .pdf-viewer-box { background:white; border-radius:24px; overflow:hidden; box-shadow:0 8px 32px rgba(26,46,74,0.12); }
+  .pdf-wrap.section { padding:2rem 2rem 4rem; }
   .pdf-viewer-header { background:var(--navy); padding:1rem 1.5rem; display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
   .pdf-viewer-header span { color:white; font-weight:800; font-size:0.9rem; }
   .pdf-viewer-header .pdf-badge { background:var(--gold); color:var(--navy); font-size:0.65rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:100px; }
   .pdf-fullscreen-btn { margin-left:auto; background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.85); border:1px solid rgba(255,255,255,0.25); padding:0.3rem 0.85rem; border-radius:100px; font-family:'Nunito',sans-serif; font-size:0.75rem; font-weight:700; text-decoration:none; transition:background 0.2s; white-space:nowrap; }
   .pdf-fullscreen-btn:hover { background:rgba(255,255,255,0.22); color:white; }
   /* Mobile: fixed viewport height so it scrolls nicely inside the page */
-  .pdf-iframe-wrap { position:relative; width:100%; height:80vh; }
+  .pdf-iframe-wrap { position:relative; width:100%; height:80vh; min-height:520px; }
   .pdf-iframe-wrap iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
   @media(min-width:768px) { .pdf-iframe-wrap { height:85vh; } }
-  @media(min-width:1024px) { .pdf-iframe-wrap { height:90vh; } }
+  @media(min-width:1024px) { .pdf-iframe-wrap { height:88vh; } }
 
   /* SUBMIT */
   .submit-banner { background:var(--coral); padding:2rem; text-align:center; }
