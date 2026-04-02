@@ -83,18 +83,20 @@
 
   /* PDF VIEWER */
   .pdf-wrap { background:var(--white); }
-  .pdf-viewer-box { background:white; border-radius:24px; overflow:hidden; box-shadow:0 8px 32px rgba(26,46,74,0.12); }
   .pdf-wrap.section { padding:2rem 2rem 4rem; }
+  .pdf-viewer-box { background:white; border-radius:24px; overflow:hidden; box-shadow:0 8px 32px rgba(26,46,74,0.12); }
   .pdf-viewer-header { background:var(--navy); padding:1rem 1.5rem; display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
   .pdf-viewer-header span { color:white; font-weight:800; font-size:0.9rem; }
   .pdf-viewer-header .pdf-badge { background:var(--gold); color:var(--navy); font-size:0.65rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; padding:0.25rem 0.7rem; border-radius:100px; }
   .pdf-fullscreen-btn { margin-left:auto; background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.85); border:1px solid rgba(255,255,255,0.25); padding:0.3rem 0.85rem; border-radius:100px; font-family:'Nunito',sans-serif; font-size:0.75rem; font-weight:700; text-decoration:none; transition:background 0.2s; white-space:nowrap; }
   .pdf-fullscreen-btn:hover { background:rgba(255,255,255,0.22); color:white; }
-  /* Mobile: fixed viewport height so it scrolls nicely inside the page */
-  .pdf-iframe-wrap { position:relative; width:100%; height:80vh; min-height:520px; }
-  .pdf-iframe-wrap iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; }
-  @media(min-width:768px) { .pdf-iframe-wrap { height:85vh; } }
-  @media(min-width:1024px) { .pdf-iframe-wrap { height:88vh; } }
+  /* PDF.js inline renderer */
+  #pdf-pages-container { background:#e8ecf0; padding:1rem; display:flex; flex-direction:column; gap:1rem; align-items:center; }
+  #pdf-pages-container canvas { max-width:100%; border-radius:4px; box-shadow:0 2px 12px rgba(0,0,0,0.18); display:block; }
+  #pdf-loading { padding:3rem 2rem; text-align:center; color:#6a7a8a; font-weight:700; font-size:0.95rem; }
+  #pdf-loading .spinner { display:inline-block; width:32px; height:32px; border:3px solid rgba(26,158,143,0.2); border-top-color:var(--teal); border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:1rem; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  #pdf-error { padding:2rem; text-align:center; color:var(--coral); font-weight:700; display:none; }
 
   /* SUBMIT */
   .submit-banner { background:var(--coral); padding:2rem; text-align:center; }
@@ -137,30 +139,6 @@
     .subscribe-box p { font-size:0.85rem; }
   }
 
-  /* Mobile PDF: hide iframe, show open-in-tab button instead */
-  .pdf-mobile-alt { display:none; }
-  @media(max-width:767px) {
-    .pdf-iframe-wrap { display:none; }
-    .pdf-mobile-alt {
-      display:flex; flex-direction:column; align-items:center;
-      padding:2.5rem 1.5rem; text-align:center;
-      background:linear-gradient(135deg,#f0f8ff,#e8f4f0);
-      gap:1rem;
-    }
-    .pdf-mobile-alt .pdf-mob-icon { font-size:3.5rem; }
-    .pdf-mobile-alt p { font-size:0.9rem; color:#5a6a7a; line-height:1.6; max-width:300px; }
-    .pdf-mob-btn {
-      display:inline-block; background:var(--teal); color:white;
-      padding:0.9rem 2.2rem; border-radius:100px; font-weight:800;
-      font-size:1rem; text-decoration:none; letter-spacing:0.02em;
-    }
-    .pdf-mob-btn-dl {
-      display:inline-block; background:transparent; color:var(--teal);
-      border:2px solid var(--teal); padding:0.6rem 1.6rem;
-      border-radius:100px; font-weight:800; font-size:0.85rem;
-      text-decoration:none;
-    }
-  }
 
 </style>
 </head>
@@ -199,17 +177,11 @@
       <div class="pdf-viewer-header">
         <span>📄 The Buford Bulletin — April 2026</span>
         <span class="pdf-badge">Latest Issue</span>
-        <a class="pdf-fullscreen-btn" href="https://drive.google.com/file/d/1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD/view" target="_blank" rel="noopener">Open Full Screen ↗</a>
+        <a class="pdf-fullscreen-btn" href="buford-bulletin-april-2026.pdf" download>⬇ Download</a>
       </div>
-      <div class="pdf-iframe-wrap">
-        <iframe src="https://drive.google.com/file/d/1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD/preview" allow="autoplay"></iframe>
-      </div>
-      <div class="pdf-mobile-alt">
-        <div class="pdf-mob-icon">📄</div>
-        <p>The Buford Bulletin — April 2026. Tap to open and read the full newsletter.</p>
-        <a href="https://drive.google.com/file/d/1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD/view" target="_blank" rel="noopener" class="pdf-mob-btn">Read Newsletter →</a>
-        <a href="https://drive.google.com/uc?export=download&id=1kK8Sy-b6iLyGARJcW4AYBeqdpaJNokGD" target="_blank" rel="noopener" class="pdf-mob-btn-dl">⬇ Download PDF</a>
-      </div>
+      <div id="pdf-loading"><div class="spinner"></div><br>Loading newsletter…</div>
+      <div id="pdf-error">Could not load the newsletter. <a href="buford-bulletin-april-2026.pdf" download>Download it here</a>.</div>
+      <div id="pdf-pages-container"></div>
     </div>
   </div>
 </section>
@@ -301,6 +273,56 @@
   <p><a href="tel:2514726777">(251) 472-6777</a> &nbsp;•&nbsp; <a href="mailto:nashiraib@gmail.com">nashiraib@gmail.com</a></p>
   <p style="margin-top:2rem;font-size:0.8rem;opacity:0.3;">© 2026 Buford Family Reunion.</p>
 </footer>
+
+<!-- PDF.js inline renderer -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+(function() {
+  const PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const PDF_URL = 'buford-bulletin-april-2026.pdf';
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+
+  const container = document.getElementById('pdf-pages-container');
+  const loading   = document.getElementById('pdf-loading');
+  const errBox    = document.getElementById('pdf-error');
+
+  pdfjsLib.getDocument(PDF_URL).promise.then(function(pdf) {
+    loading.style.display = 'none';
+
+    // render each page sequentially
+    function renderPage(num) {
+      return pdf.getPage(num).then(function(page) {
+        const viewport = page.getViewport({ scale: 1 });
+        // fit to container width (max 900px), but never upscale beyond natural size
+        const containerW = container.clientWidth || window.innerWidth;
+        const displayW   = Math.min(containerW - 32, 900, viewport.width);
+        const scale      = displayW / viewport.width;
+        const scaled     = page.getViewport({ scale: scale });
+
+        const canvas  = document.createElement('canvas');
+        canvas.width  = scaled.width;
+        canvas.height = scaled.height;
+        container.appendChild(canvas);
+
+        return page.render({ canvasContext: canvas.getContext('2d'), viewport: scaled }).promise;
+      });
+    }
+
+    // chain all pages
+    let chain = Promise.resolve();
+    for (let i = 1; i <= pdf.numPages; i++) {
+      (function(n) { chain = chain.then(function() { return renderPage(n); }); })(i);
+    }
+    chain.catch(function(e) { console.error('Render error:', e); });
+
+  }).catch(function(e) {
+    loading.style.display = 'none';
+    errBox.style.display  = 'block';
+    console.error('PDF load error:', e);
+  });
+})();
+</script>
 
 <script>
 if (window.self !== window.top) {
