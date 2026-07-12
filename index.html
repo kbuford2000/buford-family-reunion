@@ -648,6 +648,9 @@
     .day-card { grid-template-columns: 90px 1fr; }
     .day-label .day-date { font-size: 1.2rem; }
   }
+
+  /* IFRAME EMBED (e.g. Google Sites): hide our own nav + footer */
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
 </style>
 </head>
 <body>
@@ -1012,6 +1015,8 @@
     document.getElementById('mins').textContent = String(m).padStart(2,'0');
     document.getElementById('secs').textContent = String(s).padStart(2,'0');
   }
+  // When embedded (e.g. inside Google Sites), hide our own nav + footer
+  if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
   updateCountdown();
   setInterval(updateCountdown, 1000);
 </script>
