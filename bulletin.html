@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Buford Bulletin — Live</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#f5e6c8; --coral:#e8614a; --teal:#1a9e8f; --navy:#1a2e4a;
+    --gold:#f0b429; --blush:#f9d5c8; --white:#fffdf8; --purple:#6c4bb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{overflow-x:hidden;}
+  body{font-family:'Nunito',sans-serif;background:var(--sand);color:var(--navy);}
+
+  /* NAV */
+  nav{background:var(--navy);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;}
+  nav .logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.3rem;letter-spacing:0.03em;}
+  nav ul{list-style:none;display:flex;gap:1.6rem;}
+  nav ul li a{color:var(--sand);text-decoration:none;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s;}
+  nav ul li a:hover,nav ul li a.active{color:var(--gold);}
+  .nav-hamburger{display:none;background:none;border:none;cursor:pointer;padding:0.4rem;color:var(--gold);font-size:1.6rem;line-height:1;margin-left:0.5rem;}
+  .nav-mobile-menu{display:none;width:100%;background:var(--navy);border-top:1px solid rgba(240,180,41,0.2);padding:0.5rem 0 0.8rem;}
+  .nav-mobile-menu.open{display:block;}
+  .nav-mobile-menu a{display:block;color:rgba(245,230,200,0.8);text-decoration:none;font-size:0.82rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.65rem 1.4rem;}
+  .nav-mobile-menu a:hover{color:var(--gold);}
+
+  /* MASTHEAD */
+  .masthead{background:linear-gradient(135deg,#ff9ec4,#ffd6e8,#ffe8a0);text-align:center;padding:3rem 2rem 2.5rem;position:relative;}
+  .masthead .kicker{font-size:0.72rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--coral);font-weight:800;margin-bottom:0.6rem;}
+  .masthead h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,3.6rem);color:var(--navy);line-height:1;}
+  .masthead .issue{display:inline-block;margin-top:0.9rem;background:white;color:var(--coral);font-weight:800;letter-spacing:0.1em;text-transform:uppercase;font-size:0.8rem;padding:0.4rem 1.2rem;border-radius:100px;}
+  .masthead .tagline{margin-top:1rem;color:#7a5a3a;font-size:0.95rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6;}
+
+  /* MONTH SWITCHER */
+  .monthbar{background:var(--navy);color:white;display:flex;justify-content:center;align-items:center;gap:1rem;padding:0.9rem 1rem;flex-wrap:wrap;}
+  .monthbar button{background:rgba(255,255,255,0.12);color:white;border:none;border-radius:100px;width:38px;height:38px;font-size:1.1rem;cursor:pointer;transition:background 0.2s;}
+  .monthbar button:hover{background:rgba(255,255,255,0.25);}
+  .monthbar select{background:white;color:var(--navy);border:none;border-radius:100px;padding:0.5rem 1rem;font-family:'Nunito',sans-serif;font-weight:800;font-size:0.95rem;cursor:pointer;}
+
+  /* SAMPLE BANNER */
+  .sample-banner{background:var(--gold);color:var(--navy);text-align:center;padding:0.7rem 1.5rem;font-size:0.85rem;font-weight:700;}
+  .sample-banner code{background:rgba(26,46,74,0.12);padding:0.1rem 0.4rem;border-radius:5px;font-size:0.8rem;}
+
+  /* LAYOUT */
+  .wrap{max-width:1000px;margin:0 auto;padding:2.5rem 1.5rem 1rem;}
+  .section{background:white;border-radius:22px;padding:1.8rem 2rem;margin-bottom:1.4rem;box-shadow:0 4px 20px rgba(26,46,74,0.07);}
+  .section-head{display:flex;align-items:center;gap:0.7rem;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:2px solid rgba(26,46,74,0.08);}
+  .section-head .ic{font-size:1.6rem;}
+  .section-head h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);}
+  .empty{color:#9aa7b4;font-size:0.9rem;font-style:italic;padding:0.3rem 0;}
+
+  /* BIRTHDAY / ANNIVERSARY ROWS */
+  .bday-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0.7rem;}
+  .bday{display:flex;align-items:center;gap:0.8rem;background:var(--white);border:1px solid rgba(26,46,74,0.07);border-radius:12px;padding:0.7rem 0.9rem;}
+  .bday .date{flex-shrink:0;width:52px;text-align:center;}
+  .bday .date .d{font-family:'Playfair Display',serif;font-size:1.5rem;line-height:1;color:var(--coral);}
+  .bday .date .m{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:#9aa7b4;font-weight:700;}
+  .bday .who{font-weight:800;font-size:0.98rem;}
+  .bday .who small{display:block;font-weight:600;color:#7a8a99;font-size:0.78rem;}
+
+  /* NEWS CARDS */
+  .news{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(26,46,74,0.06);}
+  .news:last-child{border-bottom:none;}
+  .news .badge{flex-shrink:0;width:46px;height:46px;border-radius:12px;background:var(--blush);display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+  .news .body h4{font-size:1rem;font-weight:800;margin-bottom:0.15rem;}
+  .news .body .about{font-size:0.8rem;color:var(--teal);font-weight:700;margin-bottom:0.3rem;}
+  .news .body p{font-size:0.9rem;color:#5a6a7a;line-height:1.6;}
+  .news .body a.photo{display:inline-block;margin-top:0.4rem;font-size:0.8rem;font-weight:700;color:var(--coral);text-decoration:none;}
+  .news .body img{margin-top:0.6rem;max-width:220px;width:100%;border-radius:10px;display:block;}
+
+  .memoriam .news .badge{background:#e8eef4;}
+
+  /* SUBMIT CTA */
+  .cta{background:linear-gradient(135deg,var(--navy),#2a4e7a);border-radius:20px;padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;color:white;margin-bottom:1.4rem;}
+  .cta h3{font-family:'Playfair Display',serif;color:white;font-size:1.3rem;margin-bottom:0.3rem;}
+  .cta p{color:rgba(255,255,255,0.72);font-size:0.9rem;max-width:520px;}
+  .btn-cta{background:var(--gold);color:var(--navy);padding:0.8rem 1.8rem;border-radius:100px;font-weight:800;font-size:0.9rem;text-decoration:none;white-space:nowrap;transition:transform 0.2s;}
+  .btn-cta:hover{transform:translateY(-2px);}
+
+  /* FOOTER */
+  footer{background:var(--navy);color:rgba(255,255,255,0.6);text-align:center;padding:3rem 2rem;}
+  footer .footer-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.8rem;margin-bottom:0.5rem;}
+  footer .footer-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin:1.5rem 0;}
+  footer .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;}
+  footer .footer-links a:hover{color:var(--gold);}
+
+  @media(max-width:600px){
+    nav ul{display:none;}
+    .nav-hamburger{display:block;}
+    nav{flex-wrap:wrap;}
+    .bday-grid{grid-template-columns:1fr;}
+    .cta{flex-direction:column;text-align:center;}
+  }
+  html.in-iframe nav, html.in-iframe footer{display:none !important;}
+</style>
+</head>
+<body>
+
+<!-- ============================================================= -->
+<!--  CONFIG — set these two values and the page goes live.        -->
+<!--  See NEWSLETTER-SYSTEM-SETUP.txt for step-by-step directions. -->
+<!-- ============================================================= -->
+<script>
+  const CONFIG = {
+    // 1) Publish your Form's Google Sheet to the web as CSV, paste the URL here.
+    //    (File > Share > Publish to web > choose the responses sheet > CSV)
+    //    Leave blank ('') to preview with sample data.
+    CSV_URL: '',
+
+    // 2) Your "Share Family News" Google Form link (Send > link icon).
+    //    Leave blank ('') and the Submit button will hide.
+    FORM_URL: ''
+  };
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">The Buford Family</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="activities.html">Activities</a></li>
+    <li><a href="newsletters.html" class="active">Newsletters</a></li>
+    <li><a href="signup.html">Sign Up</a></li>
+    <li><a href="family-history.html">Family Tree</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="activities.html">Activities</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
+</nav>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="kicker">🌸 Keeping the family connected</div>
+  <h1>The Buford Bulletin</h1>
+  <div class="issue" id="issueLabel">Loading…</div>
+  <p class="tagline">Birthdays, anniversaries, and family news — updated automatically as the family shares it. Have something to add? Use the button below.</p>
+</div>
+
+<div class="sample-banner" id="sampleBanner" style="display:none;">
+  👀 Preview mode — showing sample data. Add your Google Sheet link to <code>CONFIG.CSV_URL</code> to go live. See NEWSLETTER-SYSTEM-SETUP.txt.
+</div>
+
+<!-- MONTH SWITCHER -->
+<div class="monthbar">
+  <button id="prevMonth" aria-label="Previous month">‹</button>
+  <select id="monthSelect"></select>
+  <button id="nextMonth" aria-label="Next month">›</button>
+</div>
+
+<div class="wrap">
+
+  <!-- SUBMIT CTA -->
+  <div class="cta" id="submitCta" style="display:none;">
+    <div>
+      <h3>📬 Have news to share?</h3>
+      <p>A birthday we missed, an anniversary, a new baby, a new job, a graduation — send it in and it'll appear here automatically.</p>
+    </div>
+    <a href="#" id="submitBtn" class="btn-cta" target="_blank" rel="noopener">Share Family News →</a>
+  </div>
+
+  <!-- BIRTHDAYS -->
+  <div class="section">
+    <div class="section-head"><span class="ic">🎂</span><h2>Happy Birthday</h2></div>
+    <div id="birthdays"></div>
+  </div>
+
+  <!-- ANNIVERSARIES -->
+  <div class="section">
+    <div class="section-head"><span class="ic">💍</span><h2>Happy Anniversary</h2></div>
+    <div id="anniversaries"></div>
+  </div>
+
+  <!-- FAMILY NEWS -->
+  <div class="section">
+    <div class="section-head"><span class="ic">🎉</span><h2>Family News &amp; Milestones</h2></div>
+    <div id="news"></div>
+  </div>
+
+  <!-- IN MEMORIAM -->
+  <div class="section memoriam" id="memoriamSection" style="display:none;">
+    <div class="section-head"><span class="ic">🕊️</span><h2>Remembered Always</h2></div>
+    <div id="memoriam"></div>
+  </div>
+
+  <!-- UPCOMING -->
+  <div class="section" id="upcomingSection" style="display:none;">
+    <div class="section-head"><span class="ic">📅</span><h2>Upcoming Get-Togethers</h2></div>
+    <div id="upcoming"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">The Buford Family</div>
+  <p>Detroit, MI &nbsp;•&nbsp; July 8–12, 2027</p>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Photo Gallery</a>
+    <a href="activities.html">Activities</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
+  <p style="margin-top:2rem;font-size:0.8rem;opacity:0.4;">© 2027 Buford Family Reunion. The Buford Bulletin updates itself as the family shares.</p>
+</footer>
+
+<script>
+if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
+function toggleMobileMenu(){
+  const m=document.getElementById('navMobileMenu');
+  const b=document.querySelector('.nav-hamburger');
+  const o=m.classList.toggle('open');
+  b.textContent=o?'✕':'☰';
+}
+
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let ENTRIES=[];              // parsed submissions
+let viewMonth=new Date().getMonth();   // 0-11
+
+// ---------- CSV PARSING ----------
+function parseCSV(text){
+  const rows=[];let row=[],field='',i=0,inQ=false;
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} inQ=false;i++;continue; }
+      field+=c;i++;continue;
+    }
+    if(c==='"'){inQ=true;i++;continue;}
+    if(c===','){row.push(field);field='';i++;continue;}
+    if(c==='\r'){i++;continue;}
+    if(c==='\n'){row.push(field);rows.push(row);row=[];field='';i++;continue;}
+    field+=c;i++;
+  }
+  if(field.length||row.length){row.push(field);rows.push(row);}
+  return rows;
+}
+
+function col(headers,...keys){
+  for(const k of keys){
+    const idx=headers.findIndex(h=>h.toLowerCase().includes(k));
+    if(idx>=0)return idx;
+  }
+  return -1;
+}
+
+function rowsToEntries(rows){
+  if(!rows.length)return[];
+  const headers=rows[0].map(h=>(h||'').trim());
+  const cType=col(headers,'type');
+  let cName=headers.findIndex(h=>/who|about/.test(h.toLowerCase()));
+  if(cName<0)cName=headers.findIndex(h=>h.toLowerCase().includes('name')&&!h.toLowerCase().includes('your'));
+  const cMonth=col(headers,'month');
+  const cDay=col(headers,'day');
+  const cYear=col(headers,'year');
+  const cHead=col(headers,'headline','title');
+  const cDet=col(headers,'detail','tell us','more');
+  const cPhoto=col(headers,'photo','image');
+  const out=[];
+  for(let r=1;r<rows.length;r++){
+    const row=rows[r];
+    if(!row.length||row.every(c=>!(c||'').trim()))continue;
+    const g=i=>i>=0&&i<row.length?(row[i]||'').trim():'';
+    out.push({
+      ts:g(0), type:g(cType), name:g(cName), month:g(cMonth), day:g(cDay),
+      year:g(cYear), headline:g(cHead), details:g(cDet), photo:g(cPhoto)
+    });
+  }
+  return out;
+}
+
+// ---------- TYPE HELPERS ----------
+const T=(e,k)=>(e.type||'').toLowerCase().includes(k);
+const isBirthday=e=>T(e,'birthday');
+const isAnniv=e=>T(e,'anniversar');
+const isNews=e=>T(e,'news')||T(e,'announc')||T(e,'milestone');
+const isMemoriam=e=>T(e,'memoriam');
+const isUpcoming=e=>T(e,'upcoming')||T(e,'get-together')||T(e,'gathering');
+
+function monthIndexOf(str){
+  if(!str)return -1;
+  const s=str.toString().trim().toLowerCase();
+  let idx=MONTHS.findIndex(m=>m.toLowerCase().startsWith(s)||s.startsWith(m.toLowerCase()));
+  if(idx>=0)return idx;
+  const n=parseInt(s,10);
+  if(!isNaN(n)&&n>=1&&n<=12)return n-1;
+  return -1;
+}
+function ordinal(n){const s=['th','st','nd','rd'],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+
+// ---------- RENDER ----------
+function render(){
+  document.getElementById('issueLabel').textContent=MONTHS[viewMonth]+' '+new Date().getFullYear();
+  const sel=document.getElementById('monthSelect');
+  if(sel.value!=String(viewMonth))sel.value=String(viewMonth);
+
+  // Birthdays
+  const bd=ENTRIES.filter(e=>isBirthday(e)&&monthIndexOf(e.month)===viewMonth)
+    .sort((a,b)=>(parseInt(a.day)||0)-(parseInt(b.day)||0));
+  document.getElementById('birthdays').innerHTML= bd.length
+    ? '<div class="bday-grid">'+bd.map(e=>{
+        const d=parseInt(e.day)||'';
+        return '<div class="bday"><div class="date"><div class="d">'+(d||'—')+'</div><div class="m">'+MONTHS[viewMonth].slice(0,3)+'</div></div><div class="who">'+esc(e.name||e.headline)+(e.headline&&e.name?'<small>'+esc(e.headline)+'</small>':'')+'</div></div>';
+      }).join('')+'</div>'
+    : '<p class="empty">No birthdays recorded for '+MONTHS[viewMonth]+' yet.</p>';
+
+  // Anniversaries
+  const an=ENTRIES.filter(e=>isAnniv(e)&&monthIndexOf(e.month)===viewMonth)
+    .sort((a,b)=>(parseInt(a.day)||0)-(parseInt(b.day)||0));
+  document.getElementById('anniversaries').innerHTML= an.length
+    ? '<div class="bday-grid">'+an.map(e=>{
+        const d=parseInt(e.day)||'';
+        const yr=e.year?' · since '+esc(e.year):'';
+        return '<div class="bday"><div class="date"><div class="d">'+(d||'—')+'</div><div class="m">'+MONTHS[viewMonth].slice(0,3)+'</div></div><div class="who">'+esc(e.name)+'<small>'+esc(e.headline)+yr+'</small></div></div>';
+      }).join('')+'</div>'
+    : '<p class="empty">No anniversaries recorded for '+MONTHS[viewMonth]+' yet.</p>';
+
+  // News & milestones (all, newest first)
+  const nw=ENTRIES.filter(isNews).slice().reverse();
+  document.getElementById('news').innerHTML= nw.length
+    ? nw.map(e=>newsCard(e,'🎉')).join('')
+    : '<p class="empty">No family news yet — be the first to share something!</p>';
+
+  // In memoriam
+  const mem=ENTRIES.filter(isMemoriam);
+  document.getElementById('memoriamSection').style.display= mem.length?'block':'none';
+  document.getElementById('memoriam').innerHTML= mem.map(e=>newsCard(e,'🕊️')).join('');
+
+  // Upcoming
+  const up=ENTRIES.filter(isUpcoming);
+  document.getElementById('upcomingSection').style.display= up.length?'block':'none';
+  document.getElementById('upcoming').innerHTML= up.map(e=>newsCard(e,'📅')).join('');
+}
+
+function newsCard(e,emoji){
+  let media='';
+  if(e.photo){
+    if(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i.test(e.photo)) media='<img src="'+esc(e.photo)+'" alt="" loading="lazy">';
+    else media='<a class="photo" href="'+esc(e.photo)+'" target="_blank" rel="noopener">📷 View photo</a>';
+  }
+  const about=e.name?'<div class="about">'+esc(e.name)+'</div>':'';
+  const det=e.details?'<p>'+esc(e.details)+'</p>':'';
+  return '<div class="news"><div class="badge">'+emoji+'</div><div class="body"><h4>'+esc(e.headline||e.name)+'</h4>'+about+det+media+'</div></div>';
+}
+
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+// ---------- SAMPLE DATA (preview before the Sheet is connected) ----------
+const SAMPLE=[
+  {ts:'1',type:'Birthday',name:'Michelle',month:'January',day:'17',headline:'',details:'',photo:''},
+  {ts:'2',type:'Birthday',name:'Rosie',month:'January',day:'24',headline:'',details:'',photo:''},
+  {ts:'3',type:'Birthday',name:'Keithfrin',month:'February',day:'12',headline:'',details:'',photo:''},
+  {ts:'4',type:'Birthday',name:'Lois',month:'February',day:'22',headline:'',details:'',photo:''},
+  {ts:'5',type:'Birthday',name:'RoseMary',month:'March',day:'1',headline:'',details:'',photo:''},
+  {ts:'6',type:'Birthday',name:'Deborah',month:'April',day:'2',headline:'',details:'',photo:''},
+  {ts:'7',type:'Birthday',name:'Laura',month:'April',day:'13',headline:'',details:'',photo:''},
+  {ts:'8',type:'Birthday',name:'Maurice',month:'April',day:'26',headline:'',details:'',photo:''},
+  {ts:'9',type:'Anniversary',name:'Mr. & Mrs. Roberts',month:'April',day:'29',year:'2019',headline:'Happy Anniversary!',details:'',photo:''},
+  {ts:'10',type:'Family News / Announcement',name:'Candrice',month:'',day:'',headline:'New Sous Chef!',details:'Candrice started a new job as a Sous Chef at the Mobile Marriott. We are cheering you on always!',photo:''},
+  {ts:'11',type:'Upcoming Family Get-Together',name:'Everyone',month:'April',day:'5',headline:'Easter Sunday Get-Together — Mobile, AL',details:'Sunday at Lois’ house, 12pm noon. Bring a dish or request your favorite from whoever makes it best!',photo:''}
+];
+
+// ---------- INIT ----------
+function buildMonthSelect(){
+  const sel=document.getElementById('monthSelect');
+  sel.innerHTML=MONTHS.map((m,i)=>'<option value="'+i+'">'+m+'</option>').join('');
+  sel.value=String(viewMonth);
+  sel.addEventListener('change',()=>{viewMonth=parseInt(sel.value);render();});
+  document.getElementById('prevMonth').addEventListener('click',()=>{viewMonth=(viewMonth+11)%12;render();});
+  document.getElementById('nextMonth').addEventListener('click',()=>{viewMonth=(viewMonth+1)%12;render();});
+}
+
+function setupSubmit(){
+  if(CONFIG.FORM_URL){
+    document.getElementById('submitCta').style.display='flex';
+    document.getElementById('submitBtn').href=CONFIG.FORM_URL;
+  }
+}
+
+async function init(){
+  buildMonthSelect();
+  setupSubmit();
+  if(CONFIG.CSV_URL){
+    try{
+      const res=await fetch(CONFIG.CSV_URL);
+      const text=await res.text();
+      ENTRIES=rowsToEntries(parseCSV(text));
+      if(!ENTRIES.length)throw new Error('empty');
+    }catch(err){
+      ENTRIES=SAMPLE; document.getElementById('sampleBanner').style.display='block';
+      document.getElementById('sampleBanner').innerHTML='⚠️ Could not load the family Sheet — showing sample data. Check that the Sheet is Published to the web as CSV.';
+    }
+  }else{
+    ENTRIES=SAMPLE; document.getElementById('sampleBanner').style.display='block';
+  }
+  render();
+}
+init();
+</script>
+
+</body>
+</html>
