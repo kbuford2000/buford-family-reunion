@@ -269,6 +269,19 @@ html.in-iframe body.tab-tree .hero,
 html.in-iframe body.tab-tree .root-chain  { display:none !important; }
 html.in-iframe body.tab-history .search-bar,
 html.in-iframe body.tab-history .branches { display:none !important; }
+
+/* When embedded (Google Sites), editing doesn't work in the frame — hide the
+   edit controls and show a note pointing to the full standalone editor. */
+.embed-edit-note { display:none; }
+html.in-iframe .embed-edit-note {
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:0.4rem 0.8rem;
+  max-width:900px; margin:1rem auto 0; padding:0.7rem 1.2rem;
+  background:var(--parchment); border:1px solid rgba(200,133,42,0.35); border-radius:12px;
+  font-size:0.85rem; color:var(--mahogany); text-align:center;
+}
+html.in-iframe .embed-edit-note a { color:#fff; background:var(--amber); font-weight:700; text-decoration:none; padding:0.35rem 0.9rem; border-radius:100px; white-space:nowrap; }
+html.in-iframe .btn-add-branch,
+html.in-iframe .btn-branch-act { display:none !important; }
 </style>
 </head>
 <body>
@@ -331,6 +344,12 @@ html.in-iframe body.tab-history .branches { display:none !important; }
     <input class="search-input" type="text" id="searchInput" placeholder="🔍 Search any family member by name..." oninput="searchTree(this.value)">
     <span class="search-count" id="searchCount"></span>
   </div>
+</div>
+
+<!-- EDIT NOTE (shown only when embedded in Google Sites) -->
+<div class="embed-edit-note">
+  <span>✎ Family editors: to add or rename members, open the full Tree Editor.</span>
+  <a href="https://kbuford2000.github.io/buford-family-reunion/family-tree.html" target="_blank" rel="noopener">Open Tree Editor →</a>
 </div>
 
 <!-- BRANCHES -->
