@@ -107,11 +107,12 @@
     // 1) Publish your Form's Google Sheet to the web as CSV, paste the URL here.
     //    (File > Share > Publish to web > choose the responses sheet > CSV)
     //    Leave blank ('') to preview with sample data.
-    CSV_URL: '',
+    CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPxKb9FD22-9Zvil-XEQjY7c6DwWrWywl2Cz9edfNDP6N42Oz2jKu0sLIK9ludER2lxyamUB7UXcF7/pub?gid=0&single=true&output=csv',
 
-    // 2) Your "Share Family News" Google Form link (Send > link icon).
-    //    Leave blank ('') and the Submit button will hide.
-    FORM_URL: ''
+    // 2) Where the "Share Family News" button points. This is the custom
+    //    upload page (share.html) — family members submit birthdays, news,
+    //    and photos there and it flows straight into the Sheet above.
+    FORM_URL: 'share.html'
   };
 </script>
 
@@ -229,6 +230,9 @@ let viewMonth=new Date().getMonth();   // 0-11
 
 // ---------- CSV PARSING ----------
 function parseCSV(text){
+  // Google's "publish to web" may serve comma- OR tab-separated data; detect from the header line.
+  const firstLine=text.slice(0, (text.indexOf('\n')+1)||text.length);
+  const delim=(firstLine.split('\t').length > firstLine.split(',').length) ? '\t' : ',';
   const rows=[];let row=[],field='',i=0,inQ=false;
   while(i<text.length){
     const c=text[i];
@@ -237,7 +241,7 @@ function parseCSV(text){
       field+=c;i++;continue;
     }
     if(c==='"'){inQ=true;i++;continue;}
-    if(c===','){row.push(field);field='';i++;continue;}
+    if(c===delim){row.push(field);field='';i++;continue;}
     if(c==='\r'){i++;continue;}
     if(c==='\n'){row.push(field);rows.push(row);row=[];field='';i++;continue;}
     field+=c;i++;
@@ -345,7 +349,10 @@ function render(){
 function newsCard(e,emoji){
   let media='';
   if(e.photo){
-    if(/\.(jpg|jpeg|png|gif|webp)(\?|$)/i.test(e.photo)) media='<img src="'+esc(e.photo)+'" alt="" loading="lazy">';
+    const isImg=/\.(jpg|jpeg|png|gif|webp)(\?|$)/i.test(e.photo)
+      || /drive\.google\.com\/(thumbnail|uc)\b/i.test(e.photo)
+      || /googleusercontent\.com/i.test(e.photo);
+    if(isImg) media='<img src="'+esc(e.photo)+'" alt="" loading="lazy" referrerpolicy="no-referrer">';
     else media='<a class="photo" href="'+esc(e.photo)+'" target="_blank" rel="noopener">📷 View photo</a>';
   }
   const about=e.name?'<div class="about">'+esc(e.name)+'</div>':'';

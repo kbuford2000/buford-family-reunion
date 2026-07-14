@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share Family News — The Buford Bulletin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand:#f5e6c8; --coral:#e8614a; --teal:#1a9e8f;
+    --navy:#1a2e4a; --gold:#f0b429; --white:#fffdf8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { overflow-x: hidden; }
+  body { font-family:'Nunito',sans-serif; background:var(--white); color:var(--navy); }
+
+  nav { background:var(--navy); padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; }
+  nav .logo { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.3rem; }
+  nav ul { list-style:none; display:flex; gap:2rem; }
+  nav ul li a { color:rgba(255,255,255,0.65); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; transition:color 0.2s; }
+  nav ul li a:hover, nav ul li a.active { color:var(--gold); }
+
+  .page-hero { background:linear-gradient(135deg,#ff9ec4,#ffd6e8,#ffe8a0); padding:3.5rem 2rem; text-align:center; }
+  .page-hero .eyebrow { font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--coral); font-weight:800; margin-bottom:0.8rem; }
+  .page-hero h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,3.4rem); color:var(--navy); margin-bottom:0.8rem; }
+  .page-hero p { color:#7a5a3a; font-size:1rem; max-width:560px; margin:0 auto; line-height:1.7; }
+
+  .form-section { padding:3.5rem 2rem; }
+  .form-inner { max-width:720px; margin:0 auto; }
+
+  .form-card { background:white; border-radius:24px; padding:2.6rem; box-shadow:0 8px 40px rgba(26,46,74,0.1); border:1px solid rgba(26,46,74,0.06); }
+  .form-card-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); margin-bottom:0.3rem; display:flex; align-items:center; gap:0.6rem; }
+  .form-card-sub { font-size:0.85rem; color:#6a7a8a; margin-bottom:1.8rem; }
+
+  .form-group { margin-bottom:1.3rem; }
+  .form-group label { display:block; font-size:0.7rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal); margin-bottom:0.45rem; }
+  .form-group label .req { color:var(--coral); margin-left:2px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width:100%; padding:0.85rem 1.1rem; border:1.5px solid rgba(26,46,74,0.12);
+    border-radius:12px; font-family:'Nunito',sans-serif; font-size:0.95rem;
+    color:var(--navy); background:var(--white); transition:border-color 0.2s,box-shadow 0.2s; outline:none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color:var(--teal); box-shadow:0 0 0 3px rgba(26,158,143,0.1); background:white;
+  }
+  .form-group textarea { resize:vertical; min-height:90px; }
+  .form-hint { font-size:0.75rem; color:#8a9aaa; margin-top:0.35rem; }
+  .form-row-3 { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:1rem; }
+
+  /* PHOTO UPLOAD */
+  .photo-drop { border:2px dashed rgba(26,158,143,0.4); border-radius:14px; padding:1.6rem; text-align:center; cursor:pointer; transition:all 0.2s; background:#f6fbfa; }
+  .photo-drop:hover { border-color:var(--teal); background:#eef8f6; }
+  .photo-drop .pd-icon { font-size:2rem; margin-bottom:0.4rem; }
+  .photo-drop .pd-text { font-size:0.9rem; font-weight:700; color:var(--navy); }
+  .photo-drop .pd-sub { font-size:0.75rem; color:#8a9aaa; margin-top:0.25rem; }
+  .photo-preview { margin-top:1rem; display:none; text-align:center; }
+  .photo-preview img { max-width:100%; max-height:260px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+  .photo-preview .remove-photo { display:inline-block; margin-top:0.6rem; font-size:0.8rem; font-weight:700; color:var(--coral); cursor:pointer; background:none; border:none; }
+
+  .submit-area { text-align:center; margin-top:2rem; }
+  .btn-submit { background:linear-gradient(135deg,var(--teal),#158075); color:white; border:none; padding:1.1rem 3rem; border-radius:100px; font-family:'Nunito',sans-serif; font-size:1.1rem; font-weight:800; cursor:pointer; transition:all 0.25s; box-shadow:0 8px 24px rgba(26,158,143,0.3); }
+  .btn-submit:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(26,158,143,0.4); }
+  .btn-submit:disabled { opacity:0.7; cursor:default; transform:none; }
+  .submit-note { font-size:0.8rem; color:#8a9aaa; margin-top:1rem; line-height:1.6; }
+
+  .success-msg { display:none; background:#e8f8f4; border:2px solid var(--teal); border-radius:16px; padding:2.5rem; text-align:center; }
+  .success-msg h3 { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--teal); margin-bottom:0.5rem; }
+  .success-msg p { color:#4a7a6a; line-height:1.7; }
+  .success-msg .btn-again { display:inline-block; margin-top:1.3rem; background:var(--gold); color:var(--navy); padding:0.7rem 1.6rem; border-radius:100px; font-weight:800; font-size:0.9rem; text-decoration:none; cursor:pointer; }
+
+  footer { background:var(--navy); color:rgba(255,255,255,0.5); text-align:center; padding:3rem 2rem; }
+  footer .footer-logo { font-family:'Playfair Display',serif; color:var(--gold); font-size:1.8rem; margin-bottom:0.4rem; }
+  footer .footer-links { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin:1.2rem 0; }
+  footer .footer-links a { color:rgba(255,255,255,0.45); text-decoration:none; font-size:0.78rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  footer .footer-links a:hover { color:var(--gold); }
+
+  /* HAMBURGER */
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; padding:0.4rem; color:var(--gold); font-size:1.6rem; line-height:1; margin-left:0.5rem; }
+  .nav-mobile-menu { display:none; width:100%; background:var(--navy); border-top:1px solid rgba(240,180,41,0.2); padding:0.5rem 0 0.8rem; }
+  .nav-mobile-menu.open { display:block; }
+  .nav-mobile-menu a { display:block; color:rgba(245,230,200,0.8); text-decoration:none; font-size:0.82rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.65rem 1.4rem; transition:color 0.2s; }
+  .nav-mobile-menu a:hover { color:var(--gold); }
+  @media(max-width:640px) {
+    nav ul { display:none; }
+    .nav-hamburger { display:block; }
+    nav { flex-wrap:wrap; }
+    .form-row-3 { grid-template-columns:1fr; }
+    .form-card { padding:1.8rem; }
+  }
+  html.in-iframe nav, html.in-iframe footer { display:none !important; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">The Buford Family</div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="activities.html">Activities</a></li>
+    <li><a href="newsletters.html" class="active">Newsletters</a></li>
+    <li><a href="signup.html">Sign Up</a></li>
+    <li><a href="family-history.html">Family Tree</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">☰</button>
+  <div class="nav-mobile-menu" id="navMobileMenu">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="activities.html">Activities</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <p class="eyebrow">🌸 The Buford Bulletin</p>
+  <h1>Share Family News</h1>
+  <p>A birthday, an anniversary, a graduation, a new baby, a new job, or just good news — send it in and it shows up on the family Bulletin automatically. Add a photo if you've got one!</p>
+</div>
+
+<div class="form-section">
+  <div class="form-inner">
+
+    <div id="theForm">
+      <div class="form-card">
+        <div class="form-card-title">📣 Tell us what's happening</div>
+        <div class="form-card-sub">One item per submission is perfect — come back and add as many as you like.</div>
+
+        <div class="form-group">
+          <label>What kind of news is this? <span class="req">*</span></label>
+          <select id="type">
+            <option value="">Select…</option>
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Family News / Announcement</option>
+            <option>Milestone (new baby, graduation, new job, new home, engagement, wedding)</option>
+            <option>In Memoriam</option>
+            <option>Upcoming Family Get-Together</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Who is this about? <span class="req">*</span></label>
+          <input type="text" id="who" placeholder="e.g. Michelle  ·  Mr. &amp; Mrs. Roberts  ·  Candrice">
+        </div>
+
+        <div class="form-group">
+          <label>When is it? <span style="color:#b8c2cc;font-weight:600;text-transform:none;letter-spacing:0;">(for birthdays, anniversaries &amp; events)</span></label>
+          <div class="form-row-3">
+            <select id="month">
+              <option value="">Month…</option>
+              <option>January</option><option>February</option><option>March</option>
+              <option>April</option><option>May</option><option>June</option>
+              <option>July</option><option>August</option><option>September</option>
+              <option>October</option><option>November</option><option>December</option>
+            </select>
+            <select id="day">
+              <option value="">Day…</option>
+            </select>
+            <input type="text" id="year" placeholder="Year (optional)">
+          </div>
+          <p class="form-hint">Leave the date blank for general news that isn't tied to a day.</p>
+        </div>
+
+        <div class="form-group">
+          <label>Headline <span class="req">*</span></label>
+          <input type="text" id="headline" placeholder='e.g. "Congrats, Graduate!"  ·  "Baby #2 on the way"  ·  "New Sous Chef!"'>
+        </div>
+
+        <div class="form-group">
+          <label>Tell us more</label>
+          <textarea id="details" placeholder="A sentence or two with the details…"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Add a photo <span style="color:#b8c2cc;font-weight:600;text-transform:none;letter-spacing:0;">(optional)</span></label>
+          <div class="photo-drop" id="photoDrop" onclick="document.getElementById('photoInput').click()">
+            <div class="pd-icon">📷</div>
+            <div class="pd-text">Tap to add a photo</div>
+            <div class="pd-sub">JPG or PNG — straight from your phone is fine</div>
+          </div>
+          <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(this)">
+          <div class="photo-preview" id="photoPreview">
+            <img id="previewImg" alt="preview">
+            <div><button type="button" class="remove-photo" onclick="removePhoto()">✕ Remove photo</button></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your name <span style="color:#b8c2cc;font-weight:600;text-transform:none;letter-spacing:0;">(so we know who to thank)</span></label>
+          <input type="text" id="yourName" placeholder="e.g. Shira">
+        </div>
+
+        <div class="submit-area">
+          <button class="btn-submit" id="submitBtn" onclick="submitForm()">Send to the Bulletin →</button>
+          <p class="submit-note">Your update appears on the live Bulletin automatically. Thank you for keeping the family connected! 💛</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <div style="font-size:3rem;margin-bottom:0.5rem;">🎉</div>
+      <h3>Thank you!</h3>
+      <p id="successText">Your update has been added and will show up on the Buford Bulletin shortly.</p>
+      <button class="btn-again" onclick="resetForm()">Share another →</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">The Buford Family</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="activities.html">Activities</a>
+    <a href="newsletters.html">Newsletters</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="family-history.html">Family Tree</a>
+  </div>
+  <p style="margin-top:2rem;font-size:0.8rem;opacity:0.3;">© 2027 Buford Family Reunion. The Buford Bulletin updates itself as the family shares.</p>
+</footer>
+
+<script>
+if (window.self !== window.top) { document.documentElement.classList.add('in-iframe'); }
+
+// ============================================================
+//  CONFIG — paste the Apps Script Web App URL between the quotes.
+//  (Deploy > New deployment > Web app > copy the /exec URL.)
+// ============================================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykV9AwmG7uoR0avez9X4VF1ttIjYZyhX8Pnq34Ap23p7ZAWouBX8uAcmPG8L-UOiIE3Q/exec';
+
+// ---- build day dropdown 1..31 ----
+(function(){
+  const day = document.getElementById('day');
+  for (let d=1; d<=31; d++){ const o=document.createElement('option'); o.textContent=d; day.appendChild(o); }
+})();
+
+// ---- photo handling: downscale to keep the upload small & reliable ----
+let photoData = '';   // data URL (base64)
+let photoType = '';
+let photoName = '';
+
+function handlePhoto(input){
+  const file = input.files && input.files[0];
+  if (!file) return;
+  photoName = file.name || 'photo.jpg';
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const img = new Image();
+    img.onload = function(){
+      // downscale so the longest side is <= 1600px
+      const MAX = 1600;
+      let { width, height } = img;
+      if (width > MAX || height > MAX){
+        if (width >= height){ height = Math.round(height * MAX / width); width = MAX; }
+        else { width = Math.round(width * MAX / height); height = MAX; }
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width; canvas.height = height;
+      canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+      photoData = canvas.toDataURL('image/jpeg', 0.85);
+      photoType = 'image/jpeg';
+      document.getElementById('previewImg').src = photoData;
+      document.getElementById('photoPreview').style.display = 'block';
+      document.getElementById('photoDrop').style.display = 'none';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto(){
+  photoData = ''; photoType = ''; photoName = '';
+  document.getElementById('photoInput').value = '';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoDrop').style.display = 'block';
+}
+
+function submitForm(){
+  const type = document.getElementById('type').value;
+  const who = document.getElementById('who').value.trim();
+  const headline = document.getElementById('headline').value.trim();
+
+  if (!type){ alert('Please pick what kind of news this is.'); return; }
+  if (!who){ document.getElementById('who').focus(); return; }
+  if (!headline){ document.getElementById('headline').focus(); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = photoData ? 'Uploading photo…' : 'Sending…';
+  btn.disabled = true;
+
+  const data = {
+    type: type,
+    who: who,
+    month: document.getElementById('month').value,
+    day: document.getElementById('day').value,
+    year: document.getElementById('year').value.trim(),
+    headline: headline,
+    details: document.getElementById('details').value.trim(),
+    photoData: photoData,     // '' or a base64 data URL
+    photoType: photoType,
+    photoName: photoName,
+    yourName: document.getElementById('yourName').value.trim(),
+    submittedAt: new Date().toLocaleString()
+  };
+
+  if (!SCRIPT_URL){
+    alert('This page isn\'t connected yet. (No SCRIPT_URL set.)');
+    btn.textContent = 'Send to the Bulletin →'; btn.disabled = false; return;
+  }
+
+  fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body: JSON.stringify(data) })
+    .then(() => {
+      document.getElementById('theForm').style.display = 'none';
+      const msg = document.getElementById('successMsg');
+      const first = who.split(' ')[0];
+      document.getElementById('successText').textContent =
+        'Your ' + type.split(' (')[0].toLowerCase() + ' update' + (first ? ' about ' + first : '') +
+        ' has been added and will show up on the Buford Bulletin shortly.' + (photoData ? ' Your photo is included too!' : '');
+      msg.style.display = 'block';
+      window.scrollTo({ top: 0, behavior:'smooth' });
+    })
+    .catch(() => {
+      btn.textContent = 'Send to the Bulletin →'; btn.disabled = false;
+      alert('Something went wrong. Please try again in a moment.');
+    });
+}
+
+function resetForm(){
+  ['who','year','headline','details','yourName'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('type').value='';
+  document.getElementById('month').value='';
+  document.getElementById('day').value='';
+  removePhoto();
+  document.getElementById('successMsg').style.display='none';
+  document.getElementById('theForm').style.display='block';
+  const btn=document.getElementById('submitBtn'); btn.textContent='Send to the Bulletin →'; btn.disabled=false;
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function toggleMobileMenu(){
+  const menu = document.getElementById('navMobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  const open = menu.classList.toggle('open');
+  btn.textContent = open ? '✕' : '☰';
+  btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+document.addEventListener('click', function(e){
+  const menu = document.getElementById('navMobileMenu');
+  if (menu && menu.classList.contains('open') && !e.target.closest('nav')){
+    menu.classList.remove('open');
+    document.querySelector('.nav-hamburger').textContent = '☰';
+  }
+});
+</script>
+
+</body>
+</html>
